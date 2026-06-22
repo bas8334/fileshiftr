@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Afbeelding comprimeren — gratis, zonder limiet, zonder upload</title>
+<link rel="alternate" hreflang="nl" href="afbeelding-comprimeren.html">
+<link rel="alternate" hreflang="en" href="../compress-image.html">
+<link rel="alternate" hreflang="x-default" href="../compress-image.html">
+<meta name="theme-color" content="#16794A">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta name="description" content="Comprimeer JPG, PNG en WebP gratis in je browser. Stel de kwaliteit in of geef een doelgrootte op. Geen limiet, geen account, je bestanden blijven op je apparaat.">
+<link rel="canonical" href="afbeelding-comprimeren.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#FAF6EF;--surface:#FFFDF9;--ink:#211C16;--muted:#6B6358;
+    --line:#E8E0D3;--green:#16794A;--green-dark:#12603B;--green-tint:#E7F2EB;
+    --amber:#C9742A;--amber-tint:#FBEFE0;--red-tint:#FBE8E7;--red:#B4471F;
+    --radius:18px;
+    --shadow:0 1px 2px rgba(33,28,22,.04),0 8px 24px rgba(33,28,22,.06);
+    --shadow-lift:0 2px 4px rgba(33,28,22,.06),0 16px 40px rgba(33,28,22,.10);
+    --display:"Fraunces",Georgia,"Times New Roman",serif;
+    --body:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--body);color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%,rgba(22,121,74,.06),transparent 60%),
+      radial-gradient(900px 500px at -10% 110%,rgba(201,116,42,.05),transparent 55%),
+      var(--paper);
+    line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+
+  /* Header */
+  header{padding:28px 0 8px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .logo .mark{width:34px;height:34px;flex:none;display:grid;place-items:center}
+  .wordmark{font-family:var(--body);font-weight:700;font-size:20px;letter-spacing:-.02em}
+  .w-dark{color:var(--ink)}.w-green{color:var(--green)}.w-r{color:var(--amber)}
+  .promise-pill{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--green-dark);background:var(--green-tint);border:1px solid #cfe6d8;padding:7px 13px;border-radius:999px}
+  .promise-pill svg{width:15px;height:15px}
+
+  /* Hero */
+  .hero{padding:34px 0 22px;text-align:center}
+  .hero h1{font-family:var(--display);font-weight:600;font-size:clamp(31px,6vw,46px);line-height:1.08;letter-spacing:-.02em;margin-bottom:14px}
+  .hero h1 em{font-style:italic;color:var(--green)}
+  .hero p{font-size:clamp(16px,2.6vw,18px);color:var(--muted);max-width:520px;margin:0 auto}
+  .trust-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+  .trust{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;color:var(--ink);background:var(--surface);border:1px solid var(--line);padding:9px 15px;border-radius:999px;box-shadow:var(--shadow)}
+  .trust svg{width:16px;height:16px;color:var(--green);flex:none}
+
+  /* Card */
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px;margin-top:20px}
+
+  /* Dropzone */
+  .dropzone{border:2px dashed #d6ccbb;border-radius:14px;background:#fffefb;padding:36px 24px;text-align:center;cursor:pointer;transition:.18s ease}
+  .dropzone:hover,.dropzone.drag{border-color:var(--green);background:var(--green-tint)}
+  .dropzone.drag{transform:scale(1.005)}
+  .dropzone .icon{width:50px;height:50px;margin:0 auto 12px;border-radius:13px;background:var(--green-tint);display:grid;place-items:center;color:var(--green)}
+  .dropzone .icon svg{width:24px;height:24px}
+  .dropzone h2{font-family:var(--display);font-weight:600;font-size:19px;margin-bottom:4px}
+  .dropzone p{color:var(--muted);font-size:14px}
+  .dropzone .hint{font-size:12px;color:var(--muted);margin-top:8px;opacity:.8}
+
+  /* ── Instellingen ──────────────────────────────── */
+  .options{margin-top:20px;padding-top:20px;border-top:1px solid var(--line)}
+
+  /* Mode-toggle */
+  .mode-toggle{display:inline-flex;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:4px;gap:3px;margin-bottom:20px}
+  .mode-toggle button{
+    font-family:var(--body);font-size:14px;font-weight:600;border:none;background:none;
+    color:var(--muted);padding:9px 20px;border-radius:9px;cursor:pointer;transition:.15s;
+  }
+  .mode-toggle button.active{background:#fff;color:var(--green-dark);box-shadow:0 1px 4px rgba(33,28,22,.1)}
+
+  /* Kwaliteitsmodus */
+  .mode-panel{display:none}
+  .mode-panel.active{display:block}
+
+  /* Preset-kaartjes */
+  .presets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+  .preset{
+    border:2px solid var(--line);border-radius:13px;padding:14px 12px;
+    cursor:pointer;background:#fff;text-align:center;transition:.15s;
+    font-family:var(--body);
+  }
+  .preset:hover{border-color:#b8d4c4;background:var(--green-tint)}
+  .preset.active{border-color:var(--green);background:var(--green-tint)}
+  .preset .p-name{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px}
+  .preset .p-pct{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px}
+  .preset .p-save{
+    font-size:12px;font-weight:700;
+    background:rgba(22,121,74,.12);color:var(--green-dark);
+    padding:3px 8px;border-radius:999px;display:inline-block;
+  }
+  .preset.active .p-save{background:rgba(22,121,74,.18)}
+
+  /* Fijnafstelschuif */
+  .slider-wrap{display:flex;flex-direction:column;gap:6px}
+  .slider-head{display:flex;justify-content:space-between;align-items:baseline}
+  .slider-head label{font-size:13px;font-weight:600;color:var(--muted)}
+  .slider-head .qval{font-size:16px;font-weight:700;color:var(--green-dark);font-family:var(--display)}
+  input[type=range]{width:100%;accent-color:var(--green)}
+  .slider-foot{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);opacity:.75}
+  .estimate{font-size:13px;font-weight:600;color:var(--green-dark);text-align:center;margin-top:8px;min-height:20px}
+
+  /* Doelgrootte-modus */
+  .target-wrap{display:flex;flex-direction:column;gap:8px}
+  .target-wrap label{font-size:13px;font-weight:600;color:var(--muted)}
+  .target-input-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .target-input{
+    font-family:var(--body);font-size:16px;font-weight:600;
+    border:1.5px solid var(--line);border-radius:11px;
+    padding:11px 15px;background:#fff;color:var(--ink);
+    width:180px;transition:.15s;outline:none;
+  }
+  .target-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(22,121,74,.1)}
+  .target-input::placeholder{font-weight:400;color:#b0a898}
+  .target-hint{font-size:12.5px;color:var(--muted)}
+  .target-hint strong{color:var(--ink)}
+
+  /* Wachtrij */
+  .queue-header{display:flex;align-items:center;gap:10px;padding:18px 0 10px;border-top:1px solid var(--line);margin-top:20px}
+  .queue-label{font-size:13px;font-weight:600;color:var(--muted);flex:1}
+  .queue-badge{font-size:12px;font-weight:700;background:var(--green-tint);color:var(--green-dark);padding:3px 9px;border-radius:999px}
+  .q-item{display:flex;align-items:center;gap:12px;padding:9px 11px;background:var(--paper);border:1px solid var(--line);border-radius:11px;margin-bottom:7px;animation:rise .25s ease both;transition:opacity .3s}
+  .q-item.fading{opacity:0}
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .q-item .thumb{width:40px;height:40px;border-radius:8px;object-fit:cover;background:var(--surface);border:1px solid var(--line);flex:none}
+  .q-meta{flex:1;min-width:0}
+  .q-name{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .q-size{font-size:12px;color:var(--muted)}
+  .q-bar{height:0;overflow:hidden;border-radius:99px;background:var(--line);transition:height .2s,margin-top .2s}
+  .q-bar i{display:block;height:100%;width:0;background:var(--green);border-radius:99px;transition:width .2s}
+  .q-item.compressing .q-bar{height:4px;margin-top:5px}
+  .q-remove{border:none;background:none;color:var(--muted);font-size:18px;line-height:1;padding:4px 6px;cursor:pointer;border-radius:6px;flex:none;transition:.15s}
+  .q-remove:hover{background:var(--line);color:var(--ink)}
+  .q-item.compressing .q-remove{display:none}
+
+  /* Actieknop zone 1 */
+  .zone1-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:14px}
+  .btn{font-family:var(--body);font-weight:600;font-size:15.5px;border-radius:12px;padding:13px 22px;cursor:pointer;border:1px solid transparent;transition:.16s}
+  .btn-primary{background:var(--green);color:#fff;box-shadow:0 6px 16px rgba(22,121,74,.25)}
+  .btn-primary:hover{background:var(--green-dark);transform:translateY(-1px)}
+  .btn-primary:active{transform:translateY(0)}
+  .btn-primary:disabled{opacity:.45;pointer-events:none;box-shadow:none}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line);font-size:14px;padding:10px 18px}
+  .btn-ghost:hover{background:var(--paper)}
+  .no-limit-note{font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+  .no-limit-note svg{width:14px;height:14px;color:var(--green)}
+
+  /* Zone 2 resultaten */
+  .results-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:4px;flex-wrap:wrap}
+  .results-title{font-family:var(--display);font-weight:600;font-size:20px;margin-bottom:3px}
+  .summary{font-size:13px;color:var(--muted)}
+  .r-item{padding:13px 0;border-bottom:1px solid var(--line);animation:rise .3s ease both}
+  .r-item:last-child{border-bottom:none}
+  .r-main{display:flex;align-items:center;gap:14px}
+  .r-item .thumb{width:46px;height:46px;border-radius:9px;object-fit:cover;background:var(--paper);border:1px solid var(--line);flex:none}
+  .r-meta{flex:1;min-width:0}
+  .r-name{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .r-sizes{font-size:12.5px;color:var(--muted);margin-top:1px}
+  .r-item.err .r-name{color:var(--red)}
+  .savings{font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;flex:none;white-space:nowrap}
+  .savings.ok{background:var(--green-tint);color:var(--green-dark)}
+  .savings.meh{background:var(--paper);color:var(--muted);border:1px solid var(--line)}
+  .savings.notice{background:var(--amber-tint);color:var(--amber)}
+  .savings.missed{background:var(--red-tint);color:var(--red)}
+  .dl{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:#fff;background:var(--green);padding:8px 13px;border-radius:9px;border:none;cursor:pointer;transition:.15s;flex:none}
+  .dl:hover{background:var(--green-dark)}
+  .dl svg{width:14px;height:14px}
+  .png-tip{display:flex;align-items:center;gap:8px;margin-top:8px;background:var(--amber-tint);border:1px solid #ecd6b6;border-radius:9px;padding:8px 12px;font-size:12.5px;color:#7a4010}
+  .png-tip a{color:#7a4010;font-weight:700;text-decoration:underline;text-underline-offset:2px}
+
+  /* Ad + FAQ + Footer */
+  .ad-slot{margin-top:28px;border:1px dashed var(--line);border-radius:14px;padding:16px;text-align:center;color:var(--muted);font-size:13px;background:#fffefb}
+  .ad-slot .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.6;display:block;margin-bottom:4px}
+  .faq{margin-top:46px}
+  .faq h3{font-family:var(--display);font-weight:600;font-size:24px;margin-bottom:8px;text-align:center}
+  .faq .lead{text-align:center;color:var(--muted);margin-bottom:22px}
+  details{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:0 18px;margin-bottom:10px}
+  summary{cursor:pointer;font-weight:600;padding:16px 0;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-size:20px;color:var(--green);font-weight:400}
+  details[open] summary::after{content:"–"}
+  details p{padding:0 0 16px;color:var(--muted);font-size:15px}
+  details a{color:var(--green-dark);font-weight:600;text-decoration:none}
+  footer{margin-top:50px;padding:30px 0 50px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:13.5px}
+  footer a{color:var(--green-dark);font-weight:600;text-decoration:none}
+  .coffee{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:var(--amber-tint);border:1px solid #ecd6b6;color:#8a4f17;padding:9px 16px;border-radius:999px;font-weight:600;font-size:14px;text-decoration:none;transition:.15s}
+  .coffee:hover{background:#f7e6cd}
+  .nudge{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(120%);width:calc(100% - 32px);max-width:440px;z-index:50;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-lift);padding:18px 18px 16px;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+  .nudge.show{transform:translateX(-50%) translateY(0)}
+  .nudge .head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .nudge .cup{width:34px;height:34px;border-radius:10px;background:var(--amber-tint);display:grid;place-items:center;font-size:18px;flex:none}
+  .nudge h4{font-family:var(--display);font-size:17px;font-weight:600}
+  .nudge p{font-size:14px;color:var(--muted);margin-bottom:14px}
+  .nudge .row{display:flex;gap:10px}
+  .nudge .row a{flex:1;text-align:center;text-decoration:none}
+  .nudge-x{position:absolute;top:12px;right:14px;border:none;background:none;font-size:20px;color:var(--muted);cursor:pointer;line-height:1}
+
+  @media(max-width:560px){
+    .card{padding:18px}
+    .dropzone{padding:28px 16px}
+    .presets{grid-template-columns:repeat(3,1fr);gap:7px}
+    .preset{padding:11px 8px}
+    .preset .p-name{font-size:14px}
+    .results-header{flex-direction:column;gap:10px}
+    .zone1-actions .no-limit-note{order:-1;width:100%;justify-content:center}
+  }
+
+  .prose{margin-top:48px}
+  .prose h2{font-family:var(--display);font-weight:600;font-size:26px;margin:0 0 14px;letter-spacing:-.01em}
+  .prose h3{font-family:var(--display);font-weight:600;font-size:19px;margin:30px 0 8px}
+  .prose p{color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 14px;max-width:660px}
+  .prose ul{color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 14px;padding-left:22px;max-width:660px}
+  .prose li{margin-bottom:7px}
+  .prose strong{color:var(--ink)}
+  .fmt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:18px 0 8px}
+  .fmt-card{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .fmt-card h4{margin:0 0 6px;font-size:15px;font-weight:700;color:var(--ink)}
+  .fmt-card p{font-size:14px;margin:0;line-height:1.6}
+
+
+  /* rich content blocks */
+  .howto{margin-top:48px}
+  .howto h2,.usecases h2,.cmp-wrap h2,.related h2{font-family:var(--display);font-weight:600;font-size:26px;margin:0 0 18px;letter-spacing:-.01em}
+  .steps{display:grid;gap:14px;counter-reset:step}
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .step::before{counter-increment:step;content:counter(step);flex:none;width:30px;height:30px;border-radius:50%;background:var(--green-tint);color:var(--green-dark);font-weight:700;font-size:15px;display:grid;place-items:center}
+  .step h4{margin:0 0 3px;font-size:16px;font-weight:700;color:var(--ink)}
+  .step p{margin:0;color:var(--muted);font-size:15px;line-height:1.6}
+  .cmp-wrap{margin-top:48px;overflow-x:auto}
+  table.cmp{border-collapse:collapse;width:100%;font-size:14.5px;min-width:520px}
+  table.cmp th,table.cmp td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.cmp thead th{font-weight:700;color:var(--ink);border-bottom:2px solid var(--line)}
+  table.cmp td:first-child,table.cmp th:first-child{font-weight:700;color:var(--ink)}
+  table.cmp td{color:var(--muted)}
+  table.cmp tbody tr:last-child td{border-bottom:none}
+  .usecases{margin-top:48px}
+  .uc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .uc{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .uc h4{margin:0 0 5px;font-size:15px;font-weight:700;color:var(--ink)}
+  .uc p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+  .callout{margin:30px 0 0;background:var(--green-tint);border:1px solid #cfe6d8;border-radius:13px;padding:18px 20px}
+  .callout h3{margin:0 0 6px;font-size:16px;font-weight:700;color:var(--green-dark);font-family:var(--body)}
+  .callout p{margin:0;color:#2c5340;font-size:15px;line-height:1.65}
+  .related{margin-top:48px}
+  .rel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .rel{display:block;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:15px 17px;text-decoration:none;transition:border-color .15s,transform .15s}
+  .rel:hover{border-color:var(--green);transform:translateY(-2px)}
+  .rel strong{display:block;color:var(--ink);font-size:15px;margin-bottom:3px}
+  .rel span{color:var(--muted);font-size:13px;line-height:1.5}
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "nl-NL",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is er een limiet op het aantal foto's?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nee. Comprimeer er zoveel als je wilt, zo vaak als je wilt — geen daglimiet, geen account, geen wachten. Onbeperkt is hier de standaard."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Verlies ik kwaliteit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Compressie is een afweging die jij bepaalt. Rond 80–85% kwaliteit wordt het bestand veel kleiner zonder zichtbaar verlies. Zet de schuif lager voor een nóg kleiner bestand als schermweergave genoeg is."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Welke kwaliteitsinstelling kan ik het beste gebruiken?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Voor de meeste foto's is 80–85% de zoete plek — flink kleiner zonder zichtbaar verlies. Ga hoger (90–95%) als de foto belangrijk is of geprint wordt; ga lager (70–80%) voor webgebruik waar snelheid telt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Verandert het formaat bij comprimeren?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nee. Een JPG blijft een JPG en een PNG blijft een PNG — de tool houdt je formaat aan en slaat het simpelweg efficiënter op. Wil je ook van formaat wisselen? Gebruik dan Afbeelding omzetten."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Waarom wordt mijn PNG nauwelijks kleiner?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PNG is al verliesvrij, dus bij foto's valt er weinig te comprimeren. Omzetten naar JPG of WebP bespaart veel meer ruimte als je geen transparantie nodig hebt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Worden mijn foto's ergens geüpload?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nee. Alles gebeurt in je browser, op je apparaat. Je afbeeldingen worden nooit naar een server gestuurd — ideaal voor persoonlijke of gevoelige foto's."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kan ik meerdere foto's tegelijk comprimeren?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja. Sleep een hele reeks erin en elk wordt apart gecomprimeerd en gedownload. Er is geen limiet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Werkt het op mijn telefoon?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja — elke moderne browser op iPhone, Android, tablet of computer. Het werk gebeurt lokaal, dus na het laden is geen snelle verbinding nodig."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Fileshiftr",
+      "item": "https://fileshiftr.com/nl/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Afbeelding comprimeren",
+      "item": "https://fileshiftr.com/nl/afbeelding-comprimeren"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Fileshiftr Afbeelding Comprimeren",
+  "url": "https://fileshiftr.com/nl/afbeelding-comprimeren",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires JavaScript. Runs in any modern browser.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "inLanguage": "nl-NL"
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="topbar">
+      <a href="index.html" class="logo"><span class="mark"><svg width="34" height="34" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="mlg" x1="0" y1="0" x2=".4" y2="1"><stop offset="0%" stop-color="#22a36a"/><stop offset="100%" stop-color="#14623e"/></linearGradient></defs><path d="M6,1 H20 L27,8 V30 Q27,32 25,32 H6 Q4,32 4,30 V3 Q4,1 6,1 Z" fill="url(#mlg)"/><path d="M20,1 L20,8 H27" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.2"/><line x1="5" y1="14" x2="11" y2="14" stroke="rgba(255,255,255,.88)" stroke-width="2" stroke-linecap="round"/><line x1="5" y1="18" x2="9" y2="18" stroke="rgba(255,255,255,.65)" stroke-width="1.5" stroke-linecap="round"/><line x1="5" y1="22" x2="7" y2="22" stroke="rgba(255,255,255,.45)" stroke-width="1.2" stroke-linecap="round"/><path d="M13,18 H24 M20,14 L25,18 L20,22" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="wordmark"><span class="w-dark">file</span><span class="w-green">shift</span><span class="w-r">r</span></span></a>
+      <span class="promise-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Blijft op je apparaat
+      </span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Foto kleiner maken — <em>zie direct de winst</em></h1>
+    <p>Verklein JPG, PNG en WebP in je browser. Stel de kwaliteit in, zie de grootte dalen en comprimeer er zoveel als je wilt — geen account, niets wordt geüpload.</p>
+    <div class="trust-row">
+      <span class="trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Geen limiet</span>
+      <span class="trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Geen account</span>
+      <span class="trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Geen upload</span>
+    </div>
+  </section>
+
+  <!-- ZONE 1 -->
+  <div class="card">
+    <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Bestanden kiezen">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/>
+          <line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/>
+        </svg>
+      </div>
+      <h2>Sleep je foto's hierheen</h2>
+      <p>of tik om te kiezen — je mag er meerdere tegelijk doen</p>
+      <p class="hint">JPG · PNG · WebP · GIF · BMP</p>
+      <input type="file" id="filein" accept="image/*" multiple hidden>
+    </div>
+
+    <div class="options">
+
+      <!-- Mode-toggle -->
+      <div class="mode-toggle">
+        <button id="modeQuality" class="active">Kwaliteit kiezen</button>
+        <button id="modeTarget">Doelgrootte instellen</button>
+      </div>
+
+      <!-- Kwaliteitsmodus -->
+      <div class="mode-panel active" id="panelQuality">
+        <div class="presets">
+          <button class="preset" data-q="90">
+            <div class="p-name">Licht</div>
+            <div class="p-pct">90%</div>
+            <span class="p-save">~20% kleiner</span>
+          </button>
+          <button class="preset active" data-q="75">
+            <div class="p-name">Normaal</div>
+            <div class="p-pct">75%</div>
+            <span class="p-save">~50% kleiner</span>
+          </button>
+          <button class="preset" data-q="50">
+            <div class="p-name">Sterk</div>
+            <div class="p-pct">50%</div>
+            <span class="p-save">~70% kleiner</span>
+          </button>
+        </div>
+        <div class="slider-wrap">
+          <div class="slider-head">
+            <label>Fijnafstemmen</label>
+            <span class="qval" id="qval">75%</span>
+          </div>
+          <input type="range" id="quality" min="20" max="95" value="75">
+          <div class="slider-foot">
+            <span>◄ Kleiner bestand</span>
+            <span>Hogere kwaliteit ►</span>
+          </div>
+          <div class="estimate" id="estimate">Geschat ~50% kleiner bij een gemiddelde foto</div>
+        </div>
+      </div>
+
+      <!-- Doelgrootte-modus -->
+      <div class="mode-panel" id="panelTarget">
+        <div class="target-wrap">
+          <label>Maak kleiner dan</label>
+          <div class="target-input-row">
+            <input type="text" id="targetInput" class="target-input"
+              placeholder="bijv. 500 KB of 1 MB" autocomplete="off" inputmode="text">
+          </div>
+          <div class="target-hint" id="targetHint">
+            Upload een foto — je ziet dan direct hoe groot hij is
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wachtrij -->
+    <div id="queueSection" style="display:none">
+      <div class="queue-header">
+        <span class="queue-label">Wachtrij</span>
+        <span class="queue-badge" id="queueBadge">0</span>
+      </div>
+      <div id="queueList"></div>
+      <div class="zone1-actions">
+        <button class="btn btn-primary" id="compressBtn" disabled>Comprimeer</button>
+        <span class="no-limit-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+          Zoveel als je wilt — echt geen limiet
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZONE 2 -->
+  <div class="card" id="resultsCard" style="display:none">
+    <div class="results-header">
+      <div>
+        <div class="results-title">Gecomprimeerd</div>
+        <div class="summary" id="summary">—</div>
+      </div>
+      <button class="btn btn-ghost" id="downloadAllBtn">Alles downloaden</button>
+    </div>
+    <div id="resultsList"></div>
+  </div>
+
+  <div class="ad-slot">
+    <span class="lbl">Advertentie</span>
+    Hier komt straks één rustige, niet-volgende advertentie. We volgen je nergens.
+  </div>
+
+
+    <section class="prose">
+    <h2>Kleinere bestanden, dezelfde foto</h2>
+    <p>Een foto die te groot is, is een kleine maar echte ergernis. Hij past niet in een e-mail, vertraagt een website, of neemt simpelweg ruimte in die je liever ergens anders voor gebruikt. Comprimeren lost dat op door dezelfde foto efficiënter op te slaan — minder bytes, dezelfde foto. Goed gedaan zie je het verschil echt niet.</p>
+    <p>Je bepaalt zelf hoeveel je comprimeert, en je ziet na elk bestand precies wat je hebt bespaard. Er is geen limiet op hoeveel afbeeldingen je verwerkt, geen account nodig, en niets wordt geüpload — het werk gebeurt op je eigen apparaat.</p>
+  </section>
+
+  <section class="howto">
+    <h2>Foto comprimeren in 3 stappen</h2>
+    <div class="steps">
+      <div class="step"><div><h4>Voeg je foto's toe</h4><p>Sleep ze naar het vak of klik om te kiezen. Voeg er zoveel toe als je wilt — geen limiet.</p></div></div>
+      <div class="step"><div><h4>Kies je kwaliteit</h4><p>Schuif naar hogere kwaliteit als de foto belangrijk is, of naar kleiner als hij gewoon moet passen. De weergave toont de afweging.</p></div></div>
+      <div class="step"><div><h4>Download en zie de winst</h4><p>Je ziet de originele grootte, de nieuwe grootte en het bespaarde percentage — geen giswerk.</p></div></div>
+    </div>
+  </section>
+
+  <section class="usecases">
+    <h2>Wanneer comprimeren het meest helpt</h2>
+    <div class="uc-grid">
+      <div class="uc"><h4>E-mailbijlagen</h4><p>De meeste mailboxen beperken berichten tot zo'n 20–25 MB. Een paar gecomprimeerde foto's blijven makkelijk onder die grens.</p></div>
+      <div class="uc"><h4>Websites &amp; blogs</h4><p>Kleinere afbeeldingen laden sneller, wat bezoekers én zoekmachines belonen met betere paginasnelheid.</p></div>
+      <div class="uc"><h4>Uploadformulieren</h4><p>Portalen en sollicitaties beperken bestanden vaak tot 5–10 MB. Comprimeer eerst en de upload lukt gewoon.</p></div>
+      <div class="uc"><h4>Opslag &amp; back-ups</h4><p>Meer foto's in dezelfde ruimte op je telefoon, schijf of in de cloud.</p></div>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h3>Hoeveel kleiner kan het?</h3>
+    <p>Dat hangt van de foto af, maar de winst is vaak fors. Een typische telefoonfoto van enkele megabytes kan terugzakken naar een paar honderd kilobytes en er op het scherm nog steeds scherp uitzien. Bij een kwaliteitsinstelling rond 80% krimpen de meeste foto's met 70–90% zonder zichtbaar verlies. Afbeeldingen met veel fijne details comprimeren iets minder; vlakke delen zoals luchten comprimeren juist veel. De directe besparingsweergave haalt het giswerk eruit.</p>
+    <div class="callout">
+      <h3>Waarom wordt mijn PNG nauwelijks kleiner?</h3>
+      <p>PNG is een verliesvrij formaat, dus er valt weinig uit te persen — zeker bij foto's, waar het nooit voor bedoeld was. Heb je een veel kleiner bestand nodig en geen transparante achtergrond? Zet de afbeelding dan om naar JPG of WebP. Dat kan met de tool <a href="afbeelding-omzetten.html">Afbeelding omzetten</a>.</p>
+    </div>
+  </section>
+
+  <section class="related">
+    <h2>Gerelateerde tools</h2>
+    <div class="rel-grid">
+      <a class="rel" href="afbeelding-omzetten.html"><strong>Afbeelding omzetten</strong><span>Zet een foto om naar JPG, PNG of WebP — of converteer een iPhone-HEIC.</span></a>
+      <a class="rel" href="pdf-comprimeren.html"><strong>PDF comprimeren</strong><span>Maak een PDF kleiner die te groot is om te mailen of uploaden.</span></a>
+    </div>
+  </section>
+
+  <section class="faq">
+    <h3>Veelgestelde vragen</h3>
+    <p class="lead">Gratis, onbeperkt, en je foto's verlaten je apparaat nooit.</p>
+    <details open><summary>Is er een limiet op het aantal foto's?</summary><p>Nee. Comprimeer er zoveel als je wilt, zo vaak als je wilt — geen daglimiet, geen account, geen wachten. Onbeperkt is hier de standaard.</p></details>
+    <details><summary>Verlies ik kwaliteit?</summary><p>Compressie is een afweging die jij bepaalt. Rond 80–85% kwaliteit wordt het bestand veel kleiner zonder zichtbaar verlies. Zet de schuif lager voor een nóg kleiner bestand als schermweergave genoeg is.</p></details>
+    <details><summary>Welke kwaliteitsinstelling kan ik het beste gebruiken?</summary><p>Voor de meeste foto's is 80–85% de zoete plek — flink kleiner zonder zichtbaar verlies. Ga hoger (90–95%) als de foto belangrijk is of geprint wordt; ga lager (70–80%) voor webgebruik waar snelheid telt.</p></details>
+    <details><summary>Verandert het formaat bij comprimeren?</summary><p>Nee. Een JPG blijft een JPG en een PNG blijft een PNG — de tool houdt je formaat aan en slaat het simpelweg efficiënter op. Wil je ook van formaat wisselen? Gebruik dan Afbeelding omzetten.</p></details>
+    <details><summary>Waarom wordt mijn PNG nauwelijks kleiner?</summary><p>PNG is al verliesvrij, dus bij foto's valt er weinig te comprimeren. Omzetten naar JPG of WebP bespaart veel meer ruimte als je geen transparantie nodig hebt.</p></details>
+    <details><summary>Worden mijn foto's ergens geüpload?</summary><p>Nee. Alles gebeurt in je browser, op je apparaat. Je afbeeldingen worden nooit naar een server gestuurd — ideaal voor persoonlijke of gevoelige foto's.</p></details>
+    <details><summary>Kan ik meerdere foto's tegelijk comprimeren?</summary><p>Ja. Sleep een hele reeks erin en elk wordt apart gecomprimeerd en gedownload. Er is geen limiet.</p></details>
+    <details><summary>Werkt het op mijn telefoon?</summary><p>Ja — elke moderne browser op iPhone, Android, tablet of computer. Het werk gebeurt lokaal, dus na het laden is geen snelle verbinding nodig.</p></details>
+  </section>
+
+  <footer>
+    Je bestanden blijven op je eigen apparaat. We slaan ze niet op en sturen ze niet door.<br>
+    <a class="coffee" href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener">☕ Steun Fileshiftr op Ko-fi</a>
+    <div style="margin-top:18px"><a href="privacy.html">Privacy</a> · <a href="over-ons.html">Over ons</a> · <a href="index.html">Alle tools</a></div>
+  </footer>
+</div>
+
+<div class="nudge" id="nudge">
+  <button class="nudge-x" id="nudgeX" aria-label="Sluiten">×</button>
+  <div class="head"><span class="cup">☕</span><h4>Al <span id="nudgeCount">veel</span> foto's gecomprimeerd!</h4></div>
+  <p>Als dit je tijd heeft bespaard, trakteer je me dan op een koffie? Helemaal vrijblijvend.</p>
+  <div class="row">
+    <a class="btn btn-primary" href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener">Ja, leuk ☕</a>
+    <a class="btn btn-ghost" id="nudgeNo" href="afbeelding-comprimeren.html#">Nee, dankje</a>
+  </div>
+</div>
+
+<script>
+/* ── OPSLAG ─────────────────────────────────────────────────── */
+const store = (() => {
+  const mem = {};
+  try {
+    const t="__t"; localStorage.setItem(t,"1"); localStorage.removeItem(t);
+    return { get: k=>localStorage.getItem(k), set:(k,v)=>localStorage.setItem(k,v) };
+  } catch (e) { return { get:k=>(mem[k] === undefined ? null : mem[k]), set:(k,v)=>{mem[k]=String(v);} }; }
+})();
+
+const FEATURES = { pro:false, donationNudgeAfter:5 };
+
+/* ── STATE ──────────────────────────────────────────────────── */
+let queueItems  = [];
+let resultItems = [];
+let activeMode  = "quality"; // "quality" | "target"
+
+/* ── DOM ────────────────────────────────────────────────────── */
+const dropzone       = document.getElementById("dropzone");
+const fileInput      = document.getElementById("filein");
+const queueSection   = document.getElementById("queueSection");
+const queueList      = document.getElementById("queueList");
+const queueBadge     = document.getElementById("queueBadge");
+const compressBtn    = document.getElementById("compressBtn");
+const resultsCard    = document.getElementById("resultsCard");
+const resultsList    = document.getElementById("resultsList");
+const downloadAllBtn = document.getElementById("downloadAllBtn");
+const summaryEl      = document.getElementById("summary");
+const qualityInput   = document.getElementById("quality");
+const qvalEl         = document.getElementById("qval");
+const estimateEl     = document.getElementById("estimate");
+const targetInput    = document.getElementById("targetInput");
+const targetHint     = document.getElementById("targetHint");
+const presetBtns     = document.querySelectorAll(".preset");
+
+/* ── MODE-TOGGLE ────────────────────────────────────────────── */
+document.getElementById("modeQuality").onclick = () => switchMode("quality");
+document.getElementById("modeTarget").onclick  = () => switchMode("target");
+
+function switchMode(mode) {
+  activeMode = mode;
+  document.getElementById("modeQuality").classList.toggle("active", mode==="quality");
+  document.getElementById("modeTarget").classList.toggle("active",  mode==="target");
+  document.getElementById("panelQuality").classList.toggle("active", mode==="quality");
+  document.getElementById("panelTarget").classList.toggle("active",  mode==="target");
+}
+
+/* ── KWALITEITS-UI ──────────────────────────────────────────── */
+// Schatting van reductie op basis van kwaliteitswaarde (typische JPEG/WebP foto)
+function estimateReduction(q) {
+  const pts = [[95,7],[90,20],[80,36],[75,50],[65,60],[50,70],[35,78],[20,84]];
+  for (let i=0; i<pts.length-1; i++) {
+    if (q >= pts[i+1][0]) {
+      const [q1,r1]=pts[i], [q2,r2]=pts[i+1];
+      return Math.round(r2 + (q-q2)/(q1-q2) * (r1-r2));
+    }
+  }
+  return pts[pts.length-1][1];
+}
+
+function syncQuality(q) {
+  qvalEl.textContent = q + "%";
+  estimateEl.textContent = `Geschat ~${estimateReduction(q)}% kleiner bij een gemiddelde foto`;
+  // Preset actief als q exact overeenkomt
+  presetBtns.forEach(b => b.classList.toggle("active", parseInt(b.dataset.q)===q));
+}
+
+presetBtns.forEach(b => b.onclick = () => {
+  const q = parseInt(b.dataset.q);
+  qualityInput.value = q;
+  syncQuality(q);
+});
+qualityInput.oninput = () => syncQuality(parseInt(qualityInput.value));
+
+function currentQuality() { return parseInt(qualityInput.value)/100; }
+
+/* ── DOELGROOTTE-UI ─────────────────────────────────────────── */
+function parseTargetBytes(val) {
+  if (!val||!val.trim()) return null;
+  const s = val.trim().toLowerCase().replace(/\s/g,"");
+  const num = parseFloat(s);
+  if (isNaN(num)||num<=0) return null;
+  if (s.endsWith("mb")) return Math.round(num*1048576);
+  if (s.endsWith("kb")) return Math.round(num*1024);
+  if (s.endsWith("b"))  return Math.round(num);
+  return Math.round(num*1024); // geen eenheid → KB
+}
+
+targetInput.onblur = () => {
+  const b = parseTargetBytes(targetInput.value);
+  if (b !== null) {
+    targetInput.value = b>=1048576
+      ? (b/1048576).toFixed(1).replace(".0","")+" MB"
+      : Math.round(b/1024)+" KB";
+  }
+};
+
+function currentTarget() {
+  return activeMode==="target" ? parseTargetBytes(targetInput.value) : null;
+}
+
+/* ── HINT BIJWERKEN ─────────────────────────────────────────── */
+function updateHint() {
+  if (!queueItems.length) {
+    targetHint.textContent = "Upload een foto — je ziet dan direct hoe groot hij is";
+    return;
+  }
+  const largest = queueItems.reduce((m,i)=>Math.max(m,i.file.size),0);
+  targetHint.innerHTML = `Grootste bestand in wachtrij: <strong>${humanSize(largest)}</strong>`;
+}
+
+/* ── WACHTRIJ ───────────────────────────────────────────────── */
+function updateQueue() {
+  const n = queueItems.length;
+  queueBadge.textContent = n;
+  queueSection.style.display = n>0 ? "block" : "none";
+  compressBtn.disabled = n===0;
+  compressBtn.textContent =
+    n===0 ? "Comprimeer" :
+    n===1 ? "Comprimeer 1 bestand" :
+    `Comprimeer ${n} bestanden`;
+}
+
+function addFiles(fileList) {
+  [...fileList]
+    .filter(f=>f.type.startsWith("image/")||/\.(jpe?g|png|webp|gif|bmp|tiff?)$/i.test(f.name))
+    .forEach(file=>{
+      const row = document.createElement("div");
+      row.className = "q-item";
+      row.innerHTML = `
+        <img class="thumb" alt="">
+        <div class="q-meta">
+          <div class="q-name"></div>
+          <div class="q-size"></div>
+          <div class="q-bar"><i></i></div>
+        </div>
+        <button class="q-remove" title="Verwijderen">×</button>`;
+
+      const thumb  = row.querySelector(".thumb");
+      const nameEl = row.querySelector(".q-name");
+      const sizeEl = row.querySelector(".q-size");
+      const barEl  = row.querySelector(".q-bar i");
+
+      nameEl.textContent = file.name;
+      sizeEl.textContent = humanSize(file.size);
+      const u = URL.createObjectURL(file);
+      thumb.src=u; thumb.onload=()=>URL.revokeObjectURL(u);
+
+      const qItem = { file, row, barEl };
+      row.querySelector(".q-remove").onclick = ()=>{
+        queueItems = queueItems.filter(i=>i!==qItem);
+        row.remove(); updateQueue(); updateHint();
+      };
+      queueItems.push(qItem);
+      queueList.appendChild(row);
+    });
+  updateQueue(); updateHint();
+}
+
+/* ── COMPRIMEREN ────────────────────────────────────────────── */
+async function compressAll() {
+  if (!queueItems.length) return;
+  const batch = [...queueItems];
+  queueItems = [];
+  compressBtn.disabled = true;
+  compressBtn.textContent = "Bezig…";
+  const targetBytes = currentTarget();
+
+  for (const qItem of batch) {
+    qItem.row.classList.add("compressing");
+    try {
+      const blob = await compress(qItem.file, currentQuality(), targetBytes,
+        p => { qItem.barEl.style.width = Math.round(p*100)+"%"; });
+      addResultRow(qItem.file, blob, targetBytes);
+      bumpCounter();
+    } catch (e) { addErrorRow(qItem.file); }
+    qItem.row.classList.add("fading");
+    setTimeout(()=>qItem.row.remove(), 300);
+  }
+  await new Promise(r=>setTimeout(r,350));
+  updateQueue(); updateHint();
+}
+
+/* ── RESULTAATRIJ ───────────────────────────────────────────── */
+function addResultRow(file, blob, targetBytes) {
+  resultsCard.style.display = "block";
+  const savings   = Math.round((1-blob.size/file.size)*100);
+  const outName   = makeOutName(file);
+  const isPng     = /\.png$/i.test(file.name)||file.type==="image/png";
+  const targetHit = targetBytes ? blob.size<=targetBytes : null;
+
+  const row = document.createElement("div");
+  row.className = "r-item";
+  row.innerHTML = `
+    <div class="r-main">
+      <img class="thumb" alt="">
+      <div class="r-meta">
+        <div class="r-name"></div>
+        <div class="r-sizes"></div>
+      </div>
+      <div class="savings"></div>
+      <button class="dl">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 4v12m0 0l-4-4m4 4l4-4"/><path d="M4 20h16"/></svg>
+        Download
+      </button>
+    </div>`;
+
+  const bUrl = URL.createObjectURL(blob);
+  const thumb = row.querySelector(".thumb");
+  thumb.src=bUrl; thumb.onload=()=>URL.revokeObjectURL(bUrl);
+  row.querySelector(".r-name").textContent  = outName;
+  row.querySelector(".r-sizes").textContent = `${humanSize(file.size)} → ${humanSize(blob.size)}`;
+
+  const savEl = row.querySelector(".savings");
+  if (targetBytes !== null) {
+    if (targetHit) {
+      savEl.className="savings ok";
+      savEl.textContent = savings+"% kleiner";
+    } else {
+      savEl.className="savings missed";
+      savEl.textContent="Zo klein mogelijk";
+    }
+  } else {
+    if (savings>=2)       { savEl.className="savings ok";     savEl.textContent=savings+"% kleiner"; }
+    else if (savings<0)   { savEl.className="savings notice"; savEl.textContent="al optimaal"; }
+    else                  { savEl.className="savings meh";    savEl.textContent="minimale winst"; }
+  }
+
+  row.querySelector(".dl").onclick = ()=>triggerDownload(blob,outName);
+
+  // Feature 3: PNG-tip bij weinig winst
+  if (isPng && savings<5) {
+    const tip = document.createElement("div");
+    tip.className = "png-tip";
+    tip.innerHTML = `💡 PNG is verliesvrij — voor meer winst zet je 'm om naar JPG via <a href="https://fileshiftr.com/afbeelding-omzetten">onze converter</a>.`;
+    row.appendChild(tip);
+  }
+
+  resultItems.push({file,blob,outName});
+  resultsList.appendChild(row);
+  updateSummary();
+}
+
+function addErrorRow(file) {
+  resultsCard.style.display = "block";
+  const row = document.createElement("div");
+  row.className = "r-item err";
+  row.innerHTML = `<div class="r-main"><img class="thumb" alt="" style="opacity:.35"><div class="r-meta"><div class="r-name"></div><div class="r-sizes">Kon dit bestand niet comprimeren</div></div></div>`;
+  row.querySelector(".r-name").textContent = file.name;
+  const u=URL.createObjectURL(file); const img=row.querySelector(".thumb");
+  img.src=u; img.onload=()=>URL.revokeObjectURL(u);
+  resultsList.appendChild(row); updateSummary();
+}
+
+function updateSummary() {
+  if (!resultItems.length) { summaryEl.textContent="—"; return; }
+  const totalOrig = resultItems.reduce((s,r)=>s+r.file.size,0);
+  const totalComp = resultItems.reduce((s,r)=>s+r.blob.size,0);
+  const avg = Math.round((1-totalComp/totalOrig)*100);
+  const n = resultItems.length;
+  summaryEl.textContent=`${n} ${n===1?"bestand":"bestanden"} · ${humanSize(totalOrig)} → ${humanSize(totalComp)} · gemiddeld ${avg}% kleiner`;
+}
+
+downloadAllBtn.onclick = ()=>{
+  resultItems.forEach((r,i)=>setTimeout(()=>triggerDownload(r.blob,r.outName),i*350));
+};
+
+/* ── COMPRESS-LOGICA ────────────────────────────────────────── */
+function determineMime(file) {
+  if (file.type&&file.type.startsWith("image/")&&
+      !["image/gif","image/bmp","image/x-bmp","image/tiff"].includes(file.type))
+    return file.type==="image/jpg"?"image/jpeg":file.type;
+  const ext=file.name.split(".").pop().toLowerCase();
+  const map={jpg:"image/jpeg",jpeg:"image/jpeg",png:"image/png",webp:"image/webp",
+           gif:"image/png",bmp:"image/jpeg",tif:"image/jpeg",tiff:"image/jpeg"};
+  return map[ext] === undefined ? "image/jpeg" : map[ext];
+}
+function makeOutName(file) {
+  const dot=file.name.lastIndexOf(".");
+  const base=dot>=0?file.name.slice(0,dot):file.name;
+  const mime=determineMime(file);
+  const ext=mime==="image/jpeg"?".jpg":mime==="image/png"?".png":mime==="image/webp"?".webp":(dot>=0?file.name.slice(dot):"");
+  return base+"-klein"+ext;
+}
+function loadViaImage(file) {
+  return new Promise((res,rej)=>{
+    const img=new Image(), u=URL.createObjectURL(file);
+    img.onload=()=>{URL.revokeObjectURL(u);res(img);};
+    img.onerror=()=>{URL.revokeObjectURL(u);rej(new Error("decode"));};
+    img.src=u;
+  });
+}
+async function compress(file, quality, targetBytes, onProgress) {
+  onProgress(0.08);
+  const mime=determineMime(file), isPng=mime==="image/png";
+  let bitmap;
+  try { bitmap=await createImageBitmap(file); } catch (e) { bitmap=await loadViaImage(file); }
+  onProgress(0.2);
+  const canvas=document.createElement("canvas");
+  canvas.width=bitmap.width; canvas.height=bitmap.height;
+  const ctx=canvas.getContext("2d");
+  if (mime==="image/jpeg"){ctx.fillStyle="#fff";ctx.fillRect(0,0,canvas.width,canvas.height);}
+  ctx.drawImage(bitmap,0,0);
+
+  if (isPng||!targetBytes) {
+    onProgress(0.7);
+    const blob=await new Promise(res=>canvas.toBlob(res,mime,isPng?undefined:quality));
+    if (!blob) throw new Error("export mislukt");
+    onProgress(1); return blob;
+  }
+  if (file.size<=targetBytes) {
+    const blob=await new Promise(res=>canvas.toBlob(res,mime,0.95));
+    onProgress(1); return blob;
+  }
+  // Check eerst of max-kwaliteit al genoeg is (metadata stripping kan veel schelen)
+  const maxBlob=await new Promise(res=>canvas.toBlob(res,mime,0.92));
+  if (maxBlob&&maxBlob.size<=targetBytes) {
+    maxBlob._maxQuality=true; // vlag voor de badge
+    onProgress(1); return maxBlob;
+  }
+  // Binary search: hoogste kwaliteit die nog onder targetBytes past
+  let lo=0.05, hi=0.92, bestBlob=null;
+  for (let i=0;i<8;i++) {
+    const mid=(lo+hi)/2;
+    const blob=await new Promise(res=>canvas.toBlob(res,mime,mid));
+    onProgress(0.2+((i+1)/8)*0.75);
+    if (blob&&blob.size<=targetBytes){ bestBlob=blob; lo=mid; }
+    else { hi=mid; }
+  }
+  if (!bestBlob) bestBlob=await new Promise(res=>canvas.toBlob(res,mime,0.05));
+  onProgress(1); return bestBlob;
+}
+
+/* ── EVENTS ─────────────────────────────────────────────────── */
+dropzone.onclick   = ()=>fileInput.click();
+dropzone.onkeydown = e=>(e.key==="Enter"||e.key===" ")&&fileInput.click();
+fileInput.onchange = ()=>{ addFiles(fileInput.files); fileInput.value=""; };
+["dragover","dragenter"].forEach(ev=>dropzone.addEventListener(ev,e=>{e.preventDefault();dropzone.classList.add("drag");}));
+["dragleave","drop"    ].forEach(ev=>dropzone.addEventListener(ev,e=>{e.preventDefault();dropzone.classList.remove("drag");}));
+dropzone.addEventListener("drop",e=>e.dataTransfer&&addFiles(e.dataTransfer.files));
+compressBtn.onclick = compressAll;
+
+/* ── NUDGE ──────────────────────────────────────────────────── */
+function bumpCounter(){
+  let n=parseInt(store.get("comp_total")||"0",10)+1; store.set("comp_total",n);
+  if (FEATURES.pro||store.get("nudge_done")) return;
+  if (n>=FEATURES.donationNudgeAfter){
+    document.getElementById("nudgeCount").textContent=n;
+    document.getElementById("nudge").classList.add("show");
+  }
+}
+document.getElementById("nudgeX").onclick=
+document.getElementById("nudgeNo").onclick=e=>{
+  e.preventDefault(); store.set("nudge_done","1");
+  document.getElementById("nudge").classList.remove("show");
+};
+
+/* ── HULPJES ────────────────────────────────────────────────── */
+function humanSize(b){
+  if(b<1024) return b+" B";
+  if(b<1048576) return (b/1024).toFixed(0)+" KB";
+  return (b/1048576).toFixed(1)+" MB";
+}
+function triggerDownload(blob,name){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a"); a.href=url; a.download=name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+</script>
+</body>
+</html>

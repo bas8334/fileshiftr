@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Privacybeleid — Fileshiftr</title>
+<link rel="alternate" hreflang="nl" href="privacy.html">
+<link rel="alternate" hreflang="en" href="../privacy.html">
+<link rel="alternate" hreflang="x-default" href="../privacy.html">
+<meta name="theme-color" content="#16794A">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta name="description" content="Je bestanden verlaten je browser nooit — dat is geen belofte, maar hoe de technologie werkt. Lees wat Fileshiftr wel en niet opslaat.">
+<link rel="canonical" href="privacy.html">
+
+<meta property="og:type"        content="website">
+<meta property="og:url" content="https://fileshiftr.com/nl/privacy">
+<meta property="og:title"       content="Privacybeleid — Fileshiftr">
+<meta property="og:description" content="Je bestanden verlaten je browser nooit. Lees wat Fileshiftr wel en niet opslaat.">
+<meta property="og:locale"      content="nl_NL">
+<meta name="theme-color" content="#16794A">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="https://fileshiftr.com/favicon.ico" sizes="any">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper:       #FAF6EF;
+    --surface:     #FFFDF9;
+    --ink:         #211C16;
+    --muted:       #6B6358;
+    --line:        #E8E0D3;
+    --green:       #16794A;
+    --green-dark:  #12603B;
+    --green-tint:  #E7F2EB;
+    --amber:       #C9742A;
+    --amber-tint:  #FBEFE0;
+    --radius:      18px;
+    --shadow:      0 1px 2px rgba(33,28,22,.04), 0 8px 24px rgba(33,28,22,.06);
+    --display:     "Fraunces", Georgia, "Times New Roman", serif;
+    --body:        "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 6px; }
+
+  body {
+    font-family: var(--body); color: var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(22,121,74,.07), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(201,116,42,.05), transparent 55%),
+      var(--paper);
+    line-height: 1.6; min-height: 100vh; -webkit-font-smoothing: antialiased;
+  }
+
+  /* Brede wrap voor header, smal voor inhoud */
+  .wrap    { max-width: 840px; margin: 0 auto; padding: 0 20px; }
+  .content { max-width: 680px; margin: 0 auto; }
+
+  /* ── Header ──────────────────────────────────────────────── */
+  header { padding: 28px 0 8px; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo .mark { width: 34px; height: 34px; flex: none; display: grid; place-items: center; }
+  .wordmark { font-family: var(--body); font-weight: 700; font-size: 20px; letter-spacing: -.02em; }
+  .w-dark { color: var(--ink); }
+  .w-green { color: var(--green); }
+  .w-r { color: var(--amber); }
+  .promise-pill { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--green-dark); background: var(--green-tint); border: 1px solid #cfe6d8; padding: 7px 13px; border-radius: 999px; }
+  .promise-pill svg { width: 15px; height: 15px; }
+
+  /* ── Teruglink ─────────────────────────────────────────── */
+  .back-link { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 600; color: var(--muted); text-decoration: none; margin-top: 28px; transition: color .15s; }
+  .back-link:hover { color: var(--green-dark); }
+  .back-link svg { width: 16px; height: 16px; }
+
+  /* ── Pagina-hero ───────────────────────────────────────── */
+  .page-hero { padding: 16px 0 32px; }
+  .page-hero .eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--green); display: block; margin-bottom: 10px; }
+  .page-hero h1 { font-family: var(--display); font-weight: 600; font-size: clamp(30px, 5vw, 44px); line-height: 1.08; letter-spacing: -.025em; margin-bottom: 8px; }
+  .page-hero .meta { font-size: 13px; color: var(--muted); }
+
+  /* ── Samenvattingskaart ────────────────────────────────── */
+  .summary-card {
+    background: linear-gradient(135deg, #eef8f2 0%, #e5f1ea 100%);
+    border: 1px solid #cfe6d8; border-radius: 20px;
+    padding: 26px 28px; margin-bottom: 12px;
+  }
+  .summary-card .card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .summary-card .shield { width: 38px; height: 38px; background: var(--green); border-radius: 11px; display: grid; place-items: center; color: #fff; flex: none; box-shadow: 0 4px 10px rgba(22,121,74,.3); }
+  .summary-card .shield svg { width: 20px; height: 20px; }
+  .summary-card h2 { font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--green-dark); }
+  .summary-card .tagline { font-size: 16px; font-weight: 600; color: var(--green-dark); margin-bottom: 18px; line-height: 1.5; }
+  .summary-facts { display: flex; gap: 8px; flex-wrap: wrap; }
+  .fact { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--green-dark); background: #fff; border: 1px solid #cfe6d8; padding: 7px 12px; border-radius: 999px; }
+  .fact svg { width: 14px; height: 14px; flex: none; }
+
+  /* ── Beleidssecties ──────────────────────────────────── */
+  .policy-section { margin-bottom: 10px; }
+  .section-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
+
+  .section-head { display: flex; align-items: flex-start; gap: 13px; margin-bottom: 14px; }
+  .section-num { width: 28px; height: 28px; border-radius: 8px; background: var(--green-tint); color: var(--green-dark); font-size: 13px; font-weight: 700; display: grid; place-items: center; flex: none; margin-top: 3px; }
+  .section-card h3 { font-family: var(--display); font-weight: 600; font-size: 19px; letter-spacing: -.01em; }
+
+  .section-card p { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 12px; }
+  .section-card p:last-child { margin-bottom: 0; }
+  .section-card strong { color: var(--ink); }
+  .section-card a { color: var(--green-dark); font-weight: 600; text-decoration: none; }
+  .section-card a:hover { text-decoration: underline; }
+  .section-card code { font-family: ui-monospace, "Cascadia Code", Menlo, monospace; font-size: 13px; background: var(--paper); border: 1px solid var(--line); padding: 2px 6px; border-radius: 5px; color: var(--ink); }
+
+  /* Groene info-box (iets wat NIET gebeurt) */
+  .highlight-good {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: var(--green-tint); border-radius: 11px;
+    padding: 12px 14px; margin: 14px 0; font-size: 14.5px;
+    font-weight: 500; color: var(--green-dark); line-height: 1.5;
+  }
+  .highlight-good svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
+
+  /* Amber waarschuwing (eerlijke beperking) */
+  .caveat {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: var(--amber-tint); border: 1px solid #ecd6b6;
+    border-radius: 11px; padding: 13px 15px; margin: 10px 0;
+    font-size: 14px; color: #6b3c0c; line-height: 1.6;
+  }
+  .caveat svg { width: 17px; height: 17px; flex: none; color: var(--amber); margin-top: 2px; }
+  .caveat strong { color: #4a2908; }
+  .caveat a { color: #6b3c0c; font-weight: 600; }
+
+  /* Datatabel */
+  .data-table-wrap { margin-top: 16px; overflow-x: auto; border-radius: 11px; border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead { background: var(--paper); }
+  th { font-weight: 700; font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--line); }
+  td { padding: 12px 14px; vertical-align: top; border-bottom: 1px solid var(--line); color: var(--ink); line-height: 1.55; }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:nth-child(even) td { background: var(--paper); }
+  .td-sub { color: var(--muted); font-size: 13px; }
+
+  /* ── Footer ──────────────────────────────────────────────── */
+  footer { margin-top: 56px; padding: 30px 0 52px; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 13.5px; }
+  footer a { color: var(--green-dark); font-weight: 600; text-decoration: none; }
+  .footer-links { display: flex; gap: 14px; justify-content: center; margin-top: 18px; }
+  .footer-links .current { color: var(--green); }
+  .coffee { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; background: var(--amber-tint); border: 1px solid #ecd6b6; color: #8a4f17; padding: 9px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; text-decoration: none; transition: background .15s; }
+  .coffee:hover { background: #f7e6cd; }
+
+  @media (max-width: 560px) {
+    .page-hero { padding: 10px 0 24px; }
+    .summary-card { padding: 20px; }
+    .section-card { padding: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="topbar">
+      <a href="index.html" class="logo"><span class="mark">↻</span> Fileshiftr</a>
+      <span class="promise-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Blijft op je apparaat
+      </span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <a href="index.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5M5 12l7 7M5 12l7-7"/></svg>
+      Alle tools
+    </a>
+
+    <div class="page-hero">
+      <span class="eyebrow">Fileshiftr</span>
+      <h1>Privacybeleid</h1>
+      <p class="meta">Bijgewerkt: juni 2026 · Van kracht vanaf de eerste versie</p>
+    </div>
+
+    <!-- ── Samenvatting ──────────────────────────────────── -->
+    <div class="summary-card">
+      <div class="card-head">
+        <div class="shield">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h2>De korte versie</h2>
+      </div>
+      <p class="tagline">Je bestanden verlaten je browser nooit.<br>Dat is geen belofte — het is hoe de technologie werkt.</p>
+      <div class="summary-facts">
+        <span class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg> Geen server-upload</span>
+        <span class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg> Geen account of registratie</span>
+        <span class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg> Geen tracking-cookies</span>
+        <span class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg> Geen cookiebanner nodig</span>
+      </div>
+    </div>
+
+    <!-- ── 1. Bestanden ──────────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card">
+        <div class="section-head">
+          <span class="section-num">1</span>
+          <h3>Je bestanden</h3>
+        </div>
+        <div class="highlight-good">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>
+          We ontvangen je bestanden nooit. Niet tijdelijk, niet versleuteld, op geen enkele manier.
+        </div>
+        <p>Alle omzettingen — van JPG naar PNG, van meerdere PDF's naar één, van HEIC naar WebP — vinden volledig plaats in je eigen browser. Je computer doet het werk. Wij zijn er technisch gezien niet bij betrokken.</p>
+        <p>Er valt dus niets te lekken, niets te hacken, niets te verkopen. Dat is geen beleid — het is de architectuur van de site. Client-side verwerking is de kern van Fileshiftr, niet een bijzaak.</p>
+      </div>
+    </div>
+
+    <!-- ── 2. Browser-opslag ─────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card">
+        <div class="section-head">
+          <span class="section-num">2</span>
+          <h3>Lokale browser-opslag</h3>
+        </div>
+        <p>Fileshiftr slaat twee kleine stukjes informatie op via <strong>localStorage</strong> van je browser. Dit staat uitsluitend op jouw apparaat — het wordt nooit naar een server gestuurd en wij kunnen het niet inzien.</p>
+
+        <div class="data-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Sleutel</th>
+                <th>Wat er staat</th>
+                <th>Waarvoor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>conv_total</code></td>
+                <td class="td-sub">Getal, bijv. "12"</td>
+                <td>Telt hoe vaak je een bestand hebt omgezet. Na een aantal omzettingen vragen we eenmalig, vriendelijk, om een donatie.</td>
+              </tr>
+              <tr>
+                <td><code>nudge_done</code></td>
+                <td class="td-sub">"1" of leeg</td>
+                <td>Onthoudt of je al een donatiemelding hebt gezien, zodat we het niet herhalen.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="margin-top:14px">Deze gegevens bevatten geen persoonsgegevens en verlaten jouw apparaat nooit. Je kunt ze wissen via <strong>Browserinstellingen → Geavanceerd → Site-data wissen</strong>. De teller begint dan opnieuw bij nul.</p>
+      </div>
+    </div>
+
+    <!-- ── 3. Hosting ─────────────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card">
+        <div class="section-head">
+          <span class="section-num">3</span>
+          <h3>Hosting en serverlogboeken</h3>
+        </div>
+        <p>Fileshiftr wordt gehost via <strong>Cloudflare Pages</strong> of <strong>Netlify</strong>. Wanneer je de site bezoekt, slaat de hostingprovider standaard-accesslogboeken op: je IP-adres, de bezochte pagina en het tijdstip. Dit is gebruikelijk voor elke website op het internet en technisch onvermijdelijk.</p>
+        <p>Wij raadplegen deze logboeken niet actief voor analyse of advertentiedoeleinden. Cloudflare en Netlify hebben elk hun eigen privacybeleid en bewaarperiodes.</p>
+      </div>
+    </div>
+
+    <!-- ── 4. Externe diensten ────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card">
+        <div class="section-head">
+          <span class="section-num">4</span>
+          <h3>Externe diensten</h3>
+        </div>
+        <p>Om goed te functioneren laadt Fileshiftr een aantal bestanden van externe servers. Bij elk van deze verzoeken stuurt je browser je <strong>IP-adres</strong> mee — dat is technisch onvermijdelijk. We zijn hier transparant over.</p>
+
+        <div class="caveat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div>
+            <strong>Google Fonts</strong> — Onze lettertypes worden geladen van Google's servers. Google ontvangt daarbij je IP-adres. Dit is een bekende GDPR-grenszone; we overwegen de fonts in de toekomst zelf te hosten. Tot die tijd: als je dit wil voorkomen, kun je Google Fonts blokkeren via een browserextensie — de pagina werkt dan gewoon door met systeem-lettertypen.
+          </div>
+        </div>
+
+        <div class="caveat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div>
+            <strong>jsDelivr CDN</strong> — Voor HEIC-conversie laadt de pagina de bibliotheek <code>heic2any</code> van jsDelivr. Je IP-adres wordt verstuurd naar hun servers. De bibliotheek wordt daarna gecachet door je browser; het verzoek vindt dus maar één keer per apparaat plaats.
+          </div>
+        </div>
+
+        <div class="caveat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div>
+            <strong>cdnjs (Cloudflare)</strong> — Voor PDF-verwerking laadt de pagina <code>pdf-lib</code> van Cloudflare's publieke CDN. Zelfde principe als hierboven: eenmalig, daarna gecachet.
+          </div>
+        </div>
+
+        <div class="highlight-good" style="margin-top: 14px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>
+          Geen van deze diensten ontvangt je bestanden — alleen programmacode wordt geladen, niet je foto's of documenten.
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 5. Advertenties ────────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card">
+        <div class="section-head">
+          <span class="section-num">5</span>
+          <h3>Advertenties</h3>
+        </div>
+        <p>Fileshiftr heeft op dit moment nog geen advertenties. Als we die toevoegen, doen we dat via <strong>EthicalAds</strong> of <strong>Carbon Ads</strong> — diensten die contextuele advertenties tonen op basis van de pagina-inhoud, <em>niet</em> op basis van jouw browserprofiel.</p>
+        <div class="highlight-good">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>
+          Geen profiling. Geen tracking-cookies. Geen cookiebanner nodig — ook niet bij advertenties.
+        </div>
+        <p>Dit is bewust gekozen: het past bij de privacybelofte van Fileshiftr. Zodra advertenties actief zijn, werken we dit beleid bij.</p>
+      </div>
+    </div>
+
+    <!-- ── 6. AVG-rechten ─────────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card">
+        <div class="section-head">
+          <span class="section-num">6</span>
+          <h3>Jouw rechten (AVG)</h3>
+        </div>
+        <p>Op grond van de Algemene Verordening Gegevensbescherming (AVG) heb je recht op inzage, correctie, verwijdering en overdraagbaarheid van je persoonsgegevens, en het recht om bezwaar te maken tegen verwerking.</p>
+        <p>In de praktijk verwerkt Fileshiftr vrijwel geen persoonsgegevens. De enige gegevens die technisch worden verwerkt zijn IP-adressen in standaard serverlogboeken van onze hostingprovider. Voor vragen hierover, of om een AVG-verzoek in te dienen, kun je contact opnemen via onderstaande gegevens.</p>
+      </div>
+    </div>
+
+    <!-- ── 7. Contact ─────────────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card">
+        <div class="section-head">
+          <span class="section-num">7</span>
+          <h3>Contact</h3>
+        </div>
+        <p>Vragen of opmerkingen over dit privacybeleid? Stuur een e-mail naar <a href="mailto:privacy@fileshiftr.nl">privacy@fileshiftr.nl</a>. We reageren zo snel mogelijk, in elk geval binnen dertig dagen.</p>
+        <p>Voor algemene vragen of feedback over de tools kun je ook terecht op de <a href="over-ons.html">Over-ons-pagina</a>.</p>
+      </div>
+    </div>
+
+    <!-- ── 8. Wijzigingen ──────────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card" style="border-color: var(--line); background: var(--paper);">
+        <div class="section-head">
+          <span class="section-num" style="background: var(--line); color: var(--muted); font-size: 16px; font-weight: 400;">↺</span>
+          <h3 style="color: var(--muted); font-size: 17px;">Wijzigingen in dit beleid</h3>
+        </div>
+        <p style="font-size: 14px;">We kunnen dit privacybeleid aanpassen als de site verandert — nieuwe tools, advertenties, of technische wijzigingen. De datum bovenaan de pagina geeft aan wanneer het voor het laatste is bijgewerkt. Ingrijpende veranderingen kondigen we aan via de Over-ons-pagina.</p>
+      </div>
+    </div>
+
+  </div><!-- .content -->
+
+  <footer>
+    Je bestanden blijven op je eigen apparaat. We slaan ze niet op en sturen ze niet door.<br>
+    <a class="coffee" href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener noreferrer">☕ Steun Fileshiftr op Ko-fi</a>
+    <div class="footer-links">
+      <a href="../index.html">Alle tools</a>
+      <a href="privacy.html" class="current">Privacy</a>
+      <a href="over-ons.html">Over ons</a>
+    </div>
+  </footer>
+
+</div><!-- .wrap -->
+</body>
+</html>

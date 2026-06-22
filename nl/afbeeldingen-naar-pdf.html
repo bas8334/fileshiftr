@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Foto's naar PDF — gratis, zonder limiet, zonder upload</title>
+<link rel="alternate" hreflang="nl" href="afbeeldingen-naar-pdf.html">
+<link rel="alternate" hreflang="en" href="../images-to-pdf.html">
+<link rel="alternate" hreflang="x-default" href="../images-to-pdf.html">
+<meta name="theme-color" content="#16794A">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta name="description" content="Zet meerdere foto's samen in één PDF. Kies paginaformaat, pas de volgorde aan en download — gratis, geen account, bestanden blijven op je apparaat.">
+<link rel="canonical" href="afbeeldingen-naar-pdf.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper:       #FAF6EF;
+    --surface:     #FFFDF9;
+    --ink:         #211C16;
+    --muted:       #6B6358;
+    --line:        #E8E0D3;
+    --green:       #16794A;
+    --green-dark:  #12603B;
+    --green-tint:  #E7F2EB;
+    --amber:       #C9742A;
+    --amber-tint:  #FBEFE0;
+    --red:         #B4471F;
+    --red-tint:    #FBE8E7;
+    --radius:      18px;
+    --shadow:      0 1px 2px rgba(33,28,22,.04), 0 8px 24px rgba(33,28,22,.06);
+    --shadow-lift: 0 2px 4px rgba(33,28,22,.06), 0 16px 40px rgba(33,28,22,.10);
+    --display:     "Fraunces", Georgia, "Times New Roman", serif;
+    --body:        "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--body);
+    color: var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(22,121,74,.06), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(201,116,42,.05), transparent 55%),
+      var(--paper);
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+
+  /* ── Header ─────────────────────────────────────────────── */
+  header { padding: 28px 0 8px; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .logo .mark {
+    width: 34px; height: 34px; flex: none;
+    display: grid; place-items: center;
+  }
+  .wordmark { font-family: var(--body); font-weight: 700; font-size: 20px; letter-spacing: -.02em; }
+  .w-dark { color: var(--ink); }
+  .w-green { color: var(--green); }
+  .w-r { color: var(--amber); }
+  .promise-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 13px; font-weight: 600; color: var(--green-dark);
+    background: var(--green-tint); border: 1px solid #cfe6d8;
+    padding: 7px 13px; border-radius: 999px;
+  }
+  .promise-pill svg { width: 15px; height: 15px; }
+
+  /* ── Hero ───────────────────────────────────────────────── */
+  .hero { padding: 34px 0 22px; text-align: center; }
+  .hero h1 {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(31px, 6vw, 46px); line-height: 1.08;
+    letter-spacing: -.02em; margin-bottom: 14px;
+  }
+  .hero h1 em { font-style: italic; color: var(--green); }
+  .hero p { font-size: clamp(16px, 2.6vw, 18px); color: var(--muted); max-width: 520px; margin: 0 auto; }
+  .trust-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 22px; }
+  .trust {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13.5px; font-weight: 500; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line);
+    padding: 9px 15px; border-radius: 999px; box-shadow: var(--shadow);
+  }
+  .trust svg { width: 16px; height: 16px; color: var(--green); flex: none; }
+
+  /* ── Card ───────────────────────────────────────────────── */
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 26px; margin-top: 20px;
+  }
+
+  /* ── Dropzone ───────────────────────────────────────────── */
+  .dropzone {
+    border: 2px dashed #d6ccbb; border-radius: 14px; background: #fffefb;
+    padding: 42px 24px; text-align: center; cursor: pointer;
+    transition: border-color .18s, background .18s, padding .25s ease, transform .18s;
+  }
+  .dropzone:hover, .dropzone.drag { border-color: var(--green); background: var(--green-tint); }
+  .dropzone.drag { transform: scale(1.005); }
+  .dz-icon {
+    width: 54px; height: 54px; margin: 0 auto 14px; border-radius: 14px;
+    background: var(--green-tint); display: grid; place-items: center; color: var(--green);
+    transition: opacity .2s, height .25s, margin .25s;
+  }
+  .dz-icon svg { width: 28px; height: 28px; }
+  .dz-title { font-family: var(--display); font-weight: 600; font-size: 20px; margin-bottom: 5px; transition: font-size .2s; }
+  .dz-sub { color: var(--muted); font-size: 14.5px; }
+  .dz-hint { font-size: 12.5px; color: var(--muted); margin-top: 10px; opacity: .85; }
+
+  /* Compact dropzone — nadat de eerste foto's zijn toegevoegd */
+  .dropzone.compact { padding: 16px 24px; }
+  .dropzone.compact .dz-icon { display: none; }
+  .dropzone.compact .dz-title { font-size: 14.5px; margin-bottom: 0; }
+  .dropzone.compact .dz-sub { display: none; }
+  .dropzone.compact .dz-hint { margin-top: 3px; font-size: 12px; }
+
+  /* ── Queue header ───────────────────────────────────────── */
+  .queue-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 20px 0 12px; border-top: 1px solid var(--line); margin-top: 20px;
+  }
+  .queue-label { font-size: 13px; font-weight: 600; color: var(--muted); flex: 1; }
+  .queue-badge {
+    font-size: 12px; font-weight: 700;
+    background: var(--green-tint); color: var(--green-dark);
+    padding: 3px 9px; border-radius: 999px;
+  }
+  /* Kleine actieknoppen naast de badge */
+  .link-btn {
+    border: none; font-family: var(--body); font-size: 12.5px; font-weight: 600;
+    cursor: pointer; padding: 4px 9px; border-radius: 7px; transition: .14s;
+    background: none; white-space: nowrap;
+  }
+  .link-btn-green { color: var(--green-dark); }
+  .link-btn-green:hover { background: var(--green-tint); }
+  .link-btn-muted { color: var(--muted); }
+  .link-btn-muted:hover { background: var(--line); color: var(--ink); }
+
+  /* ── Queue items ────────────────────────────────────────── */
+  .q-item {
+    display: flex; align-items: center; gap: 11px;
+    padding: 10px 11px 10px 8px;
+    background: var(--paper); border: 2px solid var(--line); border-radius: 12px;
+    margin-bottom: 7px; cursor: default;
+    animation: rise .22s ease both;
+    transition: border-color .15s, background .15s, box-shadow .15s, opacity .15s, transform .1s;
+    position: relative;
+  }
+  .q-item.dragging { opacity: .4; transform: scale(.98); box-shadow: none; }
+  .q-item.drag-over {
+    border-color: var(--green); background: var(--green-tint);
+    box-shadow: 0 0 0 3px rgba(22,121,74,.12);
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
+
+  /* Drag handle */
+  .drag-handle {
+    width: 20px; flex: none;
+    display: flex; align-items: center; justify-content: center;
+    color: #cfc4b5; font-size: 17px; cursor: grab;
+    transition: color .15s; user-select: none; letter-spacing: 1px;
+    padding: 4px 0; touch-action: none;
+  }
+  .drag-handle:active { cursor: grabbing; }
+  .q-item:hover .drag-handle { color: var(--muted); }
+
+  /* Ghost element (touch drag) */
+  .q-ghost {
+    border-color: var(--green) !important;
+    background: var(--green-tint) !important;
+    box-shadow: 0 12px 28px rgba(33,28,22,.18) !important;
+    transform: scale(1.025) rotate(.4deg) !important;
+    transition: none !important;
+  }
+
+  /* Order badge */
+  .order-badge {
+    width: 22px; height: 22px; border-radius: 50%; flex: none;
+    background: var(--green-tint); color: var(--green-dark);
+    font-size: 11.5px; font-weight: 700;
+    display: grid; place-items: center;
+    transition: background .15s, color .15s;
+  }
+  .q-item.drag-over .order-badge { background: var(--green); color: #fff; }
+
+  /* Thumbnail */
+  .q-thumb {
+    width: 46px; height: 46px; border-radius: 9px;
+    object-fit: cover; flex: none;
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+
+  /* Meta */
+  .q-meta { flex: 1; min-width: 0; }
+  .q-name { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .q-sub  { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); margin-top: 1px; }
+
+  /* Remove button */
+  .q-remove {
+    border: none; background: none; color: var(--muted);
+    font-size: 20px; line-height: 1; padding: 4px 7px;
+    cursor: pointer; border-radius: 7px; flex: none; transition: .14s;
+  }
+  .q-remove:hover { background: var(--line); color: var(--ink); }
+
+  /* ── Optiepanel ─────────────────────────────────────────── */
+  .options {
+    display: none; padding: 18px 0 4px;
+    border-top: 1px solid var(--line); margin-top: 6px;
+    gap: 20px; flex-wrap: wrap; align-items: flex-start;
+  }
+  .options.show { display: flex; }
+  .field { display: flex; flex-direction: column; gap: 0; }
+  .field label { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 7px; }
+  .segmented {
+    display: inline-flex; background: var(--paper);
+    border: 1px solid var(--line); border-radius: 11px; padding: 4px; gap: 3px;
+  }
+  .segmented button {
+    border: none; background: none; font-family: var(--body);
+    font-size: 13.5px; font-weight: 600;
+    color: var(--muted); padding: 8px 14px; border-radius: 8px;
+    cursor: pointer; transition: .15s; white-space: nowrap;
+  }
+  .segmented button.active {
+    background: #fff; color: var(--green-dark);
+    box-shadow: 0 1px 3px rgba(33,28,22,.1);
+  }
+  .field-hidden { visibility: hidden; pointer-events: none; }
+
+  /* Helptext onder een optie */
+  .option-hint {
+    font-size: 12px; color: var(--muted); margin-top: 7px;
+    line-height: 1.45; max-width: 220px;
+    transition: opacity .2s;
+  }
+
+  /* Marge: diagram naast de knoppen */
+  .margin-row { display: flex; align-items: flex-start; gap: 12px; }
+  .margin-diagram { flex: none; margin-top: 2px; }
+  /* CSS-transitie op SVG-geometrie (werkt in alle moderne browsers) */
+  #diagramPage, #mdi {
+    transition: x .22s ease, y .22s ease, width .22s ease, height .22s ease,
+                stroke-dasharray .18s;
+  }
+
+  /* ── Actiebalk ──────────────────────────────────────────── */
+  .zone1-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 20px; }
+  .btn {
+    font-family: var(--body); font-weight: 600; font-size: 15.5px;
+    border-radius: 12px; padding: 13px 22px; cursor: pointer;
+    border: 1px solid transparent; transition: .16s;
+  }
+  .btn-primary { background: var(--green); color: #fff; box-shadow: 0 6px 16px rgba(22,121,74,.25); }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-primary:disabled { opacity: .45; pointer-events: none; box-shadow: none; transform: none; }
+  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); font-size: 14px; padding: 10px 18px; }
+  .btn-ghost:hover { background: var(--paper); }
+  .no-limit-note { font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+  .no-limit-note svg { width: 14px; height: 14px; color: var(--green); }
+
+  /* ── Voortgang (in resultaatkaart tijdens aanmaken) ─────── */
+  .build-progress {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 14px; padding: 36px 0 28px; text-align: center;
+  }
+  .spin {
+    width: 38px; height: 38px;
+    border: 3px solid var(--line); border-top-color: var(--green);
+    border-radius: 50%; animation: spin .75s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .prog-label { font-weight: 600; font-size: 14px; color: var(--muted); }
+  .prog-bar-wrap { width: 100%; max-width: 260px; height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; }
+  .prog-bar-fill { height: 100%; width: 0; background: var(--green); border-radius: 99px; transition: width .3s ease; }
+
+  /* ── Resultaatkaart ─────────────────────────────────────── */
+  .results-header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding-bottom: 18px; border-bottom: 1px solid var(--line); flex-wrap: wrap;
+  }
+  .results-title { font-family: var(--display); font-weight: 600; font-size: 20px; }
+  .result-info { display: flex; align-items: center; gap: 16px; margin-top: 18px; flex-wrap: wrap; }
+  .result-meta { flex: 1; min-width: 0; }
+  .result-name { font-weight: 700; font-size: 15.5px; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .result-detail { font-size: 13px; color: var(--muted); }
+  .result-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 700;
+    background: var(--green-tint); color: var(--green-dark);
+    padding: 5px 12px; border-radius: 999px; margin-top: 8px;
+  }
+  .result-pill svg { width: 13px; height: 13px; }
+  .dl {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 14px; font-weight: 600; color: #fff;
+    background: var(--green); padding: 11px 18px; border-radius: 10px;
+    border: none; cursor: pointer; transition: .15s; flex: none;
+    text-decoration: none; white-space: nowrap;
+  }
+  .dl:hover { background: var(--green-dark); }
+  .dl svg { width: 15px; height: 15px; }
+
+  /* Foutmelding */
+  .build-error { display: flex; flex-direction: column; align-items: center; padding: 28px 0 20px; text-align: center; gap: 8px; }
+  .build-error .err-icon  { font-size: 32px; }
+  .build-error .err-title { font-weight: 700; font-size: 15px; color: var(--red); }
+  .build-error .err-body  { font-size: 13px; color: var(--muted); max-width: 320px; }
+
+  /* ── Advertentieplek ────────────────────────────────────── */
+  .ad-slot { margin-top: 28px; border: 1px dashed var(--line); border-radius: 14px; padding: 16px; text-align: center; color: var(--muted); font-size: 13px; background: #fffefb; }
+  .ad-slot .lbl { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; opacity: .6; display: block; margin-bottom: 4px; }
+
+  /* ── FAQ ────────────────────────────────────────────────── */
+  .faq { margin-top: 46px; }
+  .faq h3 { font-family: var(--display); font-weight: 600; font-size: 24px; margin-bottom: 8px; text-align: center; }
+  .faq .lead { text-align: center; color: var(--muted); margin-bottom: 22px; }
+  details { background: var(--surface); border: 1px solid var(--line); border-radius: 13px; padding: 0 18px; margin-bottom: 10px; }
+  summary { cursor: pointer; font-weight: 600; padding: 16px 0; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 20px; color: var(--green); font-weight: 400; }
+  details[open] summary::after { content: "–"; }
+  details p { padding: 0 0 16px; color: var(--muted); font-size: 15px; }
+  details a { color: var(--green-dark); font-weight: 600; text-decoration: none; }
+
+  /* ── Footer ─────────────────────────────────────────────── */
+  footer { margin-top: 50px; padding: 30px 0 50px; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 13.5px; }
+  footer a { color: var(--green-dark); font-weight: 600; text-decoration: none; }
+  .coffee { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; background: var(--amber-tint); border: 1px solid #ecd6b6; color: #8a4f17; padding: 9px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; text-decoration: none; transition: .15s; }
+  .coffee:hover { background: #f7e6cd; }
+
+  /* ── Donatie-nudge ──────────────────────────────────────── */
+  .nudge { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(120%); width: calc(100% - 32px); max-width: 440px; z-index: 50; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow-lift); padding: 18px 18px 16px; transition: transform .4s cubic-bezier(.2,.8,.2,1); }
+  .nudge.show { transform: translateX(-50%) translateY(0); }
+  .nudge .head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .nudge .cup { width: 34px; height: 34px; border-radius: 10px; background: var(--amber-tint); display: grid; place-items: center; font-size: 18px; flex: none; }
+  .nudge h4 { font-family: var(--display); font-size: 17px; font-weight: 600; }
+  .nudge p  { font-size: 14px; color: var(--muted); margin-bottom: 14px; }
+  .nudge .row { display: flex; gap: 10px; }
+  .nudge .row a { flex: 1; text-align: center; text-decoration: none; }
+  .nudge-x { position: absolute; top: 12px; right: 14px; border: none; background: none; font-size: 20px; color: var(--muted); cursor: pointer; line-height: 1; }
+
+  /* ── Toast (verkeerd bestandstype e.d.) ─────────────────── */
+  .toast {
+    position: fixed; bottom: 80px; left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    background: #211C16; color: #fff;
+    font-family: var(--body); font-size: 13.5px; font-weight: 500;
+    padding: 10px 18px; border-radius: 10px;
+    opacity: 0; transition: opacity .22s, transform .22s;
+    pointer-events: none; z-index: 60; white-space: nowrap;
+    box-shadow: 0 4px 16px rgba(0,0,0,.22);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 560px) {
+    .card { padding: 18px; }
+    .dropzone { padding: 32px 16px; }
+    .dropzone.compact { padding: 14px 16px; }
+    .zone1-actions .no-limit-note { order: -1; width: 100%; justify-content: center; }
+    .results-header { flex-direction: column; gap: 8px; }
+    .result-info { gap: 12px; }
+    .segmented button { padding: 7px 10px; font-size: 13px; }
+    .option-hint { max-width: none; }
+    .toast { white-space: normal; text-align: center; max-width: calc(100vw - 40px); }
+  }
+
+  .prose{margin-top:48px}
+  .prose h2{font-family:var(--display);font-weight:600;font-size:26px;margin:0 0 14px;letter-spacing:-.01em}
+  .prose h3{font-family:var(--display);font-weight:600;font-size:19px;margin:30px 0 8px}
+  .prose p{color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 14px;max-width:660px}
+  .prose ul{color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 14px;padding-left:22px;max-width:660px}
+  .prose li{margin-bottom:7px}
+  .prose strong{color:var(--ink)}
+  .fmt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:18px 0 8px}
+  .fmt-card{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .fmt-card h4{margin:0 0 6px;font-size:15px;font-weight:700;color:var(--ink)}
+  .fmt-card p{font-size:14px;margin:0;line-height:1.6}
+
+
+  /* rich content blocks */
+  .howto{margin-top:48px}
+  .howto h2,.usecases h2,.cmp-wrap h2,.related h2{font-family:var(--display);font-weight:600;font-size:26px;margin:0 0 18px;letter-spacing:-.01em}
+  .steps{display:grid;gap:14px;counter-reset:step}
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .step::before{counter-increment:step;content:counter(step);flex:none;width:30px;height:30px;border-radius:50%;background:var(--green-tint);color:var(--green-dark);font-weight:700;font-size:15px;display:grid;place-items:center}
+  .step h4{margin:0 0 3px;font-size:16px;font-weight:700;color:var(--ink)}
+  .step p{margin:0;color:var(--muted);font-size:15px;line-height:1.6}
+  .cmp-wrap{margin-top:48px;overflow-x:auto}
+  table.cmp{border-collapse:collapse;width:100%;font-size:14.5px;min-width:520px}
+  table.cmp th,table.cmp td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.cmp thead th{font-weight:700;color:var(--ink);border-bottom:2px solid var(--line)}
+  table.cmp td:first-child,table.cmp th:first-child{font-weight:700;color:var(--ink)}
+  table.cmp td{color:var(--muted)}
+  table.cmp tbody tr:last-child td{border-bottom:none}
+  .usecases{margin-top:48px}
+  .uc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .uc{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .uc h4{margin:0 0 5px;font-size:15px;font-weight:700;color:var(--ink)}
+  .uc p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+  .callout{margin:30px 0 0;background:var(--green-tint);border:1px solid #cfe6d8;border-radius:13px;padding:18px 20px}
+  .callout h3{margin:0 0 6px;font-size:16px;font-weight:700;color:var(--green-dark);font-family:var(--body)}
+  .callout p{margin:0;color:#2c5340;font-size:15px;line-height:1.65}
+  .related{margin-top:48px}
+  .rel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .rel{display:block;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:15px 17px;text-decoration:none;transition:border-color .15s,transform .15s}
+  .rel:hover{border-color:var(--green);transform:translateY(-2px)}
+  .rel strong{display:block;color:var(--ink);font-size:15px;margin-bottom:3px}
+  .rel span{color:var(--muted);font-size:13px;line-height:1.5}
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "nl-NL",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is er een limiet op het aantal afbeeldingen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nee. Voeg er zoveel toe als je wilt, zo vaak als je wilt — geen limiet, geen account, geen wachten."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Worden mijn foto's naar een server geüpload?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nee. De PDF wordt volledig in je browser gemaakt. Je foto's en documenten worden nergens naartoe gestuurd."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kan ik de volgorde van de foto's aanpassen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja. Sleep je afbeeldingen in elke gewenste volgorde voordat je de PDF maakt, en de pagina's volgen precies die volgorde."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Krijgt elke foto een eigen pagina?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja. Elke afbeelding komt op een eigen pagina, netjes passend gemaakt, zodat het resultaat leest als een verzorgd document met meerdere pagina's."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kan ik verschillende afbeeldingsformaten mengen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Zeker. JPG, PNG, WebP en HEIC kunnen allemaal samen in dezelfde PDF — alles wat omgezet moet worden, wordt automatisch geregeld."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Werken HEIC-foto's van de iPhone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja. Ze worden automatisch omgezet terwijl ze in de PDF gaan, dus je hoeft ze niet eerst om te zetten."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wat als de uiteindelijke PDF te groot is om te versturen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Haal hem door onze tool PDF comprimeren — die verkleint de ingebouwde afbeeldingen terwijl het document scherp blijft."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Werkt het op mijn telefoon?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja — elke moderne browser op iPhone, Android, tablet of computer."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Fileshiftr",
+      "item": "https://fileshiftr.com/nl/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Afbeeldingen naar PDF",
+      "item": "https://fileshiftr.com/nl/afbeeldingen-naar-pdf"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Fileshiftr Afbeeldingen naar PDF",
+  "url": "https://fileshiftr.com/nl/afbeeldingen-naar-pdf",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires JavaScript. Runs in any modern browser.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "inLanguage": "nl-NL"
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ── Header ────────────────────────────────────────────── -->
+  <header>
+    <div class="topbar">
+      <a href="index.html" class="logo">
+        <span class="mark"><svg width="34" height="34" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="mlg" x1="0" y1="0" x2=".4" y2="1"><stop offset="0%" stop-color="#22a36a"/><stop offset="100%" stop-color="#14623e"/></linearGradient></defs><path d="M6,1 H20 L27,8 V30 Q27,32 25,32 H6 Q4,32 4,30 V3 Q4,1 6,1 Z" fill="url(#mlg)"/><path d="M20,1 L20,8 H27" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.2"/><line x1="5" y1="14" x2="11" y2="14" stroke="rgba(255,255,255,.88)" stroke-width="2" stroke-linecap="round"/><line x1="5" y1="18" x2="9" y2="18" stroke="rgba(255,255,255,.65)" stroke-width="1.5" stroke-linecap="round"/><line x1="5" y1="22" x2="7" y2="22" stroke="rgba(255,255,255,.45)" stroke-width="1.2" stroke-linecap="round"/><path d="M13,18 H24 M20,14 L25,18 L20,22" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="wordmark"><span class="w-dark">file</span><span class="w-green">shift</span><span class="w-r">r</span></span>
+      </a>
+      <span class="promise-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        Blijft op je apparaat
+      </span>
+    </div>
+  </header>
+
+  <!-- ── Hero ──────────────────────────────────────────────── -->
+  <section class="hero">
+    <h1>Foto's naar PDF — <em>jij bepaalt de volgorde</em></h1>
+    <p>Combineer foto's tot één PDF, in je browser. Sleep ze op volgorde, kies het paginaformaat en download. Onbeperkt afbeeldingen, geen account, niets wordt geüpload.</p>
+    <div class="trust-row">
+      <span class="trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+        Geen limiet
+      </span>
+      <span class="trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+        Geen account
+      </span>
+      <span class="trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+        </svg>
+        Geen upload
+      </span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       ZONE 1: Upload + volgorde + opties
+       ══════════════════════════════════════════════════════ -->
+  <div class="card">
+
+    <!-- Dropzone (compact zodra er foto's zijn toegevoegd) -->
+    <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Afbeeldingen kiezen">
+      <div class="dz-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+          <rect x="3" y="8" width="13" height="13" rx="2"/>
+          <path d="M8 8V5a2 2 0 012-2h9a2 2 0 012 2v9a2 2 0 01-2 2h-3"/>
+          <circle cx="7.5" cy="12.5" r="1.5"/>
+          <path d="M3 17l3-3 2 2 3-4 2 3"/>
+        </svg>
+      </div>
+      <div class="dz-title">Sleep je foto's hierheen</div>
+      <p class="dz-sub">of tik om te kiezen — meerdere tegelijk is prima</p>
+      <p class="dz-hint">JPG · PNG · WebP · HEIC (iPhone) · GIF · BMP</p>
+      <input type="file" id="filein" accept="image/*,.heic,.heif" multiple hidden>
+    </div>
+
+    <!-- Queue + opties: verborgen totdat bestanden zijn toegevoegd -->
+    <div id="queueSection" style="display:none">
+
+      <!-- Queue header met "Meer" en "Wis alles" knoppen -->
+      <div class="queue-header">
+        <span class="queue-label">
+          Volgorde in de PDF
+          <span style="font-weight:400;opacity:.6;margin-left:4px">— sleep ⠿ om te herschikken</span>
+        </span>
+        <span class="queue-badge" id="queueBadge">0</span>
+        <button class="link-btn link-btn-muted" id="clearAllBtn" title="Verwijder alle foto's uit de lijst">Wis alles</button>
+      </div>
+
+      <!-- Lijst met foto's -->
+      <div id="queueList"></div>
+
+      <!-- ── Opties ─────────────────────────────────────────── -->
+      <div class="options show" id="options">
+
+        <!-- Paginaformaat -->
+        <div class="field">
+          <label>Paginaformaat</label>
+          <div class="segmented" id="pageSizeCtrl">
+            <button data-size="a4" class="active">A4</button>
+            <button data-size="letter">Letter</button>
+            <button data-size="fit">Passend bij foto</button>
+          </div>
+          <div class="option-hint" id="sizeHint">
+            Foto wordt geschaald zodat hij in A4 past — centreert automatisch
+          </div>
+        </div>
+
+        <!-- Oriëntatie (verborgen bij 'passend bij foto') -->
+        <div class="field" id="orientField">
+          <label>Oriëntatie</label>
+          <div class="segmented" id="orientCtrl">
+            <button data-orient="portrait" class="active">Staand ↕</button>
+            <button data-orient="landscape">Liggend ↔</button>
+          </div>
+        </div>
+
+        <!-- Marge — met mini-diagram en uitleg -->
+        <div class="field">
+          <label>Marge</label>
+          <div class="margin-row">
+            <div class="segmented" id="marginCtrl">
+              <button data-margin="0" class="active">Geen</button>
+              <button data-margin="14">Klein</button>
+              <button data-margin="28">Normaal</button>
+            </div>
+
+            <!--
+              Mini-diagram: reageert op paginaformaat + oriëntatie + marge.
+              - diagramPage = het pagina-rechthoekje (verhouding A4/Letter, staand/liggend)
+              - mdi         = het foto-oppervlak (krimpt bij meer marge)
+              - Stippelrand = 'Passend bij foto' (formaat varieert per afbeelding)
+            -->
+            <svg class="margin-diagram" id="marginDiagram"
+                 width="44" height="44" viewBox="0 0 44 44"
+                 aria-hidden="true">
+              <!-- Canvas-achtergrond -->
+              <rect width="44" height="44" rx="4" fill="#F5F0E8"/>
+              <!-- Pagina (positie + formaat via JS) -->
+              <rect id="diagramPage" rx="2"
+                    fill="white" stroke="#E8E0D3" stroke-width="1"
+                    x="7" y="1" width="30" height="42"/>
+              <!-- Foto-oppervlak (marge-inset via JS) -->
+              <rect id="mdi" rx="1" fill="#E7F2EB"
+                    x="8.5" y="2.5" width="27" height="39"/>
+            </svg>
+          </div>
+
+          <!-- Dynamische uitleg van de geselecteerde marge -->
+          <div class="option-hint" id="marginHint">
+            Foto vult de pagina volledig — geen witruimte aan de randen
+          </div>
+        </div>
+      </div>
+
+      <!-- Actieknoppen -->
+      <div class="zone1-actions">
+        <button class="btn btn-primary" id="buildBtn" disabled>Maak PDF</button>
+        <span class="no-limit-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+          Zoveel foto's als je wilt — echt geen limiet
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       ZONE 2: Resultaat (verborgen totdat PDF klaar is)
+       ══════════════════════════════════════════════════════ -->
+  <div class="card" id="resultsCard" style="display:none">
+    <div class="results-header">
+      <div class="results-title">PDF klaar</div>
+      <button class="btn btn-ghost" id="buildAgainBtn">Begin opnieuw</button>
+    </div>
+    <div id="resultContent"></div>
+  </div>
+
+  <!-- Advertentieplek (contextueel, niet-trackend) -->
+  <div class="ad-slot">
+    <span class="lbl">Advertentie</span>
+    Hier komt straks één rustige, niet-volgende advertentie. We volgen je nergens.
+  </div>
+
+  <!-- ── FAQ ───────────────────────────────────────────────── -->
+
+    <section class="prose">
+    <h2>Foto's omzetten naar één nette PDF</h2>
+    <p>Een PDF is de meest universele manier om een reeks afbeeldingen als één document te delen. In plaats van tien losse foto's te sturen, stuur je één bestand dat op elke telefoon, laptop en printer hetzelfde opent. Het is de logische keuze voor gescande papieren, gefotografeerde contracten, bonnetjes, of elke reeks afbeeldingen die bij elkaar hoort.</p>
+    <p>Voeg je afbeeldingen toe, zet ze in de volgorde die je wilt, en download één PDF met elke foto op een eigen pagina. Afmetingen en marges worden voor je geregeld. Er is geen limiet op hoeveel afbeeldingen je combineert, geen account, en niets wordt geüpload — het gebeurt allemaal op je apparaat.</p>
+  </section>
+
+  <section class="howto">
+    <h2>Een PDF van afbeeldingen maken in 3 stappen</h2>
+    <div class="steps">
+      <div class="step"><div><h4>Voeg je foto's toe</h4><p>Sleep ze naar het vak of klik om te kiezen. HEIC-foto's van je iPhone zijn welkom — ze worden automatisch omgezet.</p></div></div>
+      <div class="step"><div><h4>Sleep ze op volgorde</h4><p>Rangschik de afbeeldingen zodat pagina één, pagina twee en de rest precies komen waar je ze wilt.</p></div></div>
+      <div class="step"><div><h4>Maken en downloaden</h4><p>Eén PDF met elke afbeelding op een eigen pagina, binnen seconden klaar.</p></div></div>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h3>Waarom een PDF beter is dan losse afbeeldingen sturen</h3>
+    <p>Eén bestand in plaats van een dozijn bijlagen. Een gegarandeerde paginavolgorde, zodat er niets door elkaar aankomt. Het opent consistent op elk apparaat, zonder verrassingen over hoe het eruitziet. En het leest als een echt document in plaats van een map met plaatjes — precies wat de meeste formulieren, instanties en portalen verwachten. Daarom is "stuur het als PDF" zo'n veelgehoord verzoek.</p>
+    <div class="callout">
+      <h3>Krijg de volgorde goed</h3>
+      <p>De meest voorkomende ergernis bij foto-naar-PDF-tools is dat pagina's in de verkeerde volgorde belanden. Hier sleep je de afbeeldingen simpelweg op volgorde voordat je het bestand maakt — wat je ziet, is de volgorde die je krijgt. HEIC-foto's van je iPhone worden onderweg omgezet, dus je hoeft vooraf niets te veranderen.</p>
+    </div>
+  </section>
+
+  <section class="usecases">
+    <h2>Waar mensen het voor gebruiken</h2>
+    <div class="uc-grid">
+      <div class="uc"><h4>Met de telefoon gescande documenten</h4><p>Fotografeer elke pagina en bundel ze tot één PDF om te versturen of te archiveren.</p></div>
+      <div class="uc"><h4>Bonnetjes &amp; declaraties</h4><p>Combineer een maand aan bonnetjes tot één in te dienen document.</p></div>
+      <div class="uc"><h4>Aanvragen &amp; ID</h4><p>Veel portalen vragen om een PDF in plaats van losse afbeeldingsbestanden.</p></div>
+      <div class="uc"><h4>Contracten &amp; formulieren</h4><p>Maak van foto's van ondertekende pagina's een echt document met meerdere pagina's.</p></div>
+    </div>
+  </section>
+
+  <section class="related">
+    <h2>Gerelateerde tools</h2>
+    <div class="rel-grid">
+      <a class="rel" href="pdf-comprimeren.html"><strong>PDF comprimeren</strong><span>PDF te groot om te uploaden? Maak hem kleiner zonder tekstverlies.</span></a>
+      <a class="rel" href="pdf-samenvoegen.html"><strong>PDF samenvoegen</strong><span>Heb je al PDF's? Combineer ze juist tot één bestand.</span></a>
+    </div>
+  </section>
+
+  <section class="faq">
+    <h3>Veelgestelde vragen</h3>
+    <p class="lead">Gratis, onbeperkt, en je foto's verlaten je apparaat nooit.</p>
+    <details open><summary>Is er een limiet op het aantal afbeeldingen?</summary><p>Nee. Voeg er zoveel toe als je wilt, zo vaak als je wilt — geen limiet, geen account, geen wachten.</p></details>
+    <details><summary>Worden mijn foto's naar een server geüpload?</summary><p>Nee. De PDF wordt volledig in je browser gemaakt. Je foto's en documenten worden nergens naartoe gestuurd.</p></details>
+    <details><summary>Kan ik de volgorde van de foto's aanpassen?</summary><p>Ja. Sleep je afbeeldingen in elke gewenste volgorde voordat je de PDF maakt, en de pagina's volgen precies die volgorde.</p></details>
+    <details><summary>Krijgt elke foto een eigen pagina?</summary><p>Ja. Elke afbeelding komt op een eigen pagina, netjes passend gemaakt, zodat het resultaat leest als een verzorgd document met meerdere pagina's.</p></details>
+    <details><summary>Kan ik verschillende afbeeldingsformaten mengen?</summary><p>Zeker. JPG, PNG, WebP en HEIC kunnen allemaal samen in dezelfde PDF — alles wat omgezet moet worden, wordt automatisch geregeld.</p></details>
+    <details><summary>Werken HEIC-foto's van de iPhone?</summary><p>Ja. Ze worden automatisch omgezet terwijl ze in de PDF gaan, dus je hoeft ze niet eerst om te zetten.</p></details>
+    <details><summary>Wat als de uiteindelijke PDF te groot is om te versturen?</summary><p>Haal hem door onze tool PDF comprimeren — die verkleint de ingebouwde afbeeldingen terwijl het document scherp blijft.</p></details>
+    <details><summary>Werkt het op mijn telefoon?</summary><p>Ja — elke moderne browser op iPhone, Android, tablet of computer.</p></details>
+  </section>
+
+  <footer>
+    Je bestanden blijven op je eigen apparaat. We slaan ze niet op en sturen ze niet door.<br>
+    <a class="coffee" href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener">☕ Steun Fileshiftr op Ko-fi</a>
+    <div style="margin-top:18px">
+      <a href="privacy.html">Privacy</a> · <a href="over-ons.html">Over ons</a> · <a href="index.html">Alle tools</a>
+    </div>
+  </footer>
+</div>
+
+<!-- Donatie-nudge -->
+<div class="nudge" id="nudge">
+  <button class="nudge-x" id="nudgeX" aria-label="Sluiten">×</button>
+  <div class="head">
+    <span class="cup">☕</span>
+    <h4>Al <span id="nudgeCount">veel</span> PDF's gemaakt!</h4>
+  </div>
+  <p>Als dit je tijd heeft bespaard, trakteer je me dan op een koffie? Helemaal vrijblijvend.</p>
+  <div class="row">
+    <a class="btn btn-primary" href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener">Ja, leuk ☕</a>
+    <a class="btn btn-ghost" id="nudgeNo" href="afbeeldingen-naar-pdf.html#">Nee, dankje</a>
+  </div>
+</div>
+
+<!-- Toast voor meldingen (verkeerd bestandstype e.d.) -->
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<script>
+/* ================================================================
+   VEILIGE OPSLAG  (localStorage + in-memory fallback voor preview)
+   ================================================================ */
+const store = (() => {
+  const mem = {};
+  try {
+    const t = '__t'; localStorage.setItem(t, '1'); localStorage.removeItem(t);
+    return {
+      get: k => localStorage.getItem(k),
+      set: (k, v) => localStorage.setItem(k, v),
+    };
+  } catch (_) {
+    return { get: k => mem[k] != null ? mem[k] : null, set: (k, v) => { mem[k] = String(v); } };
+  }
+})();
+
+const FEATURES = { pro: false, donationNudgeAfter: 5 };
+
+/* ================================================================
+   PDF-LIB  (lazy geladen van cdnjs, gecachet via promise)
+   ================================================================ */
+let _pdfLibPromise = null;
+function loadPdfLib() {
+  if (_pdfLibPromise) return _pdfLibPromise;
+  _pdfLibPromise = new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js';
+    s.onload  = () => res(window.PDFLib);
+    s.onerror = () => { _pdfLibPromise = null; rej(new Error('pdf-lib laden mislukt')); };
+    document.head.appendChild(s);
+  });
+  return _pdfLibPromise;
+}
+
+/* ================================================================
+   HEIC-BIBLIOTHEEK  (lazy geladen van jsDelivr)
+   Werkt op de deployed site; in de Claude-preview geblokkeerd.
+   ================================================================ */
+let _heic2anyLib = null;
+function loadHeic2Any() {
+  if (_heic2anyLib) return Promise.resolve(_heic2anyLib);
+  return new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js';
+    s.onload  = () => { _heic2anyLib = window.heic2any; res(_heic2anyLib); };
+    s.onerror = () => rej(new Error('heic2any laden mislukt'));
+    document.head.appendChild(s);
+  });
+}
+
+/* ================================================================
+   STATE
+   ================================================================ */
+let queueItems = [];   // { file, row }
+let draggedEl  = null; // de DOM-rij die nu gesleept wordt
+
+/* ================================================================
+   DOM-REFERENTIES
+   ================================================================ */
+const dropzone      = document.getElementById('dropzone');
+const fileInput     = document.getElementById('filein');
+const queueSection  = document.getElementById('queueSection');
+const queueList     = document.getElementById('queueList');
+const queueBadge    = document.getElementById('queueBadge');
+const buildBtn      = document.getElementById('buildBtn');
+const clearAllBtn   = document.getElementById('clearAllBtn');
+const resultsCard   = document.getElementById('resultsCard');
+const resultContent = document.getElementById('resultContent');
+const buildAgainBtn = document.getElementById('buildAgainBtn');
+
+/* ================================================================
+   TOAST  (tijdelijke melding voor de gebruiker)
+   ================================================================ */
+let _toastTimer = null;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+}
+
+/* ================================================================
+   OPTIES-BEHEER
+   ================================================================ */
+let currentPageSize  = 'a4';
+let currentOrient    = 'portrait';
+let currentMargin    = 0;
+
+/* Uitlegsteksten per keuze */
+const SIZE_HINTS = {
+  a4:     'Foto wordt geschaald zodat hij in A4 past — centreert automatisch',
+  letter: 'Foto wordt geschaald zodat hij in Letter (21,6 × 27,9 cm) past',
+  fit:    'Elke pagina krijgt exact de beeldverhouding van de bijbehorende foto — geen verspilde witruimte',
+};
+const MARGIN_HINTS = {
+  0:  'Foto vult de pagina volledig — geen witruimte aan de randen',
+  14: 'Kleine witruimte (~5 mm bij A4) rondom de foto — netter bij afdrukken',
+  28: 'Ruime witruimte (~10 mm bij A4) rondom de foto',
+};
+
+/*
+  Pagina-rechthoekjes in de 44×44 SVG-canvas.
+  Verhoudingen zijn nauwkeurig: A4 = 210×297 mm (1:1.414), Letter = 216×279 mm (1:1.292).
+  Alle rects zijn gecentreerd binnen de 44×44 viewBox.
+*/
+const PAGE_SHAPES = {
+  a4_portrait:      { px: 7, py: 1, pw: 30, ph: 42 },  // 30:42 ≈ A4-ratio
+  a4_landscape:     { px: 1, py: 7, pw: 42, ph: 30 },
+  letter_portrait:  { px: 7, py: 3, pw: 30, ph: 38 },  // 30:38 ≈ Letter-ratio
+  letter_landscape: { px: 3, py: 7, pw: 38, ph: 30 },
+};
+
+/*
+  Visueel overdreven marges zodat het diagram goed leesbaar is.
+  (Echte marges 14pt en 28pt op 595pt = 0.7–1.4 SVG-eenheden — niet zichtbaar.)
+*/
+const MARGIN_INSETS = { 0: 1.5, 14: 5.5, 28: 9.5 };
+
+/* Werkt alle diagram-elementen én hint-teksten bij */
+function updateDiagram() {
+  const isFit = currentPageSize === 'fit';
+
+  // Paginaformaat-hint
+  document.getElementById('sizeHint').textContent = SIZE_HINTS[currentPageSize];
+
+  // Oriëntatie-veld tonen/verbergen
+  document.getElementById('orientField').classList.toggle('field-hidden', isFit);
+
+  // Marge-hint
+  document.getElementById('marginHint').textContent = MARGIN_HINTS[currentMargin];
+
+  // ── Diagram ───────────────────────────────────────────────
+  // 'Passend bij foto': gebruik A4 portret als representatief voorbeeld
+  const shapeKey = isFit
+    ? 'a4_portrait'
+    : (`${currentPageSize}_${currentOrient}`) in PAGE_SHAPES
+        ? `${currentPageSize}_${currentOrient}`
+        : 'a4_portrait';
+
+  const shape = PAGE_SHAPES[shapeKey];
+  const inset = (MARGIN_INSETS[currentMargin] === undefined ? 1.5 : MARGIN_INSETS[currentMargin]);
+
+  const pageEl = document.getElementById('diagramPage');
+  const imgEl  = document.getElementById('mdi');
+
+  // Pagina-rechthoek (verhouding + oriëntatie)
+  pageEl.setAttribute('x',      shape.px);
+  pageEl.setAttribute('y',      shape.py);
+  pageEl.setAttribute('width',  shape.pw);
+  pageEl.setAttribute('height', shape.ph);
+  // Stippelrand bij 'Passend bij foto' (formaat is per foto anders)
+  pageEl.setAttribute('stroke-dasharray', isFit ? '2 1.5' : 'none');
+
+  // Foto-oppervlak (inset = marge)
+  imgEl.setAttribute('x',      shape.px + inset);
+  imgEl.setAttribute('y',      shape.py + inset);
+  imgEl.setAttribute('width',  Math.max(3, shape.pw - 2 * inset));
+  imgEl.setAttribute('height', Math.max(3, shape.ph - 2 * inset));
+}
+
+// Paginaformaat
+document.querySelectorAll('#pageSizeCtrl button').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('#pageSizeCtrl button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentPageSize = btn.dataset.size;
+    updateDiagram();
+  };
+});
+
+// Oriëntatie
+document.querySelectorAll('#orientCtrl button').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('#orientCtrl button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentOrient = btn.dataset.orient;
+    updateDiagram();
+  };
+});
+
+// Marge
+document.querySelectorAll('#marginCtrl button').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('#marginCtrl button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentMargin = parseInt(btn.dataset.margin, 10);
+    updateDiagram();
+  };
+});
+
+/* ================================================================
+   BESTANDEN TOEVOEGEN
+   ================================================================ */
+function isImage(file) {
+  return file.type.startsWith('image/') ||
+         /\.(jpe?g|png|webp|heic|heif|gif|bmp)$/i.test(file.name);
+}
+
+function addFiles(fileList) {
+  const all      = [...fileList];
+  const imgs     = all.filter(isImage);
+  const rejected = all.length - imgs.length;
+
+  // Feedback als er niet-afbeeldingen zijn meegesleept
+  if (rejected > 0 && imgs.length === 0) {
+    showToast('Dit bestandstype wordt niet ondersteund — gebruik JPG, PNG, WebP of HEIC');
+    return;
+  }
+  if (rejected > 0) {
+    showToast(`${rejected} bestand${rejected > 1 ? 'en' : ''} overgeslagen — geen afbeelding`);
+  }
+  if (!imgs.length) return;
+
+  imgs.forEach(file => {
+    const isHeic = /heic|heif/i.test(file.type) || /\.(heic|heif)$/i.test(file.name);
+
+    const row = document.createElement('div');
+    row.className = 'q-item';
+    row.innerHTML = `
+      <span class="drag-handle" title="Sleep om te herschikken">⠿</span>
+      <span class="order-badge"></span>
+      <img class="q-thumb" alt="">
+      <div class="q-meta">
+        <div class="q-name"></div>
+        <div class="q-sub">
+          <span class="q-filesize"></span>
+        </div>
+      </div>
+      <button class="q-remove" title="Verwijderen">×</button>`;
+
+    const nameEl  = row.querySelector('.q-name');
+    const sizeEl  = row.querySelector('.q-filesize');
+    const thumbEl = row.querySelector('.q-thumb');
+
+    nameEl.textContent = file.name;
+    sizeEl.textContent = humanSize(file.size);
+
+    // Thumbnail
+    if (isHeic) {
+      // Browser kan HEIC niet renderen; gebruik placeholder
+      thumbEl.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 46'%3E%3Crect width='46' height='46' rx='9' fill='%23E7F2EB'/%3E%3Ctext x='23' y='31' font-size='22' text-anchor='middle'%3E%F0%9F%93%B7%3C/text%3E%3C/svg%3E";
+    } else {
+      const url = URL.createObjectURL(file);
+      thumbEl.onload  = () => URL.revokeObjectURL(url);
+      thumbEl.onerror = () => URL.revokeObjectURL(url);
+      thumbEl.src = url;
+    }
+
+    const item = { file, row };
+
+    row.querySelector('.q-remove').onclick = () => {
+      queueItems = queueItems.filter(i => i !== item);
+      row.remove();
+      updateQueue();
+    };
+
+    initDragOnRow(row);
+    queueItems.push(item);
+    queueList.appendChild(row);
+  });
+
+  updateQueue();
+}
+
+/* ================================================================
+   WACHTRIJ BIJWERKEN
+   ================================================================ */
+function updateQueue() {
+  const n = queueItems.length;
+  const hasFiles = n > 0;
+
+  queueBadge.textContent     = n + (n === 1 ? ' foto' : " foto's");
+  queueSection.style.display = hasFiles ? 'block' : 'none';
+  buildBtn.disabled          = !hasFiles;
+  buildBtn.textContent =
+    n === 0 ? 'Maak PDF' :
+    n === 1 ? 'Maak PDF van 1 foto' :
+    `Maak PDF van ${n} foto's`;
+
+  // Dropzone compact maken zodra er foto's zijn (actie wordt minder prominent)
+  dropzone.classList.toggle('compact', hasFiles);
+  dropzone.querySelector('.dz-title').textContent = hasFiles
+    ? '+ Meer foto\'s toevoegen'
+    : 'Sleep je foto\'s hierheen';
+
+  // Volgordenummers bijwerken
+  queueItems.forEach((item, i) => {
+    const badge = item.row.querySelector('.order-badge');
+    if (badge) badge.textContent = i + 1;
+  });
+}
+
+/* ================================================================
+   "WIS ALLES" KNOP
+   ================================================================ */
+clearAllBtn.onclick = () => {
+  if (!queueItems.length) return;
+  queueItems.forEach(item => item.row.remove());
+  queueItems = [];
+  updateQueue();
+};
+
+/* ================================================================
+   DRAG-AND-DROP HERSCHIKKEN  (muis + touch)
+   ================================================================ */
+function initDragOnRow(row) {
+  initMouseDrag(row);
+  initTouchDrag(row);
+}
+
+/* ── Desktop: HTML5 drag API ──────────────────────────────── */
+function initMouseDrag(row) {
+  const handle = row.querySelector('.drag-handle');
+
+  handle.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'touch') return;
+    row.draggable = true;
+  });
+
+  row.addEventListener('dragstart', e => {
+    draggedEl = row;
+    e.dataTransfer.effectAllowed = 'move';
+    setTimeout(() => row.classList.add('dragging'), 0);
+  });
+
+  row.addEventListener('dragend', () => {
+    row.draggable = false;
+    row.classList.remove('dragging');
+    document.querySelectorAll('.q-item.drag-over').forEach(r => r.classList.remove('drag-over'));
+    draggedEl = null;
+    syncOrderFromDom();
+  });
+
+  row.addEventListener('dragover', e => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (!draggedEl || draggedEl === row) return;
+    const rect  = row.getBoundingClientRect();
+    const after = e.clientY > rect.top + rect.height / 2;
+    const ref   = after ? row.nextSibling : row;
+    if (ref !== draggedEl && ref !== draggedEl.nextSibling) {
+      queueList.insertBefore(draggedEl, ref);
+    }
+    document.querySelectorAll('.q-item.drag-over').forEach(r => r.classList.remove('drag-over'));
+    row.classList.add('drag-over');
+  });
+
+  row.addEventListener('dragleave', () => row.classList.remove('drag-over'));
+}
+
+/* ── Touch: handmatig slepen met ghost-element ──────────── */
+function initTouchDrag(row) {
+  const handle = row.querySelector('.drag-handle');
+  let ghostEl  = null;
+  let lastY    = 0;
+  let ghostTop = 0;
+
+  function onTouchStart(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    lastY = touch.clientY;
+    const rect = row.getBoundingClientRect();
+    ghostTop = rect.top;
+    row.classList.add('dragging');
+    ghostEl = row.cloneNode(true);
+    Object.assign(ghostEl.style, {
+      position: 'fixed', left: rect.left + 'px', top: ghostTop + 'px',
+      width: rect.width + 'px', margin: '0', pointerEvents: 'none', zIndex: '999',
+    });
+    ghostEl.classList.add('q-ghost');
+    document.body.appendChild(ghostEl);
+    document.addEventListener('touchmove',   onTouchMove,   { passive: false });
+    document.addEventListener('touchend',    onTouchEnd);
+    document.addEventListener('touchcancel', onTouchEnd);
+  }
+
+  function onTouchMove(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    ghostTop += touch.clientY - lastY;
+    lastY = touch.clientY;
+    ghostEl.style.top = ghostTop + 'px';
+    const others = [...queueList.querySelectorAll('.q-item:not(.dragging)')];
+    document.querySelectorAll('.q-item.drag-over').forEach(r => r.classList.remove('drag-over'));
+    let placed = false;
+    for (const other of others) {
+      const r = other.getBoundingClientRect();
+      if (touch.clientY < r.top + r.height / 2) {
+        queueList.insertBefore(row, other);
+        other.classList.add('drag-over');
+        placed = true;
+        break;
+      }
+    }
+    if (!placed && others.length) queueList.appendChild(row);
+  }
+
+  function onTouchEnd() {
+    if (ghostEl) { ghostEl.remove(); ghostEl = null; }
+    row.classList.remove('dragging');
+    document.querySelectorAll('.q-item.drag-over').forEach(r => r.classList.remove('drag-over'));
+    document.removeEventListener('touchmove',   onTouchMove);
+    document.removeEventListener('touchend',    onTouchEnd);
+    document.removeEventListener('touchcancel', onTouchEnd);
+    syncOrderFromDom();
+  }
+
+  handle.addEventListener('touchstart', onTouchStart, { passive: false });
+}
+
+function syncOrderFromDom() {
+  const rows = [...queueList.querySelectorAll('.q-item')];
+  queueItems = rows.map(r => queueItems.find(i => i.row === r)).filter(Boolean);
+  updateQueue();
+}
+
+/* ================================================================
+   PDF BOUWEN
+   ================================================================ */
+buildBtn.onclick = buildPdf;
+
+async function buildPdf() {
+  if (!queueItems.length) return;
+
+  buildBtn.disabled = true;
+
+  resultsCard.style.display = 'block';
+  resultContent.innerHTML = `
+    <div class="build-progress">
+      <div class="spin"></div>
+      <div class="prog-label" id="progLabel">Voorbereiden…</div>
+      <div class="prog-bar-wrap"><div class="prog-bar-fill" id="progFill"></div></div>
+    </div>`;
+  resultsCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  const opts = { pageSize: currentPageSize, orientation: currentOrient, margin: currentMargin };
+
+  try {
+    setProgress(0.02, 'pdf-lib laden…');
+    const { PDFDocument } = await loadPdfLib();
+    const pdfDoc   = await PDFDocument.create();
+    const snapshot = [...queueItems];
+    const errors   = [];
+
+    for (let idx = 0; idx < snapshot.length; idx++) {
+      const item = snapshot[idx];
+      setProgress(0.05 + (idx / snapshot.length) * 0.88,
+                  `Foto ${idx + 1} van ${snapshot.length} verwerken…`);
+      try {
+        const { embeddedImage, imgW, imgH } = await embedImage(pdfDoc, item.file);
+
+        /* ── Paginaformaat bepalen ──────────────────────────── */
+        let pageW, pageH;
+        if      (opts.pageSize === 'a4')     { pageW = 595.28; pageH = 841.89; }
+        else if (opts.pageSize === 'letter') { pageW = 612;    pageH = 792;    }
+        else {
+          /* 'fit': normaliseer naar A4-equivalent met juiste oriëntatie */
+          if (imgW >= imgH) {
+            const s = Math.min(841.89 / imgW, 595.28 / imgH);
+            pageW = Math.round(imgW * s); pageH = Math.round(imgH * s);
+          } else {
+            const s = Math.min(595.28 / imgW, 841.89 / imgH);
+            pageW = Math.round(imgW * s); pageH = Math.round(imgH * s);
+          }
+        }
+
+        /* Oriëntatie toepassen (alleen voor vaste formaten) */
+        if (opts.pageSize !== 'fit') {
+          const wantLandscape = opts.orientation === 'landscape';
+          if ( wantLandscape && pageW < pageH) { [pageW, pageH] = [pageH, pageW]; }
+          if (!wantLandscape && pageW > pageH) { [pageW, pageH] = [pageH, pageW]; }
+        }
+
+        /* ── Afbeelding plaatsen (contain, gecentreerd) ────── */
+        const page   = pdfDoc.addPage([pageW, pageH]);
+        const margin = opts.margin;
+        const availW = pageW - 2 * margin;
+        const availH = pageH - 2 * margin;
+        const scale  = Math.min(availW / imgW, availH / imgH);
+        const drawW  = imgW * scale;
+        const drawH  = imgH * scale;
+        const x      = margin + (availW - drawW) / 2;
+        const y      = margin + (availH - drawH) / 2;
+        page.drawImage(embeddedImage, { x, y, width: drawW, height: drawH });
+
+      } catch (_) {
+        errors.push(item.file.name);
+      }
+    }
+
+    if (pdfDoc.getPageCount() === 0) throw new Error('Geen enkele afbeelding kon worden verwerkt.');
+
+    setProgress(0.96, 'PDF opslaan…');
+    const outBytes = await pdfDoc.save();
+    const blob     = new Blob([outBytes], { type: 'application/pdf' });
+    setProgress(1, 'Klaar!');
+    await delay(350);
+
+    showResult(blob, snapshot.length - errors.length, snapshot.length, errors);
+    bumpCounter();
+
+  } catch (err) {
+    resultContent.innerHTML = `
+      <div class="build-error">
+        <div class="err-icon">⚠️</div>
+        <div class="err-title">Kon de PDF niet aanmaken</div>
+        <div class="err-body">
+          Controleer of de bestanden geldige afbeeldingen zijn.
+          ${(err && err.message) ? '<br><code style="font-size:11px;opacity:.6">' + escHtml(err.message) + '</code>' : ''}
+        </div>
+      </div>`;
+  } finally {
+    updateQueue();
+  }
+}
+
+/* ================================================================
+   AFBEELDING INBEDDEN IN PDF
+   Probeert eerst native pdf-lib embed; valt terug op Canvas → PNG.
+   ================================================================ */
+async function embedImage(pdfDoc, file) {
+  const name = file.name.toLowerCase();
+
+  /* ── HEIC/HEIF ──────────────────────────────────────────── */
+  if (/heic|heif/i.test(file.type) || /\.(heic|heif)$/i.test(name)) {
+    setProgress(null, 'HEIC-bibliotheek laden…');
+    let h2a;
+    try { h2a = await loadHeic2Any(); }
+    catch (e) { throw new Error('Kon HEIC-bibliotheek niet laden. Probeer op de echte site.'); }
+    setProgress(null, 'HEIC omzetten…');
+    const converted = await h2a({ blob: file, toType: 'image/png' });
+    const blob      = Array.isArray(converted) ? converted[0] : converted;
+    const bytes     = new Uint8Array(await blob.arrayBuffer());
+    const img       = await pdfDoc.embedPng(bytes);
+    return { embeddedImage: img, imgW: img.width, imgH: img.height };
+  }
+
+  /* ── JPEG: native embed ─────────────────────────────────── */
+  if (file.type === 'image/jpeg' || /\.jpe?g$/i.test(name)) {
+    try {
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      const img   = await pdfDoc.embedJpg(bytes);
+      return { embeddedImage: img, imgW: img.width, imgH: img.height };
+    } catch (_) { /* valt terug op canvas */ }
+  }
+
+  /* ── PNG: native embed ──────────────────────────────────── */
+  if (file.type === 'image/png' || /\.png$/i.test(name)) {
+    try {
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      const img   = await pdfDoc.embedPng(bytes);
+      return { embeddedImage: img, imgW: img.width, imgH: img.height };
+    } catch (_) { /* valt terug op canvas */ }
+  }
+
+  /* ── Alles overige (WebP, GIF, BMP): Canvas → PNG ───────── */
+  let bitmap;
+  try   { bitmap = await createImageBitmap(file); }
+  catch (e) { bitmap = await loadViaImage(file); }
+  const canvas = document.createElement('canvas');
+  canvas.width = bitmap.width; canvas.height = bitmap.height;
+  canvas.getContext('2d').drawImage(bitmap, 0, 0);
+  const pngBlob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+  const bytes   = new Uint8Array(await pngBlob.arrayBuffer());
+  const img     = await pdfDoc.embedPng(bytes);
+  return { embeddedImage: img, imgW: img.width, imgH: img.height };
+}
+
+/* Voortgangsbalk (pct = null → alleen label updaten) */
+function setProgress(pct, label) {
+  const fill = document.getElementById('progFill');
+  const lbl  = document.getElementById('progLabel');
+  if (fill && pct !== null) fill.style.width = Math.round(Math.min(pct, 1) * 100) + '%';
+  if (lbl)                  lbl.textContent  = label;
+}
+
+/* ================================================================
+   RESULTAAT WEERGEVEN
+   ================================================================ */
+function showResult(blob, numDone, numTotal, errors = []) {
+  const outName = makeOutName();
+
+  const warningHtml = errors.length ? `
+    <div style="margin-top:12px;padding:9px 13px;background:var(--amber-tint);
+                border:1px solid #ecd6b6;border-radius:9px;font-size:12.5px;color:#7a4010">
+      ⚠️ ${errors.length === 1 ? '1 afbeelding kon' : errors.length + ' afbeeldingen konden'} niet worden verwerkt:
+      ${errors.map(n => `<strong>${escHtml(n)}</strong>`).join(', ')}
+    </div>` : '';
+
+  resultContent.innerHTML = `
+    <div class="result-info">
+      ${pdfIconSvg(52)}
+      <div class="result-meta">
+        <div class="result-name">${escHtml(outName)}</div>
+        <div class="result-detail">
+          ${numDone} foto${numDone !== 1 ? "'s" : ''} · ${numDone} pagina${numDone !== 1 ? "'s" : ''} · ${humanSize(blob.size)}
+        </div>
+        <div class="result-pill">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+          Klaar om te downloaden
+        </div>
+        ${warningHtml}
+      </div>
+      <button class="dl" id="dlBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M12 4v12m0 0l-4-4m4 4l4-4"/><path d="M4 20h16"/>
+        </svg>
+        Download PDF
+      </button>
+    </div>`;
+
+  document.getElementById('dlBtn').onclick = () => triggerDownload(blob, outName);
+}
+
+/* ================================================================
+   "BEGIN OPNIEUW"
+   ================================================================ */
+buildAgainBtn.onclick = () => {
+  resultsCard.style.display = 'none';
+  resultContent.innerHTML   = '';
+  queueItems.forEach(item => item.row.remove());
+  queueItems = [];
+  updateQueue();
+};
+
+/* ================================================================
+   TELLER + DONATIE-NUDGE
+   ================================================================ */
+function bumpCounter() {
+  let n = parseInt(store.get('img2pdf_total') || '0', 10) + 1;
+  store.set('img2pdf_total', n);
+  if (FEATURES.pro || store.get('nudge_done')) return;
+  if (n >= FEATURES.donationNudgeAfter) {
+    document.getElementById('nudgeCount').textContent = n;
+    document.getElementById('nudge').classList.add('show');
+  }
+}
+document.getElementById('nudgeX').onclick =
+document.getElementById('nudgeNo').onclick = e => {
+  e.preventDefault();
+  store.set('nudge_done', '1');
+  document.getElementById('nudge').classList.remove('show');
+};
+
+/* ================================================================
+   EVENTS: dropzone
+   ================================================================ */
+dropzone.onclick   = () => fileInput.click();
+dropzone.onkeydown = e => (e.key === 'Enter' || e.key === ' ') && fileInput.click();
+fileInput.onchange = () => { addFiles(fileInput.files); fileInput.value = ''; };
+
+['dragover', 'dragenter'].forEach(ev =>
+  dropzone.addEventListener(ev, e => {
+    e.preventDefault();
+    if (!draggedEl) dropzone.classList.add('drag');
+  })
+);
+['dragleave', 'drop'].forEach(ev =>
+  dropzone.addEventListener(ev, e => {
+    e.preventDefault();
+    dropzone.classList.remove('drag');
+  })
+);
+dropzone.addEventListener('drop', e => {
+  if (e.dataTransfer && !draggedEl) addFiles(e.dataTransfer.files);
+});
+
+/* ================================================================
+   HULPJES
+   ================================================================ */
+function humanSize(b) {
+  if (b < 1024)    return b + ' B';
+  if (b < 1048576) return (b / 1024).toFixed(0) + ' KB';
+  return (b / 1048576).toFixed(1) + ' MB';
+}
+
+function triggerDownload(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a   = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function escHtml(s) {
+  return String(s).replace(/[&<>"']/g,
+    c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
+  );
+}
+
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+function pad(n)    { return String(n).padStart(2, '0'); }
+
+function makeOutName() {
+  const d = new Date();
+  return `fotos-pdf-${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}.pdf`;
+}
+
+function loadViaImage(file) {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    const u   = URL.createObjectURL(file);
+    img.onload  = () => { URL.revokeObjectURL(u); res(img); };
+    img.onerror = () => { URL.revokeObjectURL(u); rej(new Error('decode mislukt')); };
+    img.src = u;
+  });
+}
+
+function pdfIconSvg(size) {
+  return `<svg width="${size}" height="${size}" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none">
+    <rect width="54" height="54" rx="12" fill="#FBE8E7"/>
+    <rect x="10" y="14" width="24" height="30" rx="3.5" fill="#B4471F" opacity=".15"/>
+    <rect x="16" y="10" width="24" height="31" rx="3.5" fill="white" stroke="#E8C8C0" stroke-width="1.2"/>
+    <rect x="21" y="16" width="14" height="2.5" rx="1.25" fill="#B4471F"/>
+    <rect x="21" y="21" width="11" height="2"   rx="1"    fill="#B4471F" opacity=".4"/>
+    <rect x="21" y="25" width="13" height="2"   rx="1"    fill="#B4471F" opacity=".4"/>
+    <rect x="21" y="29" width="9"  height="2"   rx="1"    fill="#B4471F" opacity=".3"/>
+    <path d="M16,34 h24 v3.5 a3.5,3.5 0 0 1-3.5,3.5 h-17 a3.5,3.5 0 0 1-3.5,-3.5 Z" fill="#B4471F" opacity=".9"/>
+    <text x="28" y="40.5" font-size="5.5" font-weight="700" fill="white" text-anchor="middle"
+          font-family="Helvetica,Arial,sans-serif" letter-spacing=".6">PDF</text>
+  </svg>`;
+}
+</script>
+</body>
+</html>

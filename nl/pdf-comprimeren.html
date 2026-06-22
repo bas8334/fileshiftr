@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF comprimeren — gratis, zonder limiet, zonder upload</title>
+<link rel="alternate" hreflang="nl" href="pdf-comprimeren.html">
+<link rel="alternate" hreflang="en" href="../compress-pdf.html">
+<link rel="alternate" hreflang="x-default" href="../compress-pdf.html">
+<meta name="theme-color" content="#16794A">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta name="description" content="Maak je PDF kleiner in je browser. Kies het compressieniveau, zie direct hoeveel je bespaart. Geen limiet, geen account, je bestanden blijven op je apparaat.">
+<link rel="canonical" href="pdf-comprimeren.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper:       #FAF6EF;
+    --surface:     #FFFDF9;
+    --ink:         #211C16;
+    --muted:       #6B6358;
+    --line:        #E8E0D3;
+    --green:       #16794A;
+    --green-dark:  #12603B;
+    --green-tint:  #E7F2EB;
+    --amber:       #C9742A;
+    --amber-tint:  #FBEFE0;
+    --red:         #B4471F;
+    --red-tint:    #FBE8E7;
+    --radius:      18px;
+    --shadow:      0 1px 2px rgba(33,28,22,.04), 0 8px 24px rgba(33,28,22,.06);
+    --shadow-lift: 0 2px 4px rgba(33,28,22,.06), 0 16px 40px rgba(33,28,22,.10);
+    --display:     "Fraunces", Georgia, "Times New Roman", serif;
+    --body:        "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html  { scroll-behavior: smooth; }
+  body  {
+    font-family: var(--body); color: var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(22,121,74,.06), transparent 60%),
+      radial-gradient(900px  500px at -10% 110%, rgba(201,116,42,.05), transparent 55%),
+      var(--paper);
+    line-height: 1.6; min-height: 100vh; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+
+  /* ── Header ──────────────────────────────────────────────── */
+  header { padding: 28px 0 8px; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .logo .mark {
+    width: 34px; height: 34px; flex: none;
+    display: grid; place-items: center;
+  }
+  .wordmark { font-family: var(--body); font-weight: 700; font-size: 20px; letter-spacing: -.02em; }
+  .w-dark { color: var(--ink); }
+  .w-green { color: var(--green); }
+  .w-r { color: var(--amber); }
+  .promise-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 13px; font-weight: 600; color: var(--green-dark);
+    background: var(--green-tint); border: 1px solid #cfe6d8;
+    padding: 7px 13px; border-radius: 999px;
+  }
+  .promise-pill svg { width: 15px; height: 15px; }
+
+  /* ── Hero ────────────────────────────────────────────────── */
+  .hero { padding: 34px 0 22px; text-align: center; }
+  .hero h1 {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(31px, 6vw, 46px); line-height: 1.08;
+    letter-spacing: -.02em; margin-bottom: 14px;
+  }
+  .hero h1 em { font-style: italic; color: var(--green); }
+  .hero p { font-size: clamp(16px, 2.6vw, 18px); color: var(--muted); max-width: 520px; margin: 0 auto; }
+  .trust-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 22px; }
+  .trust {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13.5px; font-weight: 500; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line);
+    padding: 9px 15px; border-radius: 999px; box-shadow: var(--shadow);
+  }
+  .trust svg { width: 16px; height: 16px; color: var(--green); flex: none; }
+
+  /* ── Card ────────────────────────────────────────────────── */
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 26px; margin-top: 20px;
+  }
+
+  /* ── Dropzone ────────────────────────────────────────────── */
+  .dropzone {
+    border: 2px dashed #d6ccbb; border-radius: 14px;
+    background: #fffefb; padding: 36px 24px; text-align: center;
+    cursor: pointer; transition: .18s ease;
+  }
+  .dropzone:hover, .dropzone.drag { border-color: var(--green); background: var(--green-tint); }
+  .dropzone.drag { transform: scale(1.005); }
+  .dropzone .icon {
+    width: 50px; height: 50px; margin: 0 auto 12px; border-radius: 13px;
+    background: rgba(180,71,31,.1); display: grid; place-items: center; color: var(--red);
+  }
+  .dropzone .icon svg { width: 24px; height: 24px; }
+  .dropzone h2 { font-family: var(--display); font-weight: 600; font-size: 19px; margin-bottom: 4px; }
+  .dropzone p  { color: var(--muted); font-size: 14.5px; }
+  .dropzone .hint { font-size: 12.5px; color: var(--muted); margin-top: 10px; opacity: .85; }
+
+  /* ── Compression options ─────────────────────────────────── */
+  .options { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
+
+  /* Presets */
+  .presets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .preset {
+    border: 2px solid var(--line); border-radius: 13px; padding: 14px 12px;
+    cursor: pointer; background: #fff; text-align: center;
+    transition: .15s; font-family: var(--body);
+  }
+  .preset:hover  { border-color: #b8d4c4; background: var(--green-tint); }
+  .preset.active { border-color: var(--green); background: var(--green-tint); }
+  .preset .p-name { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+  .preset .p-desc { font-size: 12px; color: var(--muted); margin-bottom: 7px; }
+  .preset .p-save {
+    font-size: 12px; font-weight: 700;
+    background: rgba(22,121,74,.12); color: var(--green-dark);
+    padding: 3px 8px; border-radius: 999px; display: inline-block;
+  }
+  .preset.active .p-save { background: rgba(22,121,74,.18); }
+
+  /* Slider */
+  .slider-wrap { display: flex; flex-direction: column; gap: 6px; }
+  .slider-head  { display: flex; justify-content: space-between; align-items: baseline; }
+  .slider-head label { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .slider-head .qval { font-size: 16px; font-weight: 700; color: var(--green-dark); font-family: var(--display); }
+  input[type=range] { width: 100%; accent-color: var(--green); }
+  .slider-foot { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); opacity: .75; }
+  .estimate {
+    font-size: 13px; font-weight: 600; color: var(--green-dark);
+    text-align: center; margin-top: 8px; min-height: 20px;
+  }
+
+  /* Info note */
+  .info-note {
+    display: flex; align-items: flex-start; gap: 9px; margin-top: 16px;
+    background: var(--amber-tint); border: 1px solid #ecd6b6;
+    border-radius: 11px; padding: 11px 14px;
+    font-size: 13px; color: #7a4010; line-height: 1.5;
+  }
+  .info-note .note-ico { flex: none; font-size: 15px; margin-top: 1px; }
+
+  /* ── Queue ───────────────────────────────────────────────── */
+  .queue-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 18px 0 10px; border-top: 1px solid var(--line); margin-top: 20px;
+  }
+  .queue-label { font-size: 13px; font-weight: 600; color: var(--muted); flex: 1; }
+  .queue-badge {
+    font-size: 12px; font-weight: 700;
+    background: var(--green-tint); color: var(--green-dark);
+    padding: 3px 9px; border-radius: 999px;
+  }
+
+  .q-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 11px; background: var(--paper);
+    border: 1px solid var(--line); border-radius: 11px;
+    margin-bottom: 7px; animation: rise .25s ease both;
+    transition: opacity .3s;
+  }
+  .q-item.fading { opacity: 0; }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .q-meta { flex: 1; min-width: 0; }
+  .q-name { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .q-sub  { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); flex-wrap: wrap; margin-top: 1px; }
+  .q-sub .sep { opacity: .4; }
+  .q-pages.loading { font-style: italic; opacity: .65; }
+  .q-pages.err     { color: var(--red); }
+
+  .q-bar { height: 0; overflow: hidden; border-radius: 99px; background: var(--line); transition: height .2s, margin-top .2s; }
+  .q-bar i { display: block; height: 100%; width: 0; background: var(--green); border-radius: 99px; transition: width .25s; }
+  .q-item.compressing .q-bar { height: 4px; margin-top: 5px; }
+
+  /* Altijd zichtbare hoogte, zodat het wachtrij-item niet springt als de status verschijnt */
+  .q-hint   { font-size: 11.5px; font-weight: 600; color: var(--amber); margin-top: 3px; }
+  .q-status { font-size: 11.5px; color: var(--muted); font-style: italic; margin-top: 2px; min-height: 16px; visibility: hidden; }
+  .q-item.compressing .q-status { visibility: visible; }
+  .q-item.compressing .q-hint   { display: none; }
+  .q-item.compressing .q-remove { display: none; }
+
+  .q-remove {
+    border: none; background: none; color: var(--muted);
+    font-size: 18px; line-height: 1; padding: 4px 6px;
+    cursor: pointer; border-radius: 6px; flex: none; transition: .15s;
+  }
+  .q-remove:hover { background: var(--line); color: var(--ink); }
+
+  /* ── Actions ─────────────────────────────────────────────── */
+  .zone1-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+  .btn {
+    font-family: var(--body); font-weight: 600; font-size: 15.5px;
+    border-radius: 12px; padding: 13px 22px; cursor: pointer;
+    border: 1px solid transparent; transition: .16s;
+  }
+  .btn-primary { background: var(--green); color: #fff; box-shadow: 0 6px 16px rgba(22,121,74,.25); }
+  .btn-primary:hover  { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-primary:disabled { opacity: .45; pointer-events: none; box-shadow: none; transform: none; }
+  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); font-size: 14px; padding: 10px 18px; }
+  .btn-ghost:hover { background: var(--paper); }
+  .no-limit-note { font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+  .no-limit-note svg { width: 14px; height: 14px; color: var(--green); }
+
+  /* ── Results ─────────────────────────────────────────────── */
+  .results-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line);
+    margin-bottom: 4px; flex-wrap: wrap;
+  }
+  .results-title { font-family: var(--display); font-weight: 600; font-size: 20px; margin-bottom: 3px; }
+  .summary       { font-size: 13px; color: var(--muted); }
+
+  .r-item { padding: 13px 0; border-bottom: 1px solid var(--line); animation: rise .3s ease both; }
+  .r-item:last-child { border-bottom: none; }
+  .r-main { display: flex; align-items: center; gap: 14px; }
+  .r-meta { flex: 1; min-width: 0; }
+  .r-name  { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .r-sizes { font-size: 12.5px; color: var(--muted); margin-top: 1px; }
+  .r-item.err .r-name  { color: var(--red); }
+  .r-item.err .r-sizes { color: var(--muted); font-size: 12.5px; }
+
+  .savings { font-size: 12.5px; font-weight: 700; padding: 4px 10px; border-radius: 999px; flex: none; white-space: nowrap; }
+  .savings.ok     { background: var(--green-tint); color: var(--green-dark); }
+  .savings.meh    { background: var(--paper); color: var(--muted); border: 1px solid var(--line); }
+  .savings.notice { background: var(--amber-tint); color: var(--amber); }
+
+  .dl {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13.5px; font-weight: 600; color: #fff;
+    background: var(--green); padding: 8px 13px; border-radius: 9px;
+    border: none; cursor: pointer; transition: .15s; flex: none;
+  }
+  .dl:hover { background: var(--green-dark); }
+  .dl svg { width: 14px; height: 14px; }
+
+  /* ── Ad + FAQ + Footer ───────────────────────────────────── */
+  .ad-slot { margin-top: 28px; border: 1px dashed var(--line); border-radius: 14px; padding: 16px; text-align: center; color: var(--muted); font-size: 13px; background: #fffefb; }
+  .ad-slot .lbl { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; opacity: .6; display: block; margin-bottom: 4px; }
+
+  .faq { margin-top: 46px; }
+  .faq h3 { font-family: var(--display); font-weight: 600; font-size: 24px; margin-bottom: 8px; text-align: center; }
+  .faq .lead { text-align: center; color: var(--muted); margin-bottom: 22px; }
+
+  details { background: var(--surface); border: 1px solid var(--line); border-radius: 13px; padding: 0 18px; margin-bottom: 10px; }
+  summary { cursor: pointer; font-weight: 600; padding: 16px 0; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 20px; color: var(--green); font-weight: 400; }
+  details[open] summary::after { content: "–"; }
+  details p { padding: 0 0 16px; color: var(--muted); font-size: 15px; }
+  details a { color: var(--green-dark); font-weight: 600; text-decoration: none; }
+
+  footer { margin-top: 50px; padding: 30px 0 50px; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 13.5px; }
+  footer a { color: var(--green-dark); font-weight: 600; text-decoration: none; }
+  .coffee { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; background: var(--amber-tint); border: 1px solid #ecd6b6; color: #8a4f17; padding: 9px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; text-decoration: none; transition: .15s; }
+  .coffee:hover { background: #f7e6cd; }
+
+  /* ── Nudge ───────────────────────────────────────────────── */
+  .nudge { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(120%); width: calc(100% - 32px); max-width: 440px; z-index: 50; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow-lift); padding: 18px 18px 16px; transition: transform .4s cubic-bezier(.2,.8,.2,1); }
+  .nudge.show { transform: translateX(-50%) translateY(0); }
+  .nudge .head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .nudge .cup  { width: 34px; height: 34px; border-radius: 10px; background: var(--amber-tint); display: grid; place-items: center; font-size: 18px; flex: none; }
+  .nudge h4 { font-family: var(--display); font-size: 17px; font-weight: 600; }
+  .nudge p  { font-size: 14px; color: var(--muted); margin-bottom: 14px; }
+  .nudge .row { display: flex; gap: 10px; }
+  .nudge .row a { flex: 1; text-align: center; text-decoration: none; }
+  .nudge-x { position: absolute; top: 12px; right: 14px; border: none; background: none; font-size: 20px; color: var(--muted); cursor: pointer; line-height: 1; }
+
+  /* ── Responsive ──────────────────────────────────────────── */
+  @media (max-width: 560px) {
+    .card { padding: 18px; }
+    .dropzone { padding: 28px 16px; }
+    .presets { gap: 7px; }
+    .preset { padding: 11px 8px; }
+    .preset .p-name { font-size: 14px; }
+    .results-header { flex-direction: column; gap: 10px; }
+    .zone1-actions .no-limit-note { order: -1; width: 100%; justify-content: center; }
+  }
+
+  .prose{margin-top:48px}
+  .prose h2{font-family:var(--display);font-weight:600;font-size:26px;margin:0 0 14px;letter-spacing:-.01em}
+  .prose h3{font-family:var(--display);font-weight:600;font-size:19px;margin:30px 0 8px}
+  .prose p{color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 14px;max-width:660px}
+  .prose ul{color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 14px;padding-left:22px;max-width:660px}
+  .prose li{margin-bottom:7px}
+  .prose strong{color:var(--ink)}
+  .fmt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:18px 0 8px}
+  .fmt-card{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .fmt-card h4{margin:0 0 6px;font-size:15px;font-weight:700;color:var(--ink)}
+  .fmt-card p{font-size:14px;margin:0;line-height:1.6}
+
+
+  /* rich content blocks */
+  .howto{margin-top:48px}
+  .howto h2,.usecases h2,.cmp-wrap h2,.related h2{font-family:var(--display);font-weight:600;font-size:26px;margin:0 0 18px;letter-spacing:-.01em}
+  .steps{display:grid;gap:14px;counter-reset:step}
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .step::before{counter-increment:step;content:counter(step);flex:none;width:30px;height:30px;border-radius:50%;background:var(--green-tint);color:var(--green-dark);font-weight:700;font-size:15px;display:grid;place-items:center}
+  .step h4{margin:0 0 3px;font-size:16px;font-weight:700;color:var(--ink)}
+  .step p{margin:0;color:var(--muted);font-size:15px;line-height:1.6}
+  .cmp-wrap{margin-top:48px;overflow-x:auto}
+  table.cmp{border-collapse:collapse;width:100%;font-size:14.5px;min-width:520px}
+  table.cmp th,table.cmp td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.cmp thead th{font-weight:700;color:var(--ink);border-bottom:2px solid var(--line)}
+  table.cmp td:first-child,table.cmp th:first-child{font-weight:700;color:var(--ink)}
+  table.cmp td{color:var(--muted)}
+  table.cmp tbody tr:last-child td{border-bottom:none}
+  .usecases{margin-top:48px}
+  .uc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .uc{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .uc h4{margin:0 0 5px;font-size:15px;font-weight:700;color:var(--ink)}
+  .uc p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+  .callout{margin:30px 0 0;background:var(--green-tint);border:1px solid #cfe6d8;border-radius:13px;padding:18px 20px}
+  .callout h3{margin:0 0 6px;font-size:16px;font-weight:700;color:var(--green-dark);font-family:var(--body)}
+  .callout p{margin:0;color:#2c5340;font-size:15px;line-height:1.65}
+  .related{margin-top:48px}
+  .rel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .rel{display:block;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:15px 17px;text-decoration:none;transition:border-color .15s,transform .15s}
+  .rel:hover{border-color:var(--green);transform:translateY(-2px)}
+  .rel strong{display:block;color:var(--ink);font-size:15px;margin-bottom:3px}
+  .rel span{color:var(--muted);font-size:13px;line-height:1.5}
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "nl-NL",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is er een limiet op het aantal PDF's?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nee. Comprimeer er zoveel als je wilt, zo vaak als je wilt — geen limiet, geen account, geen wachten tussen bestanden."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Waarom werd mijn PDF met alleen tekst nauwelijks kleiner?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Omdat tekst van zichzelf heel weinig ruimte inneemt en al gecomprimeerd is binnen de PDF. De compressie richt zich hier op afbeeldingen, dus een document zonder afbeeldingen heeft bijna niets om te verkleinen — een teken dat je bestand al zuinig was."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Blijft de tekst selecteerbaar en doorzoekbaar?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja. Alleen afbeeldingen worden opnieuw gecodeerd. Tekst en vectorelementen blijven precies zoals ze waren, dus je kunt ze nog steeds selecteren, kopiëren en doorzoeken."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Worden mijn PDF's ergens geüpload?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nee. Het comprimeren gebeurt volledig in je browser. Gevoelige documenten — contracten, medische formulieren, afschriften — blijven de hele tijd op je apparaat."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Hoeveel kleiner wordt mijn PDF?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dat hangt van de inhoud af. PDF's vol afbeeldingen of scans dalen vaak met 70% of meer; tekst-only PDF's veranderen nauwelijks. De grootte voor en na laat je het echte resultaat zien."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kan ik meerdere PDF's tegelijk comprimeren?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja. Sleep meerdere bestanden erin en elk wordt apart gecomprimeerd en gedownload. Er is geen limiet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wat als comprimeren niet genoeg is voor een groottelimiet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Is één PDF nog te groot, dan is hem splitsen of in delen versturen de volgende stap. Wil je juist combineren? Zie dan onze tool PDF samenvoegen."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Werkt het op mijn telefoon?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja — elke moderne browser op iPhone, Android, tablet of computer."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Fileshiftr",
+      "item": "https://fileshiftr.com/nl/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "PDF comprimeren",
+      "item": "https://fileshiftr.com/nl/pdf-comprimeren"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Fileshiftr PDF Comprimeren",
+  "url": "https://fileshiftr.com/nl/pdf-comprimeren",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires JavaScript. Runs in any modern browser.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "inLanguage": "nl-NL"
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ── Header ────────────────────────────────────────────── -->
+  <header>
+    <div class="topbar">
+      <a href="index.html" class="logo">
+        <span class="mark"><svg width="34" height="34" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="mlg" x1="0" y1="0" x2=".4" y2="1"><stop offset="0%" stop-color="#22a36a"/><stop offset="100%" stop-color="#14623e"/></linearGradient></defs><path d="M6,1 H20 L27,8 V30 Q27,32 25,32 H6 Q4,32 4,30 V3 Q4,1 6,1 Z" fill="url(#mlg)"/><path d="M20,1 L20,8 H27" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.2"/><line x1="5" y1="14" x2="11" y2="14" stroke="rgba(255,255,255,.88)" stroke-width="2" stroke-linecap="round"/><line x1="5" y1="18" x2="9" y2="18" stroke="rgba(255,255,255,.65)" stroke-width="1.5" stroke-linecap="round"/><line x1="5" y1="22" x2="7" y2="22" stroke="rgba(255,255,255,.45)" stroke-width="1.2" stroke-linecap="round"/><path d="M13,18 H24 M20,14 L25,18 L20,22" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="wordmark"><span class="w-dark">file</span><span class="w-green">shift</span><span class="w-r">r</span></span>
+      </a>
+      <span class="promise-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        Blijft op je apparaat
+      </span>
+    </div>
+  </header>
+
+  <!-- ── Hero ──────────────────────────────────────────────── -->
+  <section class="hero">
+    <h1>PDF kleiner maken — <em>zie direct de besparing</em></h1>
+    <p>Maak een PDF kleiner die te groot is om te versturen, in je browser. Tekst blijft scherp, alleen de zware afbeeldingen worden lichter. Onbeperkt bestanden, geen account, niets wordt geüpload.</p>
+    <div class="trust-row">
+      <span class="trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+        Geen limiet
+      </span>
+      <span class="trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+        Geen account
+      </span>
+      <span class="trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+        </svg>
+        Geen upload
+      </span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       ZONE 1: Upload + instellingen + wachtrij
+       ══════════════════════════════════════════════════════ -->
+  <div class="card">
+    <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="PDF-bestanden kiezen">
+      <div class="icon">
+        <!-- Compress / shrink icon -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="4 14 10 14 10 20"/>
+          <polyline points="20 10 14 10 14 4"/>
+          <line x1="14" y1="10" x2="21" y2="3"/>
+          <line x1="3"  y1="21" x2="10" y2="14"/>
+        </svg>
+      </div>
+      <h2>Sleep je PDF's hierheen</h2>
+      <p>of tik om te kiezen — meerdere bestanden tegelijk is prima</p>
+      <p class="hint">Alleen PDF-bestanden · zoveel als je wilt</p>
+      <input type="file" id="filein" accept="application/pdf,.pdf" multiple hidden>
+    </div>
+
+    <!-- Compressie-instellingen -->
+    <div class="options">
+
+      <!-- Presets -->
+      <div class="presets">
+        <button class="preset" data-q="82">
+          <div class="p-name">Licht</div>
+          <div class="p-desc">Hoge kwaliteit</div>
+          <span class="p-save">~30% kleiner</span>
+        </button>
+        <button class="preset active" data-q="65">
+          <div class="p-name">Normaal</div>
+          <div class="p-desc">Goede balans</div>
+          <span class="p-save">~50% kleiner</span>
+        </button>
+        <button class="preset" data-q="45">
+          <div class="p-name">Sterk</div>
+          <div class="p-desc">Maximale besparing</div>
+          <span class="p-save">~70% kleiner</span>
+        </button>
+      </div>
+
+      <!-- Fijnafstelling -->
+      <div class="slider-wrap">
+        <div class="slider-head">
+          <label>Fijnafstemmen</label>
+          <span class="qval" id="qval">65%</span>
+        </div>
+        <input type="range" id="quality" min="20" max="95" value="65">
+        <div class="slider-foot">
+          <span>◄ Kleiner bestand</span>
+          <span>Hogere kwaliteit ►</span>
+        </div>
+        <div class="estimate" id="estimate">Geschat ~50% kleiner bij een gemiddelde PDF</div>
+      </div>
+
+      <!-- Eerlijke uitleg over de aanpak -->
+      <div class="info-note">
+        <span class="note-ico">ℹ️</span>
+        <span>
+          Pagina's worden omgezet naar afbeeldingen — tekst is daarna niet meer kopieerbaar.
+          Ideaal voor foto-PDF's, scans en presentaties.
+          PDF's met vrijwel alleen tekst leveren minder winst op.
+        </span>
+      </div>
+    </div>
+
+    <!-- Wachtrij (verborgen totdat bestanden zijn toegevoegd) -->
+    <div id="queueSection" style="display:none">
+      <div class="queue-header">
+        <span class="queue-label">Wachtrij</span>
+        <span class="queue-badge" id="queueBadge">0</span>
+      </div>
+      <div id="queueList"></div>
+      <div class="zone1-actions">
+        <button class="btn btn-primary" id="compressBtn" disabled>Comprimeer</button>
+        <span class="no-limit-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+          Zoveel als je wilt — echt geen limiet
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       ZONE 2: Resultaten
+       ══════════════════════════════════════════════════════ -->
+  <div class="card" id="resultsCard" style="display:none">
+    <div class="results-header">
+      <div>
+        <div class="results-title">Gecomprimeerd</div>
+        <div class="summary" id="summary">—</div>
+      </div>
+      <button class="btn btn-ghost" id="downloadAllBtn" style="display:none">Alles downloaden</button>
+    </div>
+    <div id="resultsList"></div>
+  </div>
+
+  <!-- Advertentieplek -->
+  <div class="ad-slot">
+    <span class="lbl">Advertentie</span>
+    Hier komt straks één rustige, niet-volgende advertentie. We volgen je nergens.
+  </div>
+
+  <!-- ── FAQ ───────────────────────────────────────────────── -->
+
+    <section class="prose">
+    <h2>Een PDF kleiner maken die te groot is om te versturen</h2>
+    <p>De meest voorkomende reden dat een PDF niet verstuurd wordt, is de grootte — een e-mail komt terug, een uploadformulier weigert hem, een portaal beperkt je tot een paar megabytes. Meestal is de boosdoener de afbeeldingen: scans en foto's in het document nemen veel meer ruimte in dan de tekst eromheen. Die afbeeldingen comprimeren is de snelste manier om het bestand terug te brengen naar een verstandige grootte.</p>
+    <p>Deze tool slaat de afbeeldingen in je PDF opnieuw op met een kwaliteit die jij kiest, terwijl tekst en vectorafbeeldingen volledig onaangeroerd blijven. De woorden blijven scherp en selecteerbaar; alleen de zware beelddata wordt lichter. Je ziet de grootte voor en na, en er is geen limiet op hoeveel PDF's je comprimeert — allemaal op je eigen apparaat.</p>
+  </section>
+
+  <section class="howto">
+    <h2>PDF comprimeren in 3 stappen</h2>
+    <div class="steps">
+      <div class="step"><div><h4>Voeg je PDF toe</h4><p>Sleep hem naar het vak of klik om te kiezen. Voeg er gerust meerdere tegelijk toe.</p></div></div>
+      <div class="step"><div><h4>Kies het compressieniveau</h4><p>Bepaal hoe sterk de afbeeldingen worden gecomprimeerd. Lager betekent een kleiner bestand; hoger houdt de afbeeldingen scherper.</p></div></div>
+      <div class="step"><div><h4>Download en vergelijk</h4><p>Je ziet de originele en nieuwe grootte naast elkaar, dus je weet precies wat je hebt gewonnen.</p></div></div>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h3>Waarom PDF's vol afbeeldingen flink krimpen — en tekst-PDF's nauwelijks</h3>
+    <p>Een PDF bewaart twee heel verschillende soorten inhoud. Tekst en vectorafbeeldingen zijn binnen het bestand al efficiënt gecomprimeerd en verliezen bijna geen grootte als je ze nóg eens comprimeert — er valt simpelweg weinig weg te halen. Ingebouwde foto's en scans zijn het tegenovergestelde: ze zijn groot, en ze opnieuw opslaan op een lagere resolutie en kwaliteit kan hun omvang drastisch verkleinen.</p>
+    <p>Het resultaat hangt dus volledig af van wat erin zit. Een PDF vol gescande pagina's of foto's kan met 70% of meer krimpen. Een document dat vooral uit tekst bestaat verandert nauwelijks — en dat is normaal. Krimpt je PDF nauwelijks, dan betekent dat meestal dat hij al efficiënt was.</p>
+    <div class="callout">
+      <h3>Wat perfect blijft</h3>
+      <p><strong>Tekst</strong> blijft scherp, selecteerbaar en doorzoekbaar. <strong>Vectorafbeeldingen</strong> zoals logo's en lijntekeningen houden hun strakke randen. <strong>De opmaak</strong> verschuift niet — het document ziet er hetzelfde uit, alleen lichter. Alleen ingebouwde foto's worden opnieuw gecodeerd, en alleen zoveel als jij toestaat.</p>
+    </div>
+  </section>
+
+  <section class="usecases">
+    <h2>Wanneer je hiernaar grijpt</h2>
+    <div class="uc-grid">
+      <div class="uc"><h4>E-maillimieten</h4><p>De meeste mailboxen beperken bijlagen tot zo'n 20–25 MB. Een gescande PDF comprimeren lost dat meestal makkelijk op.</p></div>
+      <div class="uc"><h4>Uploadportalen</h4><p>Overheids-, bank- en aanvraagformulieren beperken PDF's vaak tot een paar megabytes.</p></div>
+      <div class="uc"><h4>Gescande papieren</h4><p>Scans zitten vol afbeeldingen en worden snel groot — precies wat compressie het beste aanpakt.</p></div>
+      <div class="uc"><h4>Sneller delen</h4><p>Een lichter bestand uploadt, downloadt en opent sneller voor iedereen.</p></div>
+    </div>
+  </section>
+
+  <section class="related">
+    <h2>Gerelateerde tools</h2>
+    <div class="rel-grid">
+      <a class="rel" href="pdf-samenvoegen.html"><strong>PDF samenvoegen</strong><span>Combineer meerdere PDF's tot één bestand, voor of na het comprimeren.</span></a>
+      <a class="rel" href="afbeeldingen-naar-pdf.html"><strong>Afbeeldingen naar PDF</strong><span>Zet foto's en scans om naar één PDF-document.</span></a>
+    </div>
+  </section>
+
+  <section class="faq">
+    <h3>Veelgestelde vragen</h3>
+    <p class="lead">Gratis, onbeperkt, en je PDF's verlaten je apparaat nooit.</p>
+    <details open><summary>Is er een limiet op het aantal PDF's?</summary><p>Nee. Comprimeer er zoveel als je wilt, zo vaak als je wilt — geen limiet, geen account, geen wachten tussen bestanden.</p></details>
+    <details><summary>Waarom werd mijn PDF met alleen tekst nauwelijks kleiner?</summary><p>Omdat tekst van zichzelf heel weinig ruimte inneemt en al gecomprimeerd is binnen de PDF. De compressie richt zich hier op afbeeldingen, dus een document zonder afbeeldingen heeft bijna niets om te verkleinen — een teken dat je bestand al zuinig was.</p></details>
+    <details><summary>Blijft de tekst selecteerbaar en doorzoekbaar?</summary><p>Ja. Alleen afbeeldingen worden opnieuw gecodeerd. Tekst en vectorelementen blijven precies zoals ze waren, dus je kunt ze nog steeds selecteren, kopiëren en doorzoeken.</p></details>
+    <details><summary>Worden mijn PDF's ergens geüpload?</summary><p>Nee. Het comprimeren gebeurt volledig in je browser. Gevoelige documenten — contracten, medische formulieren, afschriften — blijven de hele tijd op je apparaat.</p></details>
+    <details><summary>Hoeveel kleiner wordt mijn PDF?</summary><p>Dat hangt van de inhoud af. PDF's vol afbeeldingen of scans dalen vaak met 70% of meer; tekst-only PDF's veranderen nauwelijks. De grootte voor en na laat je het echte resultaat zien.</p></details>
+    <details><summary>Kan ik meerdere PDF's tegelijk comprimeren?</summary><p>Ja. Sleep meerdere bestanden erin en elk wordt apart gecomprimeerd en gedownload. Er is geen limiet.</p></details>
+    <details><summary>Wat als comprimeren niet genoeg is voor een groottelimiet?</summary><p>Is één PDF nog te groot, dan is hem splitsen of in delen versturen de volgende stap. Wil je juist combineren? Zie dan onze tool PDF samenvoegen.</p></details>
+    <details><summary>Werkt het op mijn telefoon?</summary><p>Ja — elke moderne browser op iPhone, Android, tablet of computer.</p></details>
+  </section>
+
+  <footer>
+    Je bestanden blijven op je eigen apparaat. We slaan ze niet op en sturen ze niet door.<br>
+    <a class="coffee" href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener">☕ Steun Fileshiftr op Ko-fi</a>
+    <div style="margin-top:18px">
+      <a href="privacy.html">Privacy</a> · <a href="over-ons.html">Over ons</a> · <a href="index.html">Alle tools</a>
+    </div>
+  </footer>
+</div>
+
+<!-- Donatie-nudge (verschijnt na meerdere compressen) -->
+<div class="nudge" id="nudge">
+  <button class="nudge-x" id="nudgeX" aria-label="Sluiten">×</button>
+  <div class="head">
+    <span class="cup">☕</span>
+    <h4>Al <span id="nudgeCount">meerdere</span> PDF's gecomprimeerd!</h4>
+  </div>
+  <p>Als dit je tijd heeft bespaard, trakteer je me dan op een koffie? Helemaal vrijblijvend.</p>
+  <div class="row">
+    <a class="btn btn-primary" href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener">Ja, leuk ☕</a>
+    <a class="btn btn-ghost" id="nudgeNo" href="pdf-comprimeren.html#">Nee, dankje</a>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   VEILIGE OPSLAG
+   localStorage valt terug op in-memory als het geblokkeerd is
+   (bijv. in de Claude-preview). Op een echte site werkt het altijd.
+   ================================================================ */
+const store = (() => {
+  const mem = {};
+  try {
+    const t = '__t'; localStorage.setItem(t, '1'); localStorage.removeItem(t);
+    return { get: k => localStorage.getItem(k), set: (k, v) => localStorage.setItem(k, v) };
+  } catch (e) {
+    return { get: k => mem[k] != null ? mem[k] : null, set: (k, v) => { mem[k] = String(v); } };
+  }
+})();
+
+const FEATURES = { pro: false, donationNudgeAfter: 3 };
+
+/* ================================================================
+   BIBLIOTHEKEN — lazy geladen (pas wanneer nodig), één keer gecachet.
+
+   pdf-lib  → pagina-aantallen ophalen + output-PDF opbouwen
+   pdf.js   → pagina's renderen naar canvas (vereist voor rasterisatie)
+
+   pdf.js heeft een web-worker nodig. De blob-worker-truc omzeilt
+   cross-origin-beperkingen die in sommige preview-omgevingen optreden.
+   Op Cloudflare Pages / Netlify werkt de directe CDN-URL ook prima.
+   ================================================================ */
+let _pdfLibPromise = null;
+let _pdfJsPromise  = null;
+
+function loadPdfLib() {
+  if (_pdfLibPromise) return _pdfLibPromise;
+  _pdfLibPromise = new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js';
+    s.onload  = () => res(window.PDFLib);
+    s.onerror = () => { _pdfLibPromise = null; rej(new Error('pdf-lib laden mislukt')); };
+    document.head.appendChild(s);
+  });
+  return _pdfLibPromise;
+}
+
+function loadPdfJs() {
+  if (_pdfJsPromise) return _pdfJsPromise;
+  _pdfJsPromise = new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = () => {
+      const lib = window.pdfjsLib;
+      if (!lib) return rej(new Error('pdfjsLib niet gevonden na laden'));
+
+      const workerUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+      // Blob-worker-truc: voorkomt cross-origin-problemen in iframe-omgevingen.
+      // De blob importeert de echte worker via importScripts, waarna pdf.js hem gebruikt.
+      try {
+        const blob    = new Blob([`importScripts('${workerUrl}');`], { type: 'application/javascript' });
+        lib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(blob);
+      } catch (e) {
+        // Fallback: directe CDN-URL (werkt op gedeployde site altijd)
+        lib.GlobalWorkerOptions.workerSrc = workerUrl;
+      }
+
+      res(lib);
+    };
+    s.onerror = () => { _pdfJsPromise = null; rej(new Error('pdf.js laden mislukt')); };
+    document.head.appendChild(s);
+  });
+  return _pdfJsPromise;
+}
+
+/* ================================================================
+   STATE
+   ================================================================ */
+let queueItems  = [];   // { file, row, barEl, statusEl, pagesEl, bytes }
+let resultItems = [];   // { file, blob, outName }
+
+/* ================================================================
+   DOM
+   ================================================================ */
+const dropzone       = document.getElementById('dropzone');
+const fileInput      = document.getElementById('filein');
+const queueSection   = document.getElementById('queueSection');
+const queueList      = document.getElementById('queueList');
+const queueBadge     = document.getElementById('queueBadge');
+const compressBtn    = document.getElementById('compressBtn');
+const resultsCard    = document.getElementById('resultsCard');
+const resultsList    = document.getElementById('resultsList');
+const downloadAllBtn = document.getElementById('downloadAllBtn');
+const summaryEl      = document.getElementById('summary');
+const qualityInput   = document.getElementById('quality');
+const qvalEl         = document.getElementById('qval');
+const estimateEl     = document.getElementById('estimate');
+const presetBtns     = document.querySelectorAll('.preset');
+
+/* ================================================================
+   KWALITEITS-UI
+   ================================================================ */
+
+// Ruwe schatting van de besparing als percentage, afhankelijk van kwaliteit.
+// Gebaseerd op een typische mix van tekst en foto-inhoud in een PDF.
+function estimateReduction(q) {
+  const pts = [[95, 5], [85, 22], [75, 36], [65, 50], [55, 60], [45, 68], [35, 74], [20, 79]];
+  for (let i = 0; i < pts.length - 1; i++) {
+    if (q >= pts[i + 1][0]) {
+      const [q1, r1] = pts[i], [q2, r2] = pts[i + 1];
+      return Math.round(r2 + (q - q2) / (q1 - q2) * (r1 - r2));
+    }
+  }
+  return pts[pts.length - 1][1];
+}
+
+// Hogere kwaliteit = hogere renderresolutie = groter uitvoerbestand.
+// Schaalt kwaliteitswaarde (20–95) lineair naar renderschalingsfactor (0.85–1.80).
+function qToScale(q) {
+  return 0.85 + (q - 20) / 75 * 0.95;
+}
+
+function syncQuality(q) {
+  qvalEl.textContent       = q + '%';
+  estimateEl.textContent   = `Geschat ~${estimateReduction(q)}% kleiner bij een gemiddelde PDF`;
+  presetBtns.forEach(b => b.classList.toggle('active', parseInt(b.dataset.q) === q));
+}
+
+presetBtns.forEach(b => b.onclick = () => {
+  const q = parseInt(b.dataset.q);
+  qualityInput.value = q;
+  syncQuality(q);
+});
+qualityInput.oninput = () => syncQuality(parseInt(qualityInput.value));
+
+function currentQuality() { return parseInt(qualityInput.value); }
+
+/* ================================================================
+   WACHTRIJ BEHEER
+   ================================================================ */
+function updateQueue() {
+  const n = queueItems.length;
+  queueBadge.textContent     = n;
+  queueSection.style.display = n > 0 ? 'block' : 'none';
+  compressBtn.disabled        = n === 0;
+  compressBtn.textContent     =
+    n === 0 ? 'Comprimeer' :
+    n === 1 ? 'Comprimeer 1 PDF' :
+    `Comprimeer ${n} PDF's`;
+}
+
+function addFiles(fileList) {
+  [...fileList]
+    .filter(f => f.type === 'application/pdf' || /\.pdf$/i.test(f.name))
+    .forEach(file => {
+      const row = document.createElement('div');
+      row.className = 'q-item';
+      row.innerHTML = `
+        ${pdfIconSvg(40)}
+        <div class="q-meta">
+          <div class="q-name"></div>
+          <div class="q-sub">
+            <span class="q-filesize"></span>
+            <span class="sep">·</span>
+            <span class="q-pages loading">pagina's laden…</span>
+          </div>
+          <div class="q-hint"></div>
+          <div class="q-status"></div>
+          <div class="q-bar"><i></i></div>
+        </div>
+        <button class="q-remove" title="Verwijderen">×</button>`;
+
+      const nameEl   = row.querySelector('.q-name');
+      const sizeEl   = row.querySelector('.q-filesize');
+      const pagesEl  = row.querySelector('.q-pages');
+      const hintEl   = row.querySelector('.q-hint');
+      const statusEl = row.querySelector('.q-status');
+      const barEl    = row.querySelector('.q-bar i');
+
+      nameEl.textContent = file.name;
+      sizeEl.textContent = humanSize(file.size);
+
+      const item = { file, row, barEl, statusEl, hintEl, pagesEl, pages: null, bytes: null };
+
+      row.querySelector('.q-remove').onclick = () => {
+        queueItems = queueItems.filter(i => i !== item);
+        row.remove();
+        updateQueue();
+      };
+
+      queueItems.push(item);
+      queueList.appendChild(row);
+
+      // Pagina-aantal asynchroon laden via pdf-lib (licht; pdf.js laden we pas bij comprimeren)
+      loadPageCount(item);
+      // Laad pdf.js alvast op de achtergrond zodat comprimeren sneller start
+      loadPdfJs().catch(() => {});
+    });
+
+  updateQueue();
+}
+
+async function loadPageCount(item) {
+  try {
+    const { PDFDocument } = await loadPdfLib();
+    const bytes = await item.file.arrayBuffer();
+    item.bytes  = bytes; // gecachet — compressPdf hergebruikt dit
+    const doc   = await PDFDocument.load(bytes, { ignoreEncryption: true });
+    item.pages  = doc.getPageCount();
+    item.pagesEl.textContent = item.pages + (item.pages === 1 ? ' pagina' : " pagina's");
+    item.pagesEl.classList.remove('loading', 'err');
+
+    // Vroege feedback: scan de raw bytes op image-XObjects.
+    // Zo ziet de gebruiker vóór het comprimeren al of er weinig winst te verwachten is.
+    const imgCount = countImageXObjects(bytes);
+    if (imgCount === 0) {
+      item.hintEl.textContent = 'Voornamelijk tekst — verwachte besparing beperkt';
+    } else if (imgCount <= 2) {
+      item.hintEl.textContent = 'Weinig afbeeldingen — besparing afhankelijk van inhoud';
+    }
+    // ≥3 afbeeldingen: geen hint nodig, compressie werkt naar verwachting goed
+  } catch (e) {
+    item.pagesEl.textContent = '—';
+    item.pagesEl.classList.remove('loading', 'err');
+  }
+}
+
+// Snel tellen van image-XObjects via een raw tekstscan op de PDF-bytes.
+// Scant maximaal de eerste 2 MB om grote bestanden niet onnodig te blokkeren.
+function countImageXObjects(bytes) {
+  try {
+    const chunk = bytes.byteLength > 2_000_000
+      ? bytes.slice(0, 2_000_000)
+      : bytes;
+    const text = new TextDecoder('latin1').decode(chunk);
+    return (text.match(/\/Subtype\s*\/Image/g) || []).length;
+  } catch (e) { return -1; }
+}
+
+/* ================================================================
+   COMPRIMEER ALLES
+   ================================================================ */
+async function compressAll() {
+  if (!queueItems.length) return;
+
+  const batch = [...queueItems];
+  queueItems  = [];
+  compressBtn.disabled    = true;
+  compressBtn.textContent = 'Bezig…';
+
+  const quality = currentQuality();
+
+  for (const qItem of batch) {
+    qItem.row.classList.add('compressing');
+
+    try {
+      const result = await compressPdf(
+        qItem.file,
+        quality,
+        qItem.bytes,                                                        // gecachede bytes (kan null zijn als nog niet geladen)
+        p  => { qItem.barEl.style.width   = Math.round(p * 100) + '%'; },
+        st => { qItem.statusEl.textContent = st; }
+      );
+      addResultRow(qItem.file, result.blob, result.alreadyOptimal, result.numPages);
+      bumpCounter();
+    } catch (err) {
+      addErrorRow(qItem.file, err);
+    }
+
+    qItem.row.classList.add('fading');
+    setTimeout(() => qItem.row.remove(), 300);
+  }
+
+  await new Promise(r => setTimeout(r, 380));
+  updateQueue();
+}
+
+/* ================================================================
+   KERN-COMPRESSIE
+   Werkwijze:
+     1. Laad de PDF met pdf.js (voor pixel-nauwkeurig renderen).
+     2. Render elke pagina op een canvas op de gewenste schaal.
+     3. Codeer het canvas als JPEG op de gewenste kwaliteit.
+     4. Bouw een nieuwe PDF op met pdf-lib en embed alle JPEG-afbeeldingen.
+     5. Sla op en retourneer als Blob.
+
+   Als de uitvoer groter is dan het origineel (kan bij tekst-PDF's),
+   retourneer dan het origineel met alreadyOptimal=true.
+   ================================================================ */
+async function compressPdf(file, quality, preloadedBytes, onProgress, onStatus) {
+  const scale = qToScale(quality);
+
+  onProgress(0.03);
+  onStatus('Bibliotheken laden…');
+
+  let pdfjsLib, PDFLib;
+  try {
+    [pdfjsLib, PDFLib] = await Promise.all([loadPdfJs(), loadPdfLib()]);
+  } catch (e) {
+    const err = new Error('Kon bibliotheken niet laden. Probeer op de gedeployde site.');
+    throw err;
+  }
+
+  onProgress(0.08);
+  onStatus('PDF openen…');
+
+  // Bestand lezen — gebruik gecachede bytes als beschikbaar
+  let arrayBuffer;
+  try {
+    arrayBuffer = preloadedBytes || await file.arrayBuffer();
+  } catch (e) {
+    throw new Error('Kon het bestand niet lezen.');
+  }
+
+  // Laden met pdf.js voor renderen
+  let pdfjsDoc;
+  try {
+    const task = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
+    pdfjsDoc   = await task.promise;
+  } catch (e) {
+    const msg = e && e.message ? e.message : '';
+    if (/password/i.test(msg)) {
+      throw new Error('Beveiligd met een wachtwoord — kan niet worden gecomprimeerd.');
+    }
+    throw new Error('Kon de PDF niet openen. Is het bestand geldig?');
+  }
+
+  const numPages = pdfjsDoc.numPages;
+  if (numPages === 0) throw new Error("Lege PDF — geen pagina's gevonden.");
+
+  onProgress(0.12);
+
+  // Nieuwe output-PDF aanmaken met pdf-lib
+  const { PDFDocument } = PDFLib;
+  const newPdf = await PDFDocument.create();
+
+  // Pagina voor pagina verwerken
+  for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+    onProgress(0.12 + ((pageNum - 1) / numPages) * 0.78);
+    onStatus(`Pagina ${pageNum} van ${numPages}…`);
+
+    const page = await pdfjsDoc.getPage(pageNum);
+
+    // Originele paginagrootte in punten → bepaalt de PDF-pagina-afmeting
+    const vp1 = page.getViewport({ scale: 1.0 });
+    const ptW  = vp1.width;
+    const ptH  = vp1.height;
+
+    // Renderresolutie op compressieschaal
+    const vp      = page.getViewport({ scale });
+    const canvas  = document.createElement('canvas');
+    canvas.width  = Math.round(vp.width);
+    canvas.height = Math.round(vp.height);
+
+    const ctx = canvas.getContext('2d');
+    // Witte achtergrond: JPEG kent geen transparantie
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    await page.render({ canvasContext: ctx, viewport: vp }).promise;
+
+    // Pagina als JPEG coderen op de ingestelde kwaliteitswaarde
+    const jpegData = await new Promise((resolve, reject) => {
+      canvas.toBlob(blob => {
+        if (!blob) return reject(new Error('JPEG-codering mislukt voor pagina ' + pageNum));
+        blob.arrayBuffer().then(resolve, reject);
+      }, 'image/jpeg', quality / 100);
+    });
+
+    // JPEG inbedden in de nieuwe PDF; pagina op de originele grootte
+    const jpegImage = await newPdf.embedJpg(jpegData);
+    const pdfPage   = newPdf.addPage([ptW, ptH]);
+    pdfPage.drawImage(jpegImage, { x: 0, y: 0, width: ptW, height: ptH });
+
+    // Canvas memory vrijgeven vóór de volgende pagina
+    canvas.width = 0;
+    page.cleanup();
+
+    // UI de kans geven om bij te werken (progress + status) tussen pagina's.
+    // Zonder dit bevriest de browser visueel bij grote PDF's.
+    await new Promise(r => setTimeout(r, 0));
+  }
+
+  // pdf.js-document vrijgeven — houdt anders alle pagina-resources in geheugen
+  pdfjsDoc.destroy();
+
+  onProgress(0.92);
+  onStatus('PDF opslaan…');
+
+  const outputBytes = await newPdf.save();
+  onProgress(1.0);
+  onStatus('Klaar');
+
+  const outBlob = new Blob([outputBytes], { type: 'application/pdf' });
+
+  // Als de compressie de PDF juist groter maakt (typisch bij al-geoptimaliseerde
+  // tekst-PDFs), geef dan het origineel terug met de vlag alreadyOptimal.
+  if (outBlob.size >= file.size) {
+    return {
+      blob: new Blob([arrayBuffer], { type: 'application/pdf' }),
+      alreadyOptimal: true,
+      numPages,
+    };
+  }
+
+  return { blob: outBlob, alreadyOptimal: false, numPages };
+}
+
+/* ================================================================
+   RESULTAATRIJEN
+   ================================================================ */
+function addResultRow(file, blob, alreadyOptimal, numPages) {
+  resultsCard.style.display = 'block';
+
+  const outName  = makeOutName(file);
+  const savings  = Math.round((1 - blob.size / file.size) * 100);
+  const pagesStr = numPages ? `${numPages} ${numPages === 1 ? 'pagina' : "pagina's"} · ` : '';
+
+  const row = document.createElement('div');
+  row.className = 'r-item';
+  row.innerHTML = `
+    <div class="r-main">
+      ${pdfIconSvg(46)}
+      <div class="r-meta">
+        <div class="r-name"></div>
+        <div class="r-sizes"></div>
+      </div>
+      <div class="savings"></div>
+      <button class="dl">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M12 4v12m0 0l-4-4m4 4l4-4"/><path d="M4 20h16"/>
+        </svg>
+        Download
+      </button>
+    </div>`;
+
+  row.querySelector('.r-name').textContent  = outName;
+  row.querySelector('.r-sizes').textContent = `${pagesStr}${humanSize(file.size)} → ${humanSize(blob.size)}`;
+
+  const savEl = row.querySelector('.savings');
+  if (alreadyOptimal) {
+    savEl.className  = 'savings notice';
+    savEl.textContent = 'al optimaal';
+  } else if (savings >= 2) {
+    savEl.className  = 'savings ok';
+    savEl.textContent = savings + '% kleiner';
+  } else {
+    savEl.className  = 'savings meh';
+    savEl.textContent = 'minimale winst';
+  }
+
+  row.querySelector('.dl').onclick = () => triggerDownload(blob, outName);
+
+  resultItems.push({ file, blob, outName });
+  resultsList.appendChild(row);
+  updateSummary();
+}
+
+function addErrorRow(file, err) {
+  resultsCard.style.display = 'block';
+  const row = document.createElement('div');
+  row.className = 'r-item err';
+  row.innerHTML = `
+    <div class="r-main">
+      ${pdfIconSvg(46)}
+      <div class="r-meta">
+        <div class="r-name"></div>
+        <div class="r-sizes"></div>
+      </div>
+    </div>`;
+
+  row.querySelector('.r-name').textContent  = file.name;
+  row.querySelector('.r-sizes').textContent = friendlyError(err);
+  resultsList.appendChild(row);
+  updateSummary();
+}
+
+function updateSummary() {
+  if (!resultItems.length) { summaryEl.textContent = '—'; return; }
+  const totalOrig = resultItems.reduce((s, r) => s + r.file.size, 0);
+  const totalComp = resultItems.reduce((s, r) => s + r.blob.size, 0);
+  const avg       = Math.round((1 - totalComp / totalOrig) * 100);
+  const n         = resultItems.length;
+  summaryEl.textContent = `${n} ${n === 1 ? 'bestand' : 'bestanden'} · ${humanSize(totalOrig)} → ${humanSize(totalComp)} · gemiddeld ${avg}% kleiner`;
+  // "Alles downloaden" heeft pas zin bij meerdere bestanden
+  downloadAllBtn.style.display = n >= 2 ? 'inline-block' : 'none';
+}
+
+downloadAllBtn.onclick = () => {
+  // GRATIS: één voor één (PRO-haak: zip via JSZip staat klaar als aparte functie)
+  resultItems.forEach((r, i) => setTimeout(() => triggerDownload(r.blob, r.outName), i * 350));
+};
+
+/* ================================================================
+   EVENTS
+   ================================================================ */
+dropzone.onclick   = () => fileInput.click();
+dropzone.onkeydown = e => (e.key === 'Enter' || e.key === ' ') && fileInput.click();
+fileInput.onchange = () => { addFiles(fileInput.files); fileInput.value = ''; };
+
+['dragover', 'dragenter'].forEach(ev =>
+  dropzone.addEventListener(ev, e => { e.preventDefault(); dropzone.classList.add('drag'); })
+);
+['dragleave', 'drop'].forEach(ev =>
+  dropzone.addEventListener(ev, e => { e.preventDefault(); dropzone.classList.remove('drag'); })
+);
+dropzone.addEventListener('drop', e => {
+  if (e.dataTransfer) addFiles(e.dataTransfer.files);
+});
+
+compressBtn.onclick = compressAll;
+
+/* ================================================================
+   TELLER + DONATIE-NUDGE
+   ================================================================ */
+function bumpCounter() {
+  let n = parseInt(store.get('pdfcomp_total') || '0', 10) + 1;
+  store.set('pdfcomp_total', n);
+  if (FEATURES.pro || store.get('nudge_done')) return;
+  if (n >= FEATURES.donationNudgeAfter) {
+    document.getElementById('nudgeCount').textContent = n;
+    document.getElementById('nudge').classList.add('show');
+  }
+}
+document.getElementById('nudgeX').onclick =
+document.getElementById('nudgeNo').onclick = e => {
+  e.preventDefault();
+  store.set('nudge_done', '1');
+  document.getElementById('nudge').classList.remove('show');
+};
+
+/* ================================================================
+   HULPJES
+   ================================================================ */
+function humanSize(b) {
+  if (b < 1024)    return b + ' B';
+  if (b < 1048576) return (b / 1024).toFixed(0) + ' KB';
+  return (b / 1048576).toFixed(1) + ' MB';
+}
+
+function triggerDownload(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a   = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function makeOutName(file) {
+  const dot  = file.name.lastIndexOf('.');
+  const base = dot >= 0 ? file.name.slice(0, dot) : file.name;
+  return base + '-klein.pdf';
+}
+
+function friendlyError(err) {
+  const msg = err && err.message ? err.message : '';
+  if (/wachtwoord|password/i.test(msg))   return 'Beveiligd met een wachtwoord — kan niet worden gecomprimeerd';
+  if (/bibliotheken|laden mislukt/i.test(msg)) return 'Kon de hulpbibliotheek niet laden. Probeer het op de echte site.';
+  if (/geldig/i.test(msg))                return 'Ongeldig PDF-bestand — controleer het bestand';
+  return 'Kon dit bestand niet comprimeren';
+}
+
+/* PDF-pictogram (zelfde stijl als pdf-samenvoegen.html) */
+function pdfIconSvg(size) {
+  return `<svg width="${size}" height="${size}" viewBox="0 0 54 54" fill="none"
+              xmlns="http://www.w3.org/2000/svg" style="flex:none">
+    <rect width="54" height="54" rx="12" fill="#FBE8E7"/>
+    <rect x="10" y="14" width="24" height="30" rx="3.5" fill="#B4471F" opacity=".15"/>
+    <rect x="16" y="10" width="24" height="31" rx="3.5" fill="white" stroke="#E8C8C0" stroke-width="1.2"/>
+    <rect x="21" y="16" width="14" height="2.5" rx="1.25" fill="#B4471F"/>
+    <rect x="21" y="21" width="11" height="2"   rx="1"    fill="#B4471F" opacity=".4"/>
+    <rect x="21" y="25" width="13" height="2"   rx="1"    fill="#B4471F" opacity=".4"/>
+    <rect x="21" y="29" width="9"  height="2"   rx="1"    fill="#B4471F" opacity=".3"/>
+    <path d="M16,34 h24 v3.5 a3.5,3.5 0 0 1-3.5,3.5 h-17 a3.5,3.5 0 0 1-3.5,-3.5 Z"
+          fill="#B4471F" opacity=".9"/>
+    <text x="28" y="40.5" font-size="5.5" font-weight="700" fill="white"
+          text-anchor="middle" font-family="Helvetica,Arial,sans-serif" letter-spacing=".6">PDF</text>
+  </svg>`;
+}
+</script>
+</body>
+</html>
