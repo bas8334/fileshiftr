@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ── SEO ───────────────────────────────────────────────────────── -->
+<title>Fileshiftr — Free File Conversion, No Limits</title>
+<meta name="description" content="Convert images and PDFs in your browser. Free, no account, no upload — your files never leave your device. No limits, ever.">
+<link rel="alternate" hreflang="en" href="index.html">
+<link rel="alternate" hreflang="nl" href="nl/index.html">
+<link rel="alternate" hreflang="x-default" href="index.html">
+<link rel="canonical" href="index.html">
+
+<!-- ── Open Graph (LinkedIn, WhatsApp, Slack, etc.) ─────────────── -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://fileshiftr.com/">
+<meta property="og:title"       content="Fileshiftr — Free File Conversion, No Limits">
+<meta property="og:description" content="Convert images and PDFs in your browser. Free, no account, no upload — your files stay on your device.">
+<meta property="og:locale"      content="en_US">
+<!-- og:image toevoegen zodra je een 1200×630 social card hebt -->
+
+<!-- ── Twitter / X Card ──────────────────────────────────────────── -->
+<meta name="twitter:card"        content="summary">
+<meta name="twitter:title"       content="Fileshiftr — Free File Conversion, No Limits">
+<meta name="twitter:description" content="Convert images and PDFs in your browser. Free, no account, no upload — your files stay on your device.">
+
+<!-- ── Mobiele browser UI-kleur ─────────────────────────────────── -->
+<meta name="theme-color" content="#16794A">
+
+<!-- ── Favicon (vervang door echte bestanden zodra je die hebt) ── -->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="https://fileshiftr.com/favicon.ico" sizes="any">
+
+<!-- ── Lettertypes ───────────────────────────────────────────────── -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ── JSON-LD: sitestructuur + FAQ rich results ─────────────────── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://fileshiftr.com/#website",
+      "url": "https://fileshiftr.com/",
+      "name": "Fileshiftr",
+      "description": "Free file conversion with no limits. Convert images and PDFs in your browser, no upload required.",
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Are my files uploaded to a server?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. All conversions happen entirely in your own browser. Your files never leave your computer or phone." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a limit on files or conversions?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Convert as many files as you want, as often as you want, without an account and without waiting." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Fileshiftr cost money?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No, it's free and always will be. Fileshiftr runs on contextual ads and voluntary donations." }
+        },
+        {
+          "@type": "Question",
+          "name": "What file types are supported?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Images: JPG, PNG, WebP, HEIC (iPhone photos), GIF and BMP. PDFs: merge, compress, and images to PDF." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work on my phone or tablet?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Fileshiftr works in every modern browser on iPhone, Android, tablet and computer." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<style>
+  :root {
+    --paper:       #FAF6EF;
+    --surface:     #FFFDF9;
+    --ink:         #211C16;
+    --muted:       #6B6358;
+    --line:        #E8E0D3;
+    --green:       #16794A;
+    --green-dark:  #12603B;
+    --green-tint:  #E7F2EB;
+    --amber:       #C9742A;
+    --amber-tint:  #FBEFE0;
+    --radius:      18px;
+    --shadow:      0 1px 2px rgba(33,28,22,.04), 0 8px 24px rgba(33,28,22,.06);
+    --shadow-lift: 0 2px 4px rgba(33,28,22,.06), 0 16px 40px rgba(33,28,22,.10);
+    --display:     "Fraunces", Georgia, "Times New Roman", serif;
+    --body:        "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  /* Globale focus-stijl — zichtbaar bij toetsenbordnavigatie */
+  :focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  body {
+    font-family: var(--body);
+    color: var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(22,121,74,.07), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(201,116,42,.05), transparent 55%),
+      var(--paper);
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 840px; margin: 0 auto; padding: 0 20px; }
+
+  /* ── Header ─────────────────────────────────────────────────── */
+  header { padding: 28px 0 8px; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .logo .mark {
+    width: 34px; height: 34px; flex: none;
+    display: grid; place-items: center;
+  }
+  .wordmark { font-family: var(--body); font-weight: 700; font-size: 20px; letter-spacing: -.02em; }
+  .w-dark { color: var(--ink); }
+  .w-green { color: var(--green); }
+  .w-r { color: var(--amber); }
+  .promise-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 13px; font-weight: 600; color: var(--green-dark);
+    background: var(--green-tint); border: 1px solid #cfe6d8;
+    padding: 7px 13px; border-radius: 999px;
+  }
+  .promise-pill svg { width: 15px; height: 15px; }
+
+  /* ── Hero ────────────────────────────────────────────────────── */
+  .hero { padding: 56px 0 40px; text-align: center; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 12px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--green); margin-bottom: 20px;
+  }
+  .eyebrow span { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: .5; }
+  .hero h1 {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(38px, 7.5vw, 62px); line-height: 1.04;
+    letter-spacing: -.03em; margin-bottom: 20px;
+  }
+  .hero h1 em { font-style: italic; color: var(--green); }
+  .hero .sub {
+    font-size: clamp(16px, 2.6vw, 18.5px); color: var(--muted);
+    max-width: 540px; margin: 0 auto; line-height: 1.65;
+  }
+
+  /* Trust badges — andere invalshoek dan de eyebrow-tekst */
+  .trust-row { display: flex; gap: 9px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+  .trust {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 13px; font-weight: 500; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line);
+    padding: 8px 14px; border-radius: 999px; box-shadow: var(--shadow);
+  }
+  .trust svg { width: 15px; height: 15px; color: var(--green); flex: none; }
+
+  /* ── Tools ───────────────────────────────────────────────────── */
+  .tools-section { margin-top: 56px; }
+
+  /* Gecentreerde scheidingslijn met label ertussen */
+  .section-label {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 11.5px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 18px;
+  }
+  .section-label::before,
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  /* ── Kaart: flex-column, pijl zit IN de flow (geen absolute) ─── */
+  .tool-card {
+    display: flex; flex-direction: column;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 22px; text-decoration: none; color: var(--ink);
+    transition: box-shadow .2s, transform .2s, border-color .2s;
+  }
+  .tool-card:hover {
+    box-shadow: var(--shadow-lift);
+    transform: translateY(-3px);
+    border-color: #d6ccbf;
+  }
+  .tool-card:hover .tool-arrow {
+    background: var(--green-tint); border-color: #cfe6d8; color: var(--green);
+  }
+
+  /* Volbreedte kaart (5e tool): horizontale layout */
+  .tool-card.wide {
+    grid-column: 1 / -1;
+    flex-direction: row; align-items: flex-start; gap: 22px;
+  }
+  .tool-card.wide .tool-icon { margin-bottom: 0; }
+  .tool-card.wide .tool-body { flex: 1; min-width: 0; }
+  .tool-card.wide .tool-footer { margin-top: 12px; }
+
+  .tool-icon {
+    width: 50px; height: 50px; border-radius: 14px; flex: none;
+    display: grid; place-items: center; margin-bottom: 16px;
+  }
+  .tool-icon svg { width: 24px; height: 24px; }
+  .tool-icon.green { background: var(--green-tint); color: var(--green); }
+  .tool-icon.amber { background: var(--amber-tint); color: var(--amber); }
+
+  /* tool-body groeit om ruimte te vullen → gelijke kaarth­oogten */
+  .tool-body { flex: 1; }
+  .tool-body h2 {
+    font-family: var(--display); font-weight: 600; font-size: 18.5px;
+    letter-spacing: -.015em; margin-bottom: 6px;
+  }
+  .tool-body p {
+    font-size: 14px; color: var(--muted); line-height: 1.55; margin-bottom: 0;
+  }
+
+  /* Footer van de kaart: tags links, pijl rechts — geen absolute positionering */
+  .tool-footer {
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 8px;
+    margin-top: 14px;
+  }
+
+  .format-tags { display: flex; gap: 5px; flex-wrap: wrap; flex: 1; }
+  .fmt {
+    font-size: 11px; font-weight: 700; letter-spacing: .05em;
+    padding: 4px 9px; border-radius: 6px;
+    background: var(--paper); border: 1px solid var(--line); color: var(--muted);
+  }
+
+  .tool-arrow {
+    width: 30px; height: 30px; flex: none; border-radius: 9px;
+    background: var(--paper); border: 1px solid var(--line);
+    display: grid; place-items: center; align-self: flex-end;
+    font-size: 15px; color: var(--muted);
+    transition: background .18s, border-color .18s, color .18s;
+  }
+
+  /* ── How it works ──────────────────────────────────────────── */
+  .how-section { margin-top: 60px; text-align: center; }
+  .how-section h3 {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(24px, 4vw, 30px); letter-spacing: -.02em; margin-bottom: 8px;
+  }
+  .how-section .lead { color: var(--muted); margin-bottom: 30px; }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .step {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 16px; padding: 24px 18px; text-align: center; box-shadow: var(--shadow);
+  }
+  .step-num {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--green-tint); color: var(--green);
+    font-family: var(--display); font-weight: 700; font-size: 16px;
+    display: grid; place-items: center; margin: 0 auto 14px;
+  }
+  .step h4 { font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+  .step p { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+
+  /* ── Belofte-strip ──────────────────────────────────────────── */
+  .promise-strip {
+    margin-top: 48px;
+    background: linear-gradient(135deg, #eef8f2 0%, #e7f2eb 100%);
+    border: 1px solid #cfe6d8; border-radius: 20px;
+    padding: 34px 28px; text-align: center;
+  }
+  .promise-strip h3 {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(22px, 3.5vw, 28px); letter-spacing: -.02em;
+    color: var(--green-dark); margin-bottom: 10px;
+  }
+  .promise-strip p {
+    font-size: 15.5px; color: var(--green-dark); opacity: .8;
+    max-width: 500px; margin: 0 auto;
+  }
+  .promise-pillars {
+    display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 22px;
+  }
+  .pillar {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13.5px; font-weight: 600; color: var(--green-dark);
+    background: #fff; border: 1px solid #cfe6d8;
+    padding: 9px 15px; border-radius: 999px;
+  }
+  .pillar svg { width: 15px; height: 15px; flex: none; }
+
+  /* ── Advertentieplek ────────────────────────────────────────── */
+  .ad-slot {
+    margin-top: 30px; border: 1px dashed var(--line); border-radius: 14px;
+    padding: 18px; text-align: center; color: var(--muted);
+    font-size: 13px; background: #fffefb;
+  }
+  .ad-slot .lbl {
+    font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+    opacity: .6; display: block; margin-bottom: 4px;
+  }
+
+  /* ── FAQ ────────────────────────────────────────────────────── */
+  .faq { margin-top: 56px; }
+  .faq h3 {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(24px, 4vw, 30px); margin-bottom: 8px; text-align: center;
+  }
+  .faq .lead { text-align: center; color: var(--muted); margin-bottom: 22px; }
+  details {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 13px; padding: 0 18px; margin-bottom: 10px;
+  }
+  summary {
+    cursor: pointer; font-weight: 600; padding: 16px 0; font-size: 15px;
+    list-style: none; display: flex; justify-content: space-between;
+    align-items: center; gap: 12px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 20px; color: var(--green); font-weight: 400; }
+  details[open] summary::after { content: "–"; }
+  details p { padding: 0 0 16px; color: var(--muted); font-size: 15px; line-height: 1.65; }
+
+  /* ── Footer ─────────────────────────────────────────────────── */
+  footer {
+    margin-top: 56px; padding: 30px 0 52px;
+    border-top: 1px solid var(--line); text-align: center;
+    color: var(--muted); font-size: 13.5px;
+  }
+  footer a { color: var(--green-dark); font-weight: 600; text-decoration: none; }
+  .footer-links { display: flex; gap: 14px; justify-content: center; margin-top: 18px; }
+  .coffee {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 14px;
+    background: var(--amber-tint); border: 1px solid #ecd6b6; color: #8a4f17;
+    padding: 9px 16px; border-radius: 999px; font-weight: 600;
+    font-size: 14px; text-decoration: none; transition: background .15s;
+  }
+  .coffee:hover { background: #f7e6cd; }
+
+  /* ── Responsive ─────────────────────────────────────────────── */
+  @media (max-width: 620px) {
+    .tools-grid { grid-template-columns: 1fr; }
+    .tool-card.wide { flex-direction: column; }
+    .tool-card.wide .tool-icon { margin-bottom: 16px; }
+    .steps { grid-template-columns: 1fr; }
+    .hero { padding: 40px 0 32px; }
+    .promise-strip { padding: 26px 18px; }
+  }
+  @media (max-width: 400px) {
+    /* kleinste telefoons: vierde trust-badge verbergen */
+    .trust-row .trust:nth-child(4) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ── Header ─────────────────────────────────────────────── -->
+  <header>
+    <div class="topbar">
+      <a href="index.html" class="logo">
+        <span class="mark"><svg width="34" height="34" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="mlg" x1="0" y1="0" x2=".4" y2="1"><stop offset="0%" stop-color="#22a36a"/><stop offset="100%" stop-color="#14623e"/></linearGradient></defs><path d="M6,1 H20 L27,8 V30 Q27,32 25,32 H6 Q4,32 4,30 V3 Q4,1 6,1 Z" fill="url(#mlg)"/><path d="M20,1 L20,8 H27" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.2"/><line x1="5" y1="14" x2="11" y2="14" stroke="rgba(255,255,255,.88)" stroke-width="2" stroke-linecap="round"/><line x1="5" y1="18" x2="9" y2="18" stroke="rgba(255,255,255,.65)" stroke-width="1.5" stroke-linecap="round"/><line x1="5" y1="22" x2="7" y2="22" stroke="rgba(255,255,255,.45)" stroke-width="1.2" stroke-linecap="round"/><path d="M13,18 H24 M20,14 L25,18 L20,22" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  <span class="wordmark"><span class="w-dark">file</span><span class="w-green">shift</span><span class="w-r">r</span></span>
+      </a>
+      <span class="promise-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        Stays on your device
+      </span>
+    </div>
+  </header>
+
+  <!-- ── Hero ───────────────────────────────────────────────── -->
+  <section class="hero" aria-label="Introduction">
+    <div class="eyebrow">
+      Free <span></span> No limits <span></span> No upload
+    </div>
+    <h1>File conversion<br>done <em>right</em></h1>
+    <p class="sub">
+      Convert images and PDFs in your own browser, without uploading a single byte.
+      No account, no queue, never cut off after two files.
+    </p>
+    <!-- Trust badges: andere invalshoek dan de eyebrow -->
+    <div class="trust-row">
+      <span class="trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>
+        No account needed
+      </span>
+      <span class="trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>
+        Works on any device
+      </span>
+      <span class="trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Private &amp; offline
+      </span>
+      <span class="trust">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>
+        No cookie banner
+      </span>
+    </div>
+  </section>
+
+  <!-- ── Tools ──────────────────────────────────────────────── -->
+  <section class="tools-section" aria-labelledby="tools-heading">
+    <p class="section-label" id="tools-heading">All tools</p>
+
+    <div class="tools-grid">
+
+      <!-- 1. Convert image -->
+      <a href="convert-image.html" class="tool-card">
+        <div class="tool-icon green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="17 1 21 5 17 9"/>
+            <path d="M3 11V9a4 4 0 014-4h14"/>
+            <polyline points="7 23 3 19 7 15"/>
+            <path d="M21 13v2a4 4 0 01-4 4H3"/>
+          </svg>
+        </div>
+        <div class="tool-body">
+          <h2>Convert image</h2>
+          <p>Zet JPG, PNG, WebP en iPhone-foto's (HEIC) om naar een ander formaat. Quality is zelf in te stellen.</p>
+        </div>
+        <div class="tool-footer">
+          <div class="format-tags">
+            <span class="fmt">JPG</span>
+            <span class="fmt">PNG</span>
+            <span class="fmt">WebP</span>
+            <span class="fmt">HEIC</span>
+          </div>
+          <span class="tool-arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+
+      <!-- 2. Compress image -->
+      <a href="compress-image.html" class="tool-card">
+        <div class="tool-icon green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 14 10 14 10 20"/>
+            <polyline points="20 10 14 10 14 4"/>
+            <line x1="10" y1="14" x2="3" y2="21"/>
+            <line x1="21" y1="3" x2="14" y2="10"/>
+          </svg>
+        </div>
+        <div class="tool-body">
+          <h2>Compress image</h2>
+          <p>Reduce your photo's file size. See exactly how much you save.</p>
+        </div>
+        <div class="tool-footer">
+          <div class="format-tags">
+            <span class="fmt">JPG</span>
+            <span class="fmt">PNG</span>
+            <span class="fmt">WebP</span>
+          </div>
+          <span class="tool-arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+
+      <!-- 3. Merge PDFs -->
+      <a href="merge-pdf.html" class="tool-card">
+        <div class="tool-icon amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 2H4a1 1 0 00-1 1v14a1 1 0 001 1h5"/>
+            <path d="M15 2h5a1 1 0 011 1v14a1 1 0 01-1 1h-5"/>
+            <rect x="7" y="6" width="10" height="16" rx="1"/>
+            <line x1="12" y1="10" x2="12" y2="18"/>
+            <line x1="9" y1="14" x2="15" y2="14"/>
+          </svg>
+        </div>
+        <div class="tool-body">
+          <h2>Merge PDFs</h2>
+          <p>Combine multiple PDFs into one file. Drag to reorder.</p>
+        </div>
+        <div class="tool-footer">
+          <div class="format-tags">
+            <span class="fmt">PDF</span>
+            <span class="fmt">Multiple files</span>
+          </div>
+          <span class="tool-arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+
+      <!-- 4. Compress PDF -->
+      <a href="compress-pdf.html" class="tool-card">
+        <div class="tool-icon amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="9" y1="13" x2="15" y2="13"/>
+            <polyline points="11 16 9 18 11 20"/>
+            <polyline points="13 16 15 18 13 20"/>
+          </svg>
+        </div>
+        <div class="tool-body">
+          <h2>Compress PDF</h2>
+          <p>Shrink a PDF by re-encoding images at lower quality. Text and vectors stay crisp.</p>
+        </div>
+        <div class="tool-footer">
+          <div class="format-tags">
+            <span class="fmt">PDF</span>
+            <span class="fmt">Smaller</span>
+          </div>
+          <span class="tool-arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+
+      <!-- 5. Images to PDF — volledige breedte -->
+      <a href="images-to-pdf.html" class="tool-card wide">
+        <div class="tool-icon green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="10" height="10" rx="1"/>
+            <circle cx="6.5" cy="6.5" r="1"/>
+            <polyline points="3 11 7 7 10 10"/>
+            <path d="M15 2h4a1 1 0 011 1v18a1 1 0 01-1 1h-8a1 1 0 01-1-1v-9"/>
+            <polyline points="15 2 15 8 21 8"/>
+          </svg>
+        </div>
+        <div class="tool-body">
+          <h2>Images to PDF</h2>
+          <p>Convert one or more photos into a single PDF. Perfect for scans, contracts or bundling images. Drag to reorder.</p>
+          <div class="tool-footer">
+            <div class="format-tags">
+              <span class="fmt">JPG → PDF</span>
+              <span class="fmt">PNG → PDF</span>
+              <span class="fmt">WebP → PDF</span>
+              <span class="fmt">Multiple pages</span>
+            </div>
+          </div>
+        </div>
+        <span class="tool-arrow" aria-hidden="true">→</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── How it works ───────────────────────────────────────── -->
+  <section class="how-section" aria-labelledby="how-heading">
+    <h3 id="how-heading">How it works</h3>
+    <p class="lead">Three clicks and you're done — really that simple.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Choose your files</h4>
+        <p>Drop them on the tool or click to browse. Multiple files always supported.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Set your options</h4>
+        <p>Choose the output format or quality. The defaults work well for most cases.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Download instantly</h4>
+        <p>Done in seconds. Everything is processed in your browser — your files never touch our servers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Belofte-strip ───────────────────────────────────────── -->
+  <div class="promise-strip">
+    <h3>Truly free — always</h3>
+    <p>We were frustrated by sites that demand an account or charge money after two files. Fileshiftr never throttles anyone.</p>
+    <div class="promise-pillars">
+      <span class="pillar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>
+        Unlimited files
+      </span>
+      <span class="pillar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Fully local in your browser
+      </span>
+      <span class="pillar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>
+        No hidden limits
+      </span>
+      <span class="pillar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>
+        No cookie banner nodig
+      </span>
+    </div>
+  </div>
+
+  <!-- ── Advertentieplek ─────────────────────────────────────── -->
+  <div class="ad-slot" id="adSlot">
+    <span class="lbl">Advertisement</span>
+    One quiet, non-tracking ad goes here. We never follow you around the web.
+  </div>
+
+  <!-- ── FAQ ────────────────────────────────────────────────── -->
+  <section class="faq" aria-labelledby="faq-heading">
+    <h3 id="faq-heading">Frequently asked questions</h3>
+    <p class="lead">The short version: free, no limits, your files stay yours.</p>
+
+    <!-- open verwijderd: op mobiel pusht dit content te ver omlaag -->
+    <details>
+      <summary>Are my files uploaded to a server?</summary>
+      <p>No. All conversions happen entirely in your own browser. Your files never leave your computer or phone — we never receive or see them.</p>
+    </details>
+
+    <details>
+      <summary>Is there a limit on files or conversions?</summary>
+      <p>No, absolutely not. Convert as many files as you want, as often as you want, without an account or waiting. Exactly what frustrated us about other sites.</p>
+    </details>
+
+    <details>
+      <summary>Does it cost money? Now, or later?</summary>
+      <p>No, it's free and always will be. Fileshiftr runs on contextual ads and voluntary donations from people who found it useful. Find it useful too? Feel free to buy us a coffee — but there's absolutely no pressure.</p>
+    </details>
+
+    <details>
+      <summary>What file types are supported?</summary>
+      <p>Images: JPG, PNG, WebP, HEIC (iPhone photos), GIF and BMP. PDFs: merge, compress, and bundle images into one PDF. More tools coming — have a request? Reach out via the About page.</p>
+    </details>
+
+    <details>
+      <summary>Does it work on my phone or tablet?</summary>
+      <p>Yes. Fileshiftr works in every modern browser — on iPhone, Android, tablet and computer. Since everything is processed locally, you don't even need a fast internet connection.</p>
+    </details>
+
+    <details>
+      <summary>Can I convert iPhone photos (HEIC)?</summary>
+      <p>Yes. Just drop your HEIC file into the Convert Image tool — it's automatically detected and converted. The first time, your browser downloads a small helper library (~400 KB); after that it's cached. Your files stay on your device.</p>
+    </details>
+  </section>
+
+  <footer>
+    Your files stay on your own device. We never store or forward them.<br>
+    <a class="coffee" href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener noreferrer">☕ Support Fileshiftr on Ko-fi</a>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="about.html">About</a>
+    </div>
+  </footer>
+
+</div><!-- .wrap -->
+
+</body>
+</html>

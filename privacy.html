@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Privacy Policy — Fileshiftr</title>
+<meta name="description" content="Your files never leave your browser — that's not a promise, it's how the technology works. Read what Fileshiftr does and doesn't store.">
+<link rel="alternate" hreflang="en" href="privacy.html">
+<link rel="alternate" hreflang="nl" href="nl/privacy.html">
+<link rel="alternate" hreflang="x-default" href="privacy.html">
+<link rel="canonical" href="privacy.html">
+
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://fileshiftr.com/privacy">
+<meta property="og:title"       content="Privacy Policy — Fileshiftr">
+<meta property="og:description" content="Your files never leave your browser. Read what Fileshiftr does and doesn't store.">
+<meta property="og:locale"      content="en_US">
+<meta name="theme-color" content="#16794A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="https://fileshiftr.com/favicon.ico" sizes="any">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper:       #FAF6EF;
+    --surface:     #FFFDF9;
+    --ink:         #211C16;
+    --muted:       #6B6358;
+    --line:        #E8E0D3;
+    --green:       #16794A;
+    --green-dark:  #12603B;
+    --green-tint:  #E7F2EB;
+    --amber:       #C9742A;
+    --amber-tint:  #FBEFE0;
+    --radius:      18px;
+    --shadow:      0 1px 2px rgba(33,28,22,.04), 0 8px 24px rgba(33,28,22,.06);
+    --display:     "Fraunces", Georgia, "Times New Roman", serif;
+    --body:        "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 6px; }
+
+  body {
+    font-family: var(--body); color: var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(22,121,74,.07), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(201,116,42,.05), transparent 55%),
+      var(--paper);
+    line-height: 1.6; min-height: 100vh; -webkit-font-smoothing: antialiased;
+  }
+
+  /* Brede wrap voor header, smal voor inhoud */
+  .wrap    { max-width: 840px; margin: 0 auto; padding: 0 20px; }
+  .content { max-width: 680px; margin: 0 auto; }
+
+  /* ── Header ──────────────────────────────────────────────── */
+  header { padding: 28px 0 8px; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo .mark { width: 34px; height: 34px; flex: none; display: grid; place-items: center; }
+  .wordmark { font-family: var(--body); font-weight: 700; font-size: 20px; letter-spacing: -.02em; }
+  .w-dark { color: var(--ink); }
+  .w-green { color: var(--green); }
+  .w-r { color: var(--amber); }
+  .promise-pill { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--green-dark); background: var(--green-tint); border: 1px solid #cfe6d8; padding: 7px 13px; border-radius: 999px; }
+  .promise-pill svg { width: 15px; height: 15px; }
+
+  /* ── Teruglink ─────────────────────────────────────────── */
+  .back-link { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 600; color: var(--muted); text-decoration: none; margin-top: 28px; transition: color .15s; }
+  .back-link:hover { color: var(--green-dark); }
+  .back-link svg { width: 16px; height: 16px; }
+
+  /* ── Pagina-hero ───────────────────────────────────────── */
+  .page-hero { padding: 16px 0 32px; }
+  .page-hero .eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--green); display: block; margin-bottom: 10px; }
+  .page-hero h1 { font-family: var(--display); font-weight: 600; font-size: clamp(30px, 5vw, 44px); line-height: 1.08; letter-spacing: -.025em; margin-bottom: 8px; }
+  .page-hero .meta { font-size: 13px; color: var(--muted); }
+
+  /* ── Samenvattingskaart ────────────────────────────────── */
+  .summary-card {
+    background: linear-gradient(135deg, #eef8f2 0%, #e5f1ea 100%);
+    border: 1px solid #cfe6d8; border-radius: 20px;
+    padding: 26px 28px; margin-bottom: 12px;
+  }
+  .summary-card .card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .summary-card .shield { width: 38px; height: 38px; background: var(--green); border-radius: 11px; display: grid; place-items: center; color: #fff; flex: none; box-shadow: 0 4px 10px rgba(22,121,74,.3); }
+  .summary-card .shield svg { width: 20px; height: 20px; }
+  .summary-card h2 { font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--green-dark); }
+  .summary-card .tagline { font-size: 16px; font-weight: 600; color: var(--green-dark); margin-bottom: 18px; line-height: 1.5; }
+  .summary-facts { display: flex; gap: 8px; flex-wrap: wrap; }
+  .fact { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--green-dark); background: #fff; border: 1px solid #cfe6d8; padding: 7px 12px; border-radius: 999px; }
+  .fact svg { width: 14px; height: 14px; flex: none; }
+
+  /* ── Beleidssecties ──────────────────────────────────── */
+  .policy-section { margin-bottom: 10px; }
+  .section-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
+
+  .section-head { display: flex; align-items: flex-start; gap: 13px; margin-bottom: 14px; }
+  .section-num { width: 28px; height: 28px; border-radius: 8px; background: var(--green-tint); color: var(--green-dark); font-size: 13px; font-weight: 700; display: grid; place-items: center; flex: none; margin-top: 3px; }
+  .section-card h3 { font-family: var(--display); font-weight: 600; font-size: 19px; letter-spacing: -.01em; }
+
+  .section-card p { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 12px; }
+  .section-card p:last-child { margin-bottom: 0; }
+  .section-card strong { color: var(--ink); }
+  .section-card a { color: var(--green-dark); font-weight: 600; text-decoration: none; }
+  .section-card a:hover { text-decoration: underline; }
+  .section-card code { font-family: ui-monospace, "Cascadia Code", Menlo, monospace; font-size: 13px; background: var(--paper); border: 1px solid var(--line); padding: 2px 6px; border-radius: 5px; color: var(--ink); }
+
+  /* Groene info-box (iets wat NIET gebeurt) */
+  .highlight-good {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: var(--green-tint); border-radius: 11px;
+    padding: 12px 14px; margin: 14px 0; font-size: 14.5px;
+    font-weight: 500; color: var(--green-dark); line-height: 1.5;
+  }
+  .highlight-good svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
+
+  /* Amber waarschuwing (eerlijke beperking) */
+  .caveat {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: var(--amber-tint); border: 1px solid #ecd6b6;
+    border-radius: 11px; padding: 13px 15px; margin: 10px 0;
+    font-size: 14px; color: #6b3c0c; line-height: 1.6;
+  }
+  .caveat svg { width: 17px; height: 17px; flex: none; color: var(--amber); margin-top: 2px; }
+  .caveat strong { color: #4a2908; }
+  .caveat a { color: #6b3c0c; font-weight: 600; }
+
+  /* Datatabel */
+  .data-table-wrap { margin-top: 16px; overflow-x: auto; border-radius: 11px; border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead { background: var(--paper); }
+  th { font-weight: 700; font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--line); }
+  td { padding: 12px 14px; vertical-align: top; border-bottom: 1px solid var(--line); color: var(--ink); line-height: 1.55; }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:nth-child(even) td { background: var(--paper); }
+  .td-sub { color: var(--muted); font-size: 13px; }
+
+  /* ── Footer ──────────────────────────────────────────────── */
+  footer { margin-top: 56px; padding: 30px 0 52px; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 13.5px; }
+  footer a { color: var(--green-dark); font-weight: 600; text-decoration: none; }
+  .footer-links { display: flex; gap: 14px; justify-content: center; margin-top: 18px; }
+  .footer-links .current { color: var(--green); }
+  .coffee { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; background: var(--amber-tint); border: 1px solid #ecd6b6; color: #8a4f17; padding: 9px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; text-decoration: none; transition: background .15s; }
+  .coffee:hover { background: #f7e6cd; }
+
+  @media (max-width: 560px) {
+    .page-hero { padding: 10px 0 24px; }
+    .summary-card { padding: 20px; }
+    .section-card { padding: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="topbar">
+      <a href="index.html" class="logo"><span class="mark"><svg width="34" height="34" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="mlg" x1="0" y1="0" x2=".4" y2="1"><stop offset="0%" stop-color="#22a36a"/><stop offset="100%" stop-color="#14623e"/></linearGradient></defs><path d="M6,1 H20 L27,8 V30 Q27,32 25,32 H6 Q4,32 4,30 V3 Q4,1 6,1 Z" fill="url(#mlg)"/><path d="M20,1 L20,8 H27" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.2"/><line x1="5" y1="14" x2="11" y2="14" stroke="rgba(255,255,255,.88)" stroke-width="2" stroke-linecap="round"/><line x1="5" y1="18" x2="9" y2="18" stroke="rgba(255,255,255,.65)" stroke-width="1.5" stroke-linecap="round"/><line x1="5" y1="22" x2="7" y2="22" stroke="rgba(255,255,255,.45)" stroke-width="1.2" stroke-linecap="round"/><path d="M13,18 H24 M20,14 L25,18 L20,22" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="wordmark"><span class="w-dark">file</span><span class="w-green">shift</span><span class="w-r">r</span></span></a>
+      <span class="promise-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Stays on your device
+      </span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <a href="index.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5M5 12l7 7M5 12l7-7"/></svg>
+      All tools
+    </a>
+
+    <div class="page-hero">
+      <span class="eyebrow">Fileshiftr</span>
+      <h1>Privacy Policy</h1>
+      <p class="meta">Updated: June 2026 · Effective from the first version</p>
+    </div>
+
+    <!-- ── Samenvatting ──────────────────────────────────── -->
+    <div class="summary-card">
+      <div class="card-head">
+        <div class="shield">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h2>The short version</h2>
+      </div>
+      <p class="tagline">Your files never leave your browser.<br>That's not a promise — it's how the technology works.</p>
+      <div class="summary-facts">
+        <span class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg> No server upload</span>
+        <span class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg> No account or registration</span>
+        <span class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg> No tracking cookies</span>
+        <span class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg> No cookie banner needed</span>
+      </div>
+    </div>
+
+    <!-- ── 1. Bestanden ──────────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card">
+        <div class="section-head">
+          <span class="section-num">1</span>
+          <h3>Your files</h3>
+        </div>
+        <div class="highlight-good">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>
+          We never receive your files. Not temporarily, not encrypted, not in any way.
+        </div>
+        <p>All conversions — from JPG to PNG, from multiple PDFs to one, from HEIC to WebP — happen entirely in your own browser. Your computer does the work. We are technically not involved.</p>
+        <p>There is nothing to leak, nothing to hack, nothing to sell. That's not a policy — it's the architecture of the site. Client-side processing is the core of Fileshiftr, not an afterthought.</p>
+      </div>
+    </div>
+
+    <!-- ── 2. Browser-opslag ─────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card">
+        <div class="section-head">
+          <span class="section-num">2</span>
+          <h3>Local browser storage</h3>
+        </div>
+        <p>Fileshiftr stores two small pieces of information via your browser's <strong>localStorage</strong>. This stays exclusively on your device — it is never sent to a server and we cannot see it.</p>
+
+        <div class="data-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>What it stores</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>conv_total</code></td>
+                <td class="td-sub">Number, e.g. "12"</td>
+                <td>Counts how many times you've converted a file. After a number of conversions we ask once, politely, for a donation.</td>
+              </tr>
+              <tr>
+                <td><code>nudge_done</code></td>
+                <td class="td-sub">"1" or empty</td>
+                <td>Remembers if you've already seen a donation prompt, so we don't repeat it.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="margin-top:14px">This data contains no personal information and never leaves your device. You can clear it via <strong>Browser settings → Advanced → Clear site data</strong>. The counter then resets to zero.</p>
+      </div>
+    </div>
+
+    <!-- ── 3. Hosting ─────────────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card">
+        <div class="section-head">
+          <span class="section-num">3</span>
+          <h3>Hosting and server logs</h3>
+        </div>
+        <p>Fileshiftr is hosted via <strong>Cloudflare Pages</strong>. When you visit the site, the hosting provider stores standard access logs: your IP address, the page visited and the time. This is standard for every website on the internet and technically unavoidable.</p>
+        <p>We do not actively consult these logs for analysis or advertising purposes. Cloudflare has its own privacy policy and retention periods.</p>
+      </div>
+    </div>
+
+    <!-- ── 4. External services ────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card">
+        <div class="section-head">
+          <span class="section-num">4</span>
+          <h3>External services</h3>
+        </div>
+        <p>To function properly, Fileshiftr loads a number of files from external servers. With each of these requests your browser sends your <strong>IP address</strong> — this is technically unavoidable. We are transparent about this.</p>
+
+        <div class="caveat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div>
+            <strong>Google Fonts</strong> — Our fonts are loaded from Google's servers. Google receives your IP address in the process. This is a known GDPR grey area; we are considering self-hosting the fonts in the future. Until then: if you want to prevent this, you can block Google Fonts via a browser extension — the page will work fine with system fonts.
+          </div>
+        </div>
+
+        <div class="caveat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div>
+            <strong>jsDelivr CDN</strong> — For HEIC conversion the page loads the <code>heic2any</code> library from jsDelivr. Your IP address is sent to their servers. The library is then cached by your browser; the request only happens once per device.
+          </div>
+        </div>
+
+        <div class="caveat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div>
+            <strong>cdnjs (Cloudflare)</strong> — For PDF processing the page loads <code>pdf-lib</code> from Cloudflare's public CDN. Same principle as above: once, then cached.
+          </div>
+        </div>
+
+        <div class="highlight-good" style="margin-top: 14px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>
+          None of these services receive your files — only program code is loaded, not your photos or documents.
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 5. Advertisements ────────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card">
+        <div class="section-head">
+          <span class="section-num">5</span>
+          <h3>Advertisements</h3>
+        </div>
+        <p>Fileshiftr currently has no advertisements. If we add them, we will do so via <strong>EthicalAds</strong> or <strong>Carbon Ads</strong> — services that show contextual ads based on page content, <em>not</em> based on your browsing profile.</p>
+        <div class="highlight-good">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>
+          Geen profiling. No tracking cookies. No cookie banner needed — ook niet bij advertenties.
+        </div>
+        <p>This is a deliberate choice: it fits with Fileshiftr's privacy promise. Once ads are active, we will update this policy.</p>
+      </div>
+    </div>
+
+    <!-- ── 6. AVG-rechten ─────────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card">
+        <div class="section-head">
+          <span class="section-num">6</span>
+          <h3>Your rights (GDPR)</h3>
+        </div>
+        <p>Under the General Data Protection Regulation (GDPR) you have the right to access, correct, delete and port your personal data, and the right to object to processing.</p>
+        <p>In practice, Fileshiftr processes virtually no personal data. The only data technically processed are IP addresses in standard server logs from our hosting provider. For questions about this, or to submit a GDPR request, you can contact us via the details below.</p>
+      </div>
+    </div>
+
+    <!-- ── 7. Contact ─────────────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card">
+        <div class="section-head">
+          <span class="section-num">7</span>
+          <h3>Contact</h3>
+        </div>
+        <p>Questions or comments about this privacy policy? Send an email to <a href="mailto:privacy@fileshiftr.com">privacy@fileshiftr.com</a>. We respond as quickly as possible, within thirty days at the latest.</p>
+        <p>For general questions or feedback about the tools you can also visit the <a href="about.html">About page</a>.</p>
+      </div>
+    </div>
+
+    <!-- ── 8. Wijzigingen ──────────────────────────────────── -->
+    <div class="policy-section">
+      <div class="section-card" style="border-color: var(--line); background: var(--paper);">
+        <div class="section-head">
+          <span class="section-num" style="background: var(--line); color: var(--muted); font-size: 16px; font-weight: 400;">↺</span>
+          <h3 style="color: var(--muted); font-size: 17px;">Changes to this policy</h3>
+        </div>
+        <p style="font-size: 14px;">We may update this privacy policy when the site changes — new tools, advertisements, or technical changes. The date at the top of the page shows when it was last updated. Major changes will be announced via the About page.</p>
+      </div>
+    </div>
+
+  </div><!-- .content -->
+
+  <footer>
+    Your files stay on your own device. We never store or forward them.<br>
+    <a class="coffee" href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener noreferrer">☕ Support Fileshiftr on Ko-fi</a>
+    <div class="footer-links">
+      <a href="index.html">All tools</a>
+      <a href="privacy.html" class="current">Privacy</a>
+      <a href="about.html">About</a>
+    </div>
+  </footer>
+
+</div><!-- .wrap -->
+</body>
+</html>

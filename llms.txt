@@ -1,0 +1,39 @@
+# Fileshiftr
+ 
+> Free file conversion and compression toolkit. No upload, no account, no limits. Everything runs directly in your browser.
+ 
+Fileshiftr is a browser-based file tool suite. All processing happens client-side using the Canvas API and pdf-lib — files never leave the user's device at any point.
+ 
+## Tools
+ 
+- [Convert Image](httpsfileshiftr.comconvert-image) Convert JPG, PNG, WebP, HEIC (iPhone photos), GIF and BMP to any other image format. Quality adjustable. No upload required.
+- [Compress Image](httpsfileshiftr.comcompress-image) Reduce image file size while preserving quality. Shows exact savings percentage after compression.
+- [Merge PDFs](httpsfileshiftr.commerge-pdf) Combine multiple PDF files into one. Drag to reorder pages before merging.
+- [Compress PDF](httpsfileshiftr.comcompress-pdf) Shrink PDF file size by re-encoding embedded images at lower quality. Text and vectors are never affected.
+- [Images to PDF](httpsfileshiftr.comimages-to-pdf) Convert one or more photos into a single PDF document. Drag to reorder.
+ 
+## Key Facts
+ 
+- No file upload all conversions happen in the browser, files never reach any server
+- No account or registration required, ever
+- No limits on number of files or conversions
+- Free to use, funded by contextual ads and voluntary donations
+- Works offline after the initial page load
+- Supported formats JPG, PNG, WebP, HEIC, GIF, BMP, PDF
+- HEIC conversion uses the heic2any library loaded once from jsDelivr CDN
+ 
+## Pages
+ 
+- [Home](httpsfileshiftr.com) Overview of all tools
+- [About](httpsfileshiftr.comabout) Story, technology and business model
+- [Privacy Policy](httpsfileshiftr.comprivacy) No tracking cookies, no server-side file processing, no cookie banner needed
+ 
+## Dutch version
+ 
+Full Dutch translation available at httpsfileshiftr.comnl
+ 
+- [Afbeelding omzetten](httpsfileshiftr.comnlafbeelding-omzetten)
+- [Afbeelding comprimeren](httpsfileshiftr.comnlafbeelding-comprimeren)
+- [PDF samenvoegen](httpsfileshiftr.comnlpdf-samenvoegen)
+- [PDF comprimeren](httpsfileshiftr.comnlpdf-comprimeren)
+- [Afbeeldingen naar PDF](httpsfileshiftr.comnlafbeeldingen-naar-pdf)

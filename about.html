@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>About Fileshiftr — Free tools, no limits, forever</title>
+<meta name="description" content="Fileshiftr was built out of frustration with converters that suddenly charge money after two files. Read the story, the tech, and how we keep this running.">
+<link rel="alternate" hreflang="en" href="about.html">
+<link rel="alternate" hreflang="nl" href="nl/over-ons.html">
+<link rel="alternate" hreflang="x-default" href="about.html">
+<link rel="canonical" href="about.html">
+
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://fileshiftr.com/about">
+<meta property="og:title"       content="About Fileshiftr — Free tools, no limits, forever">
+<meta property="og:description" content="Fileshiftr was built out of frustration. Read the story behind the site.">
+<meta property="og:locale"      content="en_US">
+<meta name="theme-color" content="#16794A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="https://fileshiftr.com/favicon.ico" sizes="any">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper:       #FAF6EF;
+    --surface:     #FFFDF9;
+    --ink:         #211C16;
+    --muted:       #6B6358;
+    --line:        #E8E0D3;
+    --green:       #16794A;
+    --green-dark:  #12603B;
+    --green-tint:  #E7F2EB;
+    --amber:       #C9742A;
+    --amber-tint:  #FBEFE0;
+    --radius:      18px;
+    --shadow:      0 1px 2px rgba(33,28,22,.04), 0 8px 24px rgba(33,28,22,.06);
+    --shadow-lift: 0 2px 4px rgba(33,28,22,.06), 0 16px 40px rgba(33,28,22,.10);
+    --display:     "Fraunces", Georgia, "Times New Roman", serif;
+    --body:        "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 6px; }
+
+  body {
+    font-family: var(--body); color: var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(22,121,74,.07), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(201,116,42,.05), transparent 55%),
+      var(--paper);
+    line-height: 1.6; min-height: 100vh; -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap    { max-width: 840px; margin: 0 auto; padding: 0 20px; }
+  .content { max-width: 680px; margin: 0 auto; }
+
+  /* ── Header ──────────────────────────────────────────────── */
+  header { padding: 28px 0 8px; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo .mark { width: 34px; height: 34px; flex: none; display: grid; place-items: center; }
+  .wordmark { font-family: var(--body); font-weight: 700; font-size: 20px; letter-spacing: -.02em; }
+  .w-dark { color: var(--ink); }
+  .w-green { color: var(--green); }
+  .w-r { color: var(--amber); }
+  .promise-pill { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--green-dark); background: var(--green-tint); border: 1px solid #cfe6d8; padding: 7px 13px; border-radius: 999px; }
+  .promise-pill svg { width: 15px; height: 15px; }
+
+  /* ── Teruglink ─────────────────────────────────────────── */
+  .back-link { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 600; color: var(--muted); text-decoration: none; margin-top: 28px; transition: color .15s; }
+  .back-link:hover { color: var(--green-dark); }
+  .back-link svg { width: 16px; height: 16px; }
+
+  /* ── Pagina-hero ───────────────────────────────────────── */
+  .page-hero { padding: 16px 0 36px; }
+  .page-hero .eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--green); display: block; margin-bottom: 10px; }
+  .page-hero h1 { font-family: var(--display); font-weight: 600; font-size: clamp(30px, 5vw, 44px); line-height: 1.08; letter-spacing: -.025em; }
+
+  /* ── Manifesto-kaart ─────────────────────────────────── */
+  .manifesto {
+    background: linear-gradient(145deg, #145f3c 0%, var(--green) 55%, #1f9d63 100%);
+    border-radius: 22px; padding: 36px 34px; margin-bottom: 12px;
+    box-shadow: 0 8px 32px rgba(22,121,74,.28);
+    position: relative; overflow: hidden;
+  }
+  /* decoratieve cirkel */
+  .manifesto::before {
+    content: "";
+    position: absolute; right: -60px; top: -60px;
+    width: 280px; height: 280px; border-radius: 50%;
+    background: rgba(255,255,255,.06);
+    pointer-events: none;
+  }
+  .manifesto blockquote {
+    font-family: var(--display); font-weight: 500;
+    font-size: clamp(19px, 3.5vw, 26px); line-height: 1.35;
+    color: #fff; font-style: italic; letter-spacing: -.01em;
+    margin-bottom: 20px; position: relative;
+  }
+  .manifesto blockquote::before {
+    content: "\201C";
+    font-size: 5em; color: rgba(255,255,255,.15);
+    font-family: var(--display);
+    position: absolute; top: -.3em; left: -.1em;
+    line-height: 1; pointer-events: none;
+  }
+  .manifesto .sub { font-size: 14.5px; color: rgba(255,255,255,.75); line-height: 1.6; margin-bottom: 24px; }
+  .manifesto-facts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .mfact { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.9); background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.2); padding: 7px 13px; border-radius: 999px; }
+  .mfact svg { width: 14px; height: 14px; flex: none; }
+
+  /* ── Verhaal-secties ─────────────────────────────────── */
+  .story-section { margin-bottom: 10px; }
+  .story-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 26px; }
+  .story-card .story-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+  .story-icon { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; flex: none; }
+  .story-icon svg { width: 22px; height: 22px; }
+  .story-icon.green { background: var(--green-tint); color: var(--green); }
+  .story-icon.amber { background: var(--amber-tint); color: var(--amber); }
+  .story-icon.neutral { background: var(--paper); color: var(--muted); border: 1px solid var(--line); }
+  .story-card h2 { font-family: var(--display); font-weight: 600; font-size: 22px; letter-spacing: -.015em; line-height: 1.15; }
+  .story-card p { font-size: 15.5px; color: var(--muted); line-height: 1.7; margin-bottom: 14px; }
+  .story-card p:last-child { margin-bottom: 0; }
+  .story-card strong { color: var(--ink); }
+  .story-card a { color: var(--green-dark); font-weight: 600; text-decoration: none; }
+  .story-card a:hover { text-decoration: underline; }
+
+  /* Inline highlight */
+  .inline-note { background: var(--green-tint); border-radius: 10px; padding: 13px 15px; font-size: 14.5px; font-weight: 500; color: var(--green-dark); margin: 14px 0; line-height: 1.55; display: flex; align-items: flex-start; gap: 10px; }
+  .inline-note svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
+
+  /* ── Verdienmodel-grid ───────────────────────────────── */
+  .model-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+  .model-card { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 18px 16px; text-align: center; }
+  .model-icon { font-size: 26px; margin-bottom: 10px; display: block; }
+  .model-card h4 { font-weight: 700; font-size: 14.5px; margin-bottom: 5px; }
+  .model-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .model-card .badge { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; padding: 3px 8px; border-radius: 5px; margin-top: 8px; }
+  .badge-live { background: var(--green-tint); color: var(--green-dark); }
+  .badge-soon { background: var(--paper); border: 1px solid var(--line); color: var(--muted); }
+
+  /* ── Mini tools-overzicht ────────────────────────────── */
+  .tools-mini { margin-top: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .tool-row {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 12px; padding: 13px 16px; text-decoration: none;
+    color: var(--ink); transition: box-shadow .18s, transform .18s, border-color .18s;
+  }
+  .tool-row:hover { box-shadow: var(--shadow-lift); transform: translateY(-1px); border-color: #d6ccbf; }
+  .tool-row .row-icon { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; flex: none; }
+  .tool-row .row-icon svg { width: 18px; height: 18px; }
+  .tool-row .row-icon.green { background: var(--green-tint); color: var(--green); }
+  .tool-row .row-icon.amber { background: var(--amber-tint); color: var(--amber); }
+  .tool-row .row-body { flex: 1; min-width: 0; }
+  .tool-row .row-name { font-weight: 600; font-size: 14.5px; }
+  .tool-row .row-sub { font-size: 12.5px; color: var(--muted); }
+  .tool-row .row-arrow { font-size: 14px; color: var(--muted); flex: none; }
+
+  /* ── Contactkaart ────────────────────────────────────── */
+  .contact-card {
+    background: var(--amber-tint); border: 1px solid #ecd6b6;
+    border-radius: 20px; padding: 28px; margin-bottom: 10px;
+    text-align: center;
+  }
+  .contact-card .contact-icon { font-size: 32px; display: block; margin-bottom: 12px; }
+  .contact-card h3 { font-family: var(--display); font-weight: 600; font-size: 21px; color: #5a3210; margin-bottom: 8px; }
+  .contact-card p { font-size: 15px; color: #6b3c0c; margin-bottom: 18px; line-height: 1.6; }
+  .contact-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--amber); color: #fff; font-weight: 600;
+    font-size: 15px; padding: 12px 22px; border-radius: 12px;
+    text-decoration: none; transition: background .15s, transform .15s;
+    box-shadow: 0 4px 14px rgba(201,116,42,.32);
+  }
+  .contact-btn:hover { background: #b5651e; transform: translateY(-1px); }
+  .contact-btn svg { width: 17px; height: 17px; }
+  .contact-card .alt { font-size: 13px; color: #8a4f17; margin-top: 12px; }
+  .contact-card .alt a { color: #8a4f17; font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(138,79,23,.35); }
+
+  /* ── Donatie-kaart ────────────────────────────────────── */
+  .donate-card {
+    margin-bottom: 10px;
+    border-radius: 20px; padding: 2px;
+    background: var(--ink);
+    box-shadow: 0 8px 32px rgba(33,28,22,.18);
+  }
+  .donate-inner {
+    background: linear-gradient(145deg, #1c1711 0%, #2a2118 100%);
+    border-radius: 18px; padding: 36px 30px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .donate-inner::after {
+    content: ""; position: absolute; right: -80px; top: -80px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,116,42,.15), transparent 65%);
+    pointer-events: none;
+  }
+  .donate-eyebrow {
+    font-size: 11.5px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--amber); opacity: .85;
+    margin-bottom: 16px; display: block;
+  }
+  .donate-quote {
+    font-family: var(--display); font-style: italic; font-weight: 500;
+    font-size: clamp(18px, 3.5vw, 23px); line-height: 1.38;
+    color: #fff; letter-spacing: -.01em; margin-bottom: 18px;
+  }
+  .donate-body {
+    font-size: 15px; color: rgba(255,255,255,.58);
+    max-width: 460px; margin: 0 auto 26px; line-height: 1.7;
+  }
+  .donate-btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    background: var(--amber); color: #fff; font-weight: 700;
+    font-size: 15.5px; padding: 13px 26px; border-radius: 13px;
+    text-decoration: none; transition: background .15s, transform .15s;
+    box-shadow: 0 4px 18px rgba(201,116,42,.4);
+  }
+  .donate-btn svg { width: 18px; height: 18px; }
+  .donate-btn:hover { background: #b5651e; transform: translateY(-2px); }
+  .donate-note { font-size: 13px; color: rgba(255,255,255,.35); margin-top: 14px; }
+  .donate-note a { color: rgba(255,255,255,.5); font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.18); transition: color .15s; }
+  .donate-note a:hover { color: rgba(255,255,255,.75); }
+
+  /* ── Footer ──────────────────────────────────────────── */
+  footer { margin-top: 56px; padding: 30px 0 52px; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 13.5px; }
+  footer a { color: var(--green-dark); font-weight: 600; text-decoration: none; }
+  .footer-links { display: flex; gap: 14px; justify-content: center; margin-top: 18px; }
+  .footer-links .current { color: var(--green); }
+  .coffee { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; background: var(--amber-tint); border: 1px solid #ecd6b6; color: #8a4f17; padding: 9px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; text-decoration: none; transition: background .15s; }
+  .coffee:hover { background: #f7e6cd; }
+
+  @media (max-width: 620px) {
+    .model-grid { grid-template-columns: 1fr; }
+    .manifesto { padding: 26px 22px; }
+    .story-card { padding: 20px; }
+    .page-hero { padding: 10px 0 28px; }
+  }
+  @media (max-width: 400px) {
+    .manifesto-facts { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="topbar">
+      <a href="index.html" class="logo"><span class="mark"><svg width="34" height="34" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="mlg" x1="0" y1="0" x2=".4" y2="1"><stop offset="0%" stop-color="#22a36a"/><stop offset="100%" stop-color="#14623e"/></linearGradient></defs><path d="M6,1 H20 L27,8 V30 Q27,32 25,32 H6 Q4,32 4,30 V3 Q4,1 6,1 Z" fill="url(#mlg)"/><path d="M20,1 L20,8 H27" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.2"/><line x1="5" y1="14" x2="11" y2="14" stroke="rgba(255,255,255,.88)" stroke-width="2" stroke-linecap="round"/><line x1="5" y1="18" x2="9" y2="18" stroke="rgba(255,255,255,.65)" stroke-width="1.5" stroke-linecap="round"/><line x1="5" y1="22" x2="7" y2="22" stroke="rgba(255,255,255,.45)" stroke-width="1.2" stroke-linecap="round"/><path d="M13,18 H24 M20,14 L25,18 L20,22" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="wordmark"><span class="w-dark">file</span><span class="w-green">shift</span><span class="w-r">r</span></span></a>
+      <span class="promise-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Stays on your device
+      </span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <a href="index.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5M5 12l7 7M5 12l7-7"/></svg>
+      All tools
+    </a>
+
+    <div class="page-hero">
+      <span class="eyebrow">About this project</span>
+      <h1>Fileshiftr</h1>
+    </div>
+
+    <!-- ── Manifesto ─────────────────────────────────────────── -->
+    <div class="manifesto">
+      <blockquote>
+        A good tool does its job and then leaves you alone. That's exactly what Fileshiftr tries to be.
+      </blockquote>
+      <p class="sub">
+        No startup, no growth targets, no user profile going anywhere. Just an independent project by someone who thinks the internet needs more of this.
+      </p>
+      <div class="manifesto-facts">
+        <span class="mfact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg> Unlimited free</span>
+        <span class="mfact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Privacy first</span>
+        <span class="mfact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg> No account ever</span>
+      </div>
+    </div>
+
+    <!-- ── Waarom ─────────────────────────────────────────────── -->
+    <div class="story-section">
+      <div class="story-card">
+        <div class="story-head">
+          <div class="story-icon green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          </div>
+          <h2>Why this?</h2>
+        </div>
+        <p>The web has plenty of converters. Most of them are something other than they appear: the conversion is free, but your data, your attention or ultimately your money is the real product. That doesn't have to be bad — but it always means there's a wall somewhere.</p>
+        <p>Fileshiftr was built around a simpler idea: <strong>a converter is a tool</strong>. Like scissors, like a calculator. You pick it up when you need it, it does what it needs to do, you put it down.</p>
+        <p>No funnel, no waiting email list, no dashboard trying to pull you back. When your job is done, you're done with Fileshiftr — until next time.</p>
+      </div>
+    </div>
+
+    <!-- ── Hoe het werkt ──────────────────────────────────────── -->
+    <div class="story-section">
+      <div class="story-card">
+        <div class="story-head">
+          <div class="story-icon green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h.01M15 9h.01M9 15l2 2 4-4"/></svg>
+          </div>
+          <h2>How it works technically</h2>
+        </div>
+        <p>Most file converters are web apps that send your files to a server, process them there, and send the result back. Fileshiftr does it differently: <strong>everything happens in your own browser</strong>.</p>
+
+        <div class="inline-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 13l4 4L19 7"/></svg>
+          Your files never leave your device — not temporarily stored, not encrypted and forwarded, not logged anywhere. This is not a promise but a technical reality.
+        </div>
+
+        <p>Images are converted using your browser's built-in Canvas API. PDFs are processed with <code>pdf-lib</code>, a library that runs entirely client-side. For HEIC (iPhone photos) we load the <code>heic2any</code> library once; your browser caches it after that.</p>
+        <p>A nice side effect: you don't need a fast internet connection for the actual processing. After the page loads, Fileshiftr can work offline.</p>
+      </div>
+    </div>
+
+    <!-- ── Verdienmodel ───────────────────────────────────────── -->
+    <div class="story-section">
+      <div class="story-card">
+        <div class="story-head">
+          <div class="story-icon amber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <h2>Honest about money</h2>
+        </div>
+        <p>Free isn't the same as costless. Fileshiftr takes time and hosting, and is made and maintained by one person alongside other work. This isn't a startup pitch — just the reality of an independent project.</p>
+
+        <div class="model-grid">
+          <div class="model-card">
+            <span class="model-icon">☕</span>
+            <h4>Donations</h4>
+            <p>Direct support from people who think this is a good idea. No obligation, no strings attached.</p>
+            <span class="badge badge-live">Active</span>
+          </div>
+          <div class="model-card">
+            <span class="model-icon">📢</span>
+            <h4>Ads</h4>
+            <p>Contextual, non-tracking ads via EthicalAds or Carbon. No cookies, no profiling.</p>
+            <span class="badge badge-soon">Coming soon</span>
+          </div>
+          <div class="model-card">
+            <span class="model-icon">⚡</span>
+            <h4>Pro tier</h4>
+            <p>Extra convenience for those who want it: download as zip, remember settings. No features locked away.</p>
+            <span class="badge badge-soon">In development</span>
+          </div>
+        </div>
+
+        <p style="margin-top: 18px;">What will never happen: tracking ads, mandatory accounts, or a paywall for the basic tools. Those aren't empty promises — it would break the architecture of the site.</p>
+      </div>
+    </div>
+
+    <!-- ── Donatie-kaart ─────────────────────────────────────── -->
+    <div class="donate-card">
+      <div class="donate-inner">
+        <p class="donate-eyebrow">If you like what this is</p>
+        <blockquote class="donate-quote">
+          You're not paying for what you already got.<br>You're voting for an internet you prefer.
+        </blockquote>
+        <p class="donate-body">Fileshiftr exists because someone thought it should exist. If you agree — if you want independent, honest tools on the web without data hunger — a donation is the most direct way to show that.</p>
+        <a href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener noreferrer" class="donate-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          Support via Ko-fi
+        </a>
+        
+      </div>
+    </div>
+
+    <!-- ── Tools ─────────────────────────────────────────────── -->
+    <div class="story-section">
+      <div class="story-card">
+        <div class="story-head">
+          <div class="story-icon neutral">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <h2>The tools</h2>
+        </div>
+        <p>Fileshiftr currently has five tools, all free and unlimited. More are in the making.</p>
+
+        <div class="tools-mini">
+
+          <a href="convert-image.html" class="tool-row">
+            <div class="row-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+            </div>
+            <div class="row-body">
+              <div class="row-name">Convert image</div>
+              <div class="row-sub">JPG · PNG · WebP · HEIC (iPhone)</div>
+            </div>
+            <span class="row-arrow">→</span>
+          </a>
+
+          <a href="compress-image.html" class="tool-row">
+            <div class="row-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/></svg>
+            </div>
+            <div class="row-body">
+              <div class="row-name">Compress image</div>
+              <div class="row-sub">Smaller file size, see exactly how much you save</div>
+            </div>
+            <span class="row-arrow">→</span>
+          </a>
+
+          <a href="merge-pdf.html" class="tool-row">
+            <div class="row-icon amber">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 2H4a1 1 0 00-1 1v14a1 1 0 001 1h5"/><path d="M15 2h5a1 1 0 011 1v14a1 1 0 01-1 1h-5"/><rect x="7" y="6" width="10" height="16" rx="1"/><line x1="12" y1="10" x2="12" y2="18"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+            </div>
+            <div class="row-body">
+              <div class="row-name">Merge PDFs</div>
+              <div class="row-sub">Multiple PDFs into one, drag to reorder</div>
+            </div>
+            <span class="row-arrow">→</span>
+          </a>
+
+          <a href="compress-pdf.html" class="tool-row">
+            <div class="row-icon amber">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+            </div>
+            <div class="row-body">
+              <div class="row-name">Compress PDF</div>
+              <div class="row-sub">Smaller without visible quality loss in text</div>
+            </div>
+            <span class="row-arrow">→</span>
+          </a>
+
+          <a href="images-to-pdf.html" class="tool-row">
+            <div class="row-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="10" height="10" rx="1"/><circle cx="6.5" cy="6.5" r="1"/><polyline points="3 11 7 7 10 10"/><path d="M15 2h4a1 1 0 011 1v18a1 1 0 01-1 1h-8a1 1 0 01-1-1v-9"/><polyline points="15 2 15 8 21 8"/></svg>
+            </div>
+            <div class="row-body">
+              <div class="row-name">Images to PDF</div>
+              <div class="row-sub">Bundle photos into one PDF, drag to reorder</div>
+            </div>
+            <span class="row-arrow">→</span>
+          </a>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Contact ────────────────────────────────────────────── -->
+    <div class="contact-card">
+      <span class="contact-icon">✉️</span>
+      <h3>Get in touch</h3>
+      <p>Found a bug? Missing a tool? Or just a question? We'd love to hear it. We're a small project and read everything ourselves.</p>
+      <a href="mailto:hallo@fileshiftr.com" class="contact-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        hallo@fileshiftr.com
+      </a>
+      <p class="alt">Or read our <a href="privacy.html">privacy policy</a> if you want to know how we handle your data.</p>
+    </div>
+
+  </div><!-- .content -->
+
+  <footer>
+    Your files stay on your own device. We never store or forward them.<br>
+    <a class="coffee" href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener noreferrer">☕ Support Fileshiftr on Ko-fi</a>
+    <div class="footer-links">
+      <a href="index.html">All tools</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="about.html" class="current">About</a>
+    </div>
+  </footer>
+
+</div><!-- .wrap -->
+</body>
+</html>

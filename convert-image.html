@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ============================================================
+     SEO — elke converter krijgt zijn EIGEN pagina met eigen
+     title/description gericht op één zoekopdracht.
+     Pas deze 3 regels per converter aan; de rest van de schil blijft gelijk.
+     ============================================================ -->
+<title>Convert Images Free — No Limits, No Upload</title>
+<meta name="description" content="Convert JPG, PNG and WebP free in your browser. No limit, no account, your files stay on your device.">
+<link rel="alternate" hreflang="en" href="convert-image.html">
+<link rel="alternate" hreflang="nl" href="nl/afbeelding-omzetten.html">
+<link rel="alternate" hreflang="x-default" href="convert-image.html">
+<link rel="canonical" href="convert-image.html">
+
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://fileshiftr.com/convert-image">
+<meta property="og:title"       content="Convert Images Free — No Limits, No Upload">
+<meta property="og:description" content="Convert JPG, PNG and WebP free in your browser. No limit, no account, your files stay on your device.">
+<meta property="og:locale"      content="en_US">
+<meta name="theme-color" content="#16794A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="https://fileshiftr.com/favicon.ico" sizes="any">
+
+<!-- Lettertypes: laden van Google Fonts, met nette fallbacks als ze geblokkeerd zijn -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#FAF6EF;
+    --surface:#FFFDF9;
+    --ink:#211C16;
+    --muted:#6B6358;
+    --line:#E8E0D3;
+    --green:#16794A;
+    --green-dark:#12603B;
+    --green-tint:#E7F2EB;
+    --amber:#C9742A;
+    --amber-tint:#FBEFE0;
+    --radius:18px;
+    --shadow:0 1px 2px rgba(33,28,22,.04), 0 8px 24px rgba(33,28,22,.06);
+    --shadow-lift:0 2px 4px rgba(33,28,22,.06), 0 16px 40px rgba(33,28,22,.10);
+    --display:"Fraunces", Georgia, "Times New Roman", serif;
+    --body:"Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--body);
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(22,121,74,.06), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(201,116,42,.05), transparent 55%),
+      var(--paper);
+    line-height:1.6;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+
+  /* ---------- Header ---------- */
+  header{padding:28px 0 8px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .logo .mark{width:34px;height:34px;flex:none;display:grid;place-items:center}
+  .wordmark{font-family:var(--body);font-weight:700;font-size:20px;letter-spacing:-.02em}
+  .w-dark{color:var(--ink)}.w-green{color:var(--green)}.w-r{color:var(--amber)}
+  .promise-pill{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:13px;font-weight:600;color:var(--green-dark);
+    background:var(--green-tint);border:1px solid #cfe6d8;
+    padding:7px 13px;border-radius:999px;
+  }
+  .promise-pill svg{width:15px;height:15px}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:34px 0 22px;text-align:center}
+  .hero h1{
+    font-family:var(--display);font-weight:600;
+    font-size:clamp(31px,6vw,46px);line-height:1.08;letter-spacing:-.02em;
+    margin-bottom:14px;
+  }
+  .hero h1 em{font-style:italic;color:var(--green)}
+  .hero p{font-size:clamp(16px,2.6vw,18px);color:var(--muted);max-width:520px;margin:0 auto}
+
+  .trust-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+  .trust{
+    display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;
+    color:var(--ink);background:var(--surface);border:1px solid var(--line);
+    padding:9px 15px;border-radius:999px;box-shadow:var(--shadow);
+  }
+  .trust svg{width:16px;height:16px;color:var(--green);flex:none}
+
+  /* ---------- Converter card ---------- */
+  .tool{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:26px;margin-top:30px;
+  }
+
+  /* Dropzone */
+  .dropzone{
+    border:2px dashed #d6ccbb;border-radius:14px;background:#fffefb;
+    padding:42px 24px;text-align:center;cursor:pointer;transition:.18s ease;
+  }
+  .dropzone:hover{border-color:var(--green);background:var(--green-tint)}
+  .dropzone.drag{border-color:var(--green);background:var(--green-tint);transform:scale(1.005)}
+  .dropzone .icon{
+    width:54px;height:54px;margin:0 auto 14px;border-radius:14px;
+    background:var(--green-tint);display:grid;place-items:center;color:var(--green);
+  }
+  .dropzone .icon svg{width:26px;height:26px}
+  .dropzone h2{font-family:var(--display);font-weight:600;font-size:20px;margin-bottom:5px}
+  .dropzone p{color:var(--muted);font-size:14.5px}
+  .dropzone .hint{font-size:12.5px;color:var(--muted);margin-top:10px;opacity:.85}
+
+  /* Options */
+  .options{display:none;margin-top:20px;padding-top:20px;border-top:1px solid var(--line);gap:18px;flex-wrap:wrap;align-items:flex-end}
+  .options.show{display:flex}
+  .field{display:flex;flex-direction:column;gap:7px}
+  .field label{font-size:13px;font-weight:600;color:var(--muted)}
+  .segmented{display:inline-flex;background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:4px;gap:3px}
+  .segmented button{
+    border:none;background:none;font-family:var(--body);font-size:14px;font-weight:600;
+    color:var(--muted);padding:8px 16px;border-radius:8px;cursor:pointer;transition:.15s;
+  }
+  .segmented button.active{background:#fff;color:var(--green-dark);box-shadow:0 1px 3px rgba(33,28,22,.1)}
+  .quality{flex:1;min-width:180px}
+  .quality .row{display:flex;justify-content:space-between;font-size:13px}
+  .quality input[type=range]{width:100%;accent-color:var(--green);margin-top:6px}
+
+  /* File list */
+  .files{display:none;flex-direction:column;gap:10px;margin-top:20px}
+  .files.show{display:flex}
+  .file{
+    display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);
+    border-radius:13px;padding:11px 13px;
+    animation:rise .35s ease both;
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .file .thumb{width:46px;height:46px;border-radius:9px;object-fit:cover;background:var(--paper);flex:none;border:1px solid var(--line)}
+  .file .meta{flex:1;min-width:0}
+  .file .name{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .file .sub{font-size:12.5px;color:var(--muted)}
+  .file .sub.err{color:#b4471f}
+  .file .sub.notice{color:var(--amber)}
+  .bar{height:5px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:6px}
+  .bar i{display:block;height:100%;width:0;background:var(--green);border-radius:99px;transition:width .2s}
+  .file .act{flex:none}
+  .dl{
+    display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    font-size:13.5px;font-weight:600;color:#fff;background:var(--green);
+    padding:8px 13px;border-radius:9px;border:none;cursor:pointer;transition:.15s;
+  }
+  .dl:hover{background:var(--green-dark)}
+  .dl[disabled]{opacity:.4;pointer-events:none}
+  .dl svg{width:15px;height:15px}
+
+  /* Action bar */
+  .actions{display:none;margin-top:20px;gap:12px;flex-wrap:wrap}
+  .actions.show{display:flex}
+  .btn{
+    font-family:var(--body);font-weight:600;font-size:15.5px;border-radius:12px;
+    padding:13px 22px;cursor:pointer;border:1px solid transparent;transition:.16s;
+  }
+  .btn-primary{background:var(--green);color:#fff;box-shadow:0 6px 16px rgba(22,121,74,.25)}
+  .btn-primary:hover{background:var(--green-dark);transform:translateY(-1px)}
+  .btn-primary:active{transform:translateY(0)}
+  .btn-primary[disabled]{opacity:.5;pointer-events:none;box-shadow:none}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{background:var(--paper)}
+  .no-limit-note{font-size:13px;color:var(--muted);align-self:center;display:inline-flex;align-items:center;gap:7px}
+  .no-limit-note svg{width:15px;height:15px;color:var(--green)}
+
+  /* ---------- Advertentieplek (contextueel, niet-trackend) ---------- */
+  /* Hier komt later EthicalAds / Carbon. Vaste, rustige plek — geen layout-verbouwing nodig. */
+  .ad-slot{
+    margin-top:30px;border:1px dashed var(--line);border-radius:14px;
+    padding:18px;text-align:center;color:var(--muted);font-size:13px;background:#fffefb;
+  }
+  .ad-slot .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.6;display:block;margin-bottom:4px}
+
+  /* ---------- FAQ (SEO + geruststelling) ---------- */
+  .faq{margin-top:46px}
+  .faq h3{font-family:var(--display);font-weight:600;font-size:24px;margin-bottom:8px;text-align:center}
+  .faq .lead{text-align:center;color:var(--muted);margin-bottom:22px}
+  details{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:0 18px;margin-bottom:10px}
+  summary{cursor:pointer;font-weight:600;padding:16px 0;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-size:20px;color:var(--green);font-weight:400}
+  details[open] summary::after{content:"–"}
+  details p{padding:0 0 16px;color:var(--muted);font-size:15px}
+
+  /* ---------- Footer ---------- */
+  footer{margin-top:50px;padding:30px 0 50px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:13.5px}
+  footer a{color:var(--green-dark);font-weight:600;text-decoration:none}
+  .coffee{
+    display:inline-flex;align-items:center;gap:8px;margin-top:14px;
+    background:var(--amber-tint);border:1px solid #ecd6b6;color:#8a4f17;
+    padding:9px 16px;border-radius:999px;font-weight:600;font-size:14px;text-decoration:none;transition:.15s;
+  }
+  .coffee:hover{background:#f7e6cd}
+
+  /* ---------- Donatie-nudge (verschijnt pas na veel gebruik) ---------- */
+  .nudge{
+    position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(120%);
+    width:calc(100% - 32px);max-width:440px;z-index:50;
+    background:var(--surface);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow-lift);padding:18px 18px 16px;transition:transform .4s cubic-bezier(.2,.8,.2,1);
+  }
+  .nudge.show{transform:translateX(-50%) translateY(0)}
+  .nudge .head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .nudge .cup{width:34px;height:34px;border-radius:10px;background:var(--amber-tint);display:grid;place-items:center;font-size:18px;flex:none}
+  .nudge h4{font-family:var(--display);font-size:17px;font-weight:600}
+  .nudge p{font-size:14px;color:var(--muted);margin-bottom:14px}
+  .nudge .row{display:flex;gap:10px}
+  .nudge .row a{flex:1;text-align:center;text-decoration:none}
+  .nudge-x{position:absolute;top:12px;right:14px;border:none;background:none;font-size:20px;color:var(--muted);cursor:pointer;line-height:1}
+
+  @media(max-width:560px){
+    .tool{padding:18px}
+    .dropzone{padding:32px 16px}
+    .actions .no-limit-note{order:-1;width:100%;justify-content:center;margin-bottom:4px}
+  }
+
+  .prose{margin-top:48px}
+  .prose h2{font-family:var(--display);font-weight:600;font-size:26px;margin:0 0 14px;letter-spacing:-.01em}
+  .prose h3{font-family:var(--display);font-weight:600;font-size:19px;margin:30px 0 8px}
+  .prose p{color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 14px;max-width:660px}
+  .prose ul{color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 14px;padding-left:22px;max-width:660px}
+  .prose li{margin-bottom:7px}
+  .prose strong{color:var(--ink)}
+  .fmt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:18px 0 8px}
+  .fmt-card{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .fmt-card h4{margin:0 0 6px;font-size:15px;font-weight:700;color:var(--ink)}
+  .fmt-card p{font-size:14px;margin:0;line-height:1.6}
+
+
+  /* rich content blocks */
+  .howto{margin-top:48px}
+  .howto h2,.usecases h2,.cmp-wrap h2,.related h2{font-family:var(--display);font-weight:600;font-size:26px;margin:0 0 18px;letter-spacing:-.01em}
+  .steps{display:grid;gap:14px;counter-reset:step}
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .step::before{counter-increment:step;content:counter(step);flex:none;width:30px;height:30px;border-radius:50%;background:var(--green-tint);color:var(--green-dark);font-weight:700;font-size:15px;display:grid;place-items:center}
+  .step h4{margin:0 0 3px;font-size:16px;font-weight:700;color:var(--ink)}
+  .step p{margin:0;color:var(--muted);font-size:15px;line-height:1.6}
+  .cmp-wrap{margin-top:48px;overflow-x:auto}
+  table.cmp{border-collapse:collapse;width:100%;font-size:14.5px;min-width:520px}
+  table.cmp th,table.cmp td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.cmp thead th{font-weight:700;color:var(--ink);border-bottom:2px solid var(--line)}
+  table.cmp td:first-child,table.cmp th:first-child{font-weight:700;color:var(--ink)}
+  table.cmp td{color:var(--muted)}
+  table.cmp tbody tr:last-child td{border-bottom:none}
+  .usecases{margin-top:48px}
+  .uc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .uc{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .uc h4{margin:0 0 5px;font-size:15px;font-weight:700;color:var(--ink)}
+  .uc p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+  .callout{margin:30px 0 0;background:var(--green-tint);border:1px solid #cfe6d8;border-radius:13px;padding:18px 20px}
+  .callout h3{margin:0 0 6px;font-size:16px;font-weight:700;color:var(--green-dark);font-family:var(--body)}
+  .callout p{margin:0;color:#2c5340;font-size:15px;line-height:1.65}
+  .related{margin-top:48px}
+  .rel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .rel{display:block;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:15px 17px;text-decoration:none;transition:border-color .15s,transform .15s}
+  .rel:hover{border-color:var(--green);transform:translateY(-2px)}
+  .rel strong{display:block;color:var(--ink);font-size:15px;margin-bottom:3px}
+  .rel span{color:var(--muted);font-size:13px;line-height:1.5}
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "en-US",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is there a limit on how many images I can convert?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Convert as many files as you want, as often as you want — no daily cap, no account, no waiting between files. That's the whole point of Fileshiftr."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are my images uploaded to a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The conversion runs entirely in your own browser, on your own device. Your images are never sent anywhere — not even to us."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I convert iPhone photos (HEIC)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Just drop your HEIC file — it's detected and converted automatically. The first time, your browser loads a small helper (~400 KB) and caches it; after that it's instant. Your files stay on your device throughout."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the difference between JPG and PNG?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "JPG is built for photos: small files, but no transparency. PNG is built for graphics like logos and screenshots: it keeps crisp edges and transparent backgrounds, but files are larger. Rule of thumb: JPG for photographs, PNG for anything with text, lines, or transparency."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I use WebP?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If the image is going on a website you control, yes — WebP is typically 25–35% smaller than JPG at the same quality and is supported by every modern browser. For emailing or sharing with people, JPG is the safer universal choice."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will converting reduce my image quality?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Converting between lossless formats (like PNG to WebP) keeps full quality. Converting to JPG applies compression, so you can trade a little quality for a smaller file — at 80–90% quality the difference is invisible for most photos."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there really no watermark or sign-up?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "None. No watermark on your images, no account, no email, no trial that expires. It's free and stays that way."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work on my phone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. It runs in any modern browser on iPhone, Android, tablet or computer. Because the work happens locally, you don't even need a fast connection once the page has loaded."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Fileshiftr",
+      "item": "https://fileshiftr.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Convert image",
+      "item": "https://fileshiftr.com/convert-image"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Fileshiftr Image Converter",
+  "url": "https://fileshiftr.com/convert-image",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires JavaScript. Runs in any modern browser.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "inLanguage": "en-US"
+}
+</script>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="topbar">
+      <a href="index.html" class="logo">
+        <span class="mark"><svg width="34" height="34" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="mlg" x1="0" y1="0" x2=".4" y2="1"><stop offset="0%" stop-color="#22a36a"/><stop offset="100%" stop-color="#14623e"/></linearGradient></defs><path d="M6,1 H20 L27,8 V30 Q27,32 25,32 H6 Q4,32 4,30 V3 Q4,1 6,1 Z" fill="url(#mlg)"/><path d="M20,1 L20,8 H27" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.2"/><line x1="5" y1="14" x2="11" y2="14" stroke="rgba(255,255,255,.88)" stroke-width="2" stroke-linecap="round"/><line x1="5" y1="18" x2="9" y2="18" stroke="rgba(255,255,255,.65)" stroke-width="1.5" stroke-linecap="round"/><line x1="5" y1="22" x2="7" y2="22" stroke="rgba(255,255,255,.45)" stroke-width="1.2" stroke-linecap="round"/><path d="M13,18 H24 M20,14 L25,18 L20,22" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="wordmark"><span class="w-dark">file</span><span class="w-green">shift</span><span class="w-r">r</span></span>
+      </a>
+      <span class="promise-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Stays on your device
+      </span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Convert images — <em>no limits</em></h1>
+    <p>JPG, PNG, WebP and iPhone HEIC photos, converted right in your browser. As many files as you want, no account, nothing uploaded.</p>
+    <div class="trust-row">
+      <span class="trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> No limit</span>
+      <span class="trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> No account</span>
+      <span class="trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> No upload</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       HERBRUIKBARE CONVERTER-SCHIL
+       Eén <div class="tool"> met dropzone, opties, bestandslijst en acties.
+       Voor elke nieuwe converter blijft deze HTML+CSS gelijk; alleen de
+       JS-config onderaan (accept, formaten, convertFn) verandert.
+       ============================================================ -->
+  <div class="tool" id="tool">
+    <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose files">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0L8 8m4-4l4 4"/><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+      </div>
+      <h2>Drop your photos here</h2>
+      <p>or click to choose — multiple files at once is fine</p>
+      <p class="hint">JPG · PNG · WebP · HEIC (iPhone) · GIF · BMP</p>
+      <input type="file" id="filein" accept="image/*" multiple hidden>
+    </div>
+
+    <!-- Opties (converter-specifiek) -->
+    <div class="options" id="options">
+      <div class="field">
+        <label>Convert to</label>
+        <div class="segmented" id="format">
+          <button data-fmt="jpeg" class="active">JPG</button>
+          <button data-fmt="png">PNG</button>
+          <button data-fmt="webp">WebP</button>
+        </div>
+      </div>
+      <div class="field quality" id="qualityField">
+        <label>Quality</label>
+        <div class="row"><span class="muted">smaller file</span><span id="qval">85%</span></div>
+        <input type="range" id="quality" min="40" max="100" value="85">
+      </div>
+    </div>
+
+    <!-- Bestandslijst -->
+    <div class="files" id="files"></div>
+
+    <!-- Actiebalk -->
+    <div class="actions" id="actions">
+      <button class="btn btn-primary" id="convertBtn">Convert</button>
+      <!-- FREE: alles downloaden = bestanden één voor één (onbeperkt) -->
+      <button class="btn btn-ghost" id="downloadAll" style="display:none">Download all</button>
+      <!-- PRO-HAAK (later): zelfde knop, maar dan als één .zip-bestand.
+           Code-seam staat klaar in downloadAllAsZip(); zichtbaar maken zodra pro live is. -->
+      <span class="no-limit-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+        As many as you want — truly no limit
+      </span>
+    </div>
+  </div>
+
+  <!-- Advertentieplek: contextueel & niet-trackend (EthicalAds/Carbon komt hier) -->
+  <div class="ad-slot" id="adSlot">
+    <span class="lbl">Advertisement</span>
+    One quiet, non-tracking ad goes here. We never follow you around the web.
+  </div>
+
+  <!-- FAQ: long-tail SEO + stelt de niet-technische bezoeker gerust -->
+
+    <section class="prose">
+    <h2>Get the right format, without the runaround</h2>
+    <p>Converting an image usually comes down to one practical need: a file that opens everywhere, looks right, and isn't bigger than it has to be. Maybe a colleague can't open the HEIC photo from your iPhone, or you need a logo as a transparent PNG, or your website wants smaller WebP files. Whatever the reason, the job is simple — and it shouldn't cost you an account, a watermark, or a daily limit.</p>
+    <p>Everything here runs inside your browser. Drop a file in, choose the format you want, download the result. Your image never travels to a server, so there's nothing to wait for and nothing to worry about — it's the same conversion a desktop app does, minus the install. And there's no cap: convert one photo or three hundred, today and tomorrow, without signing up.</p>
+  </section>
+
+  <section class="howto">
+    <h2>How to convert an image in 3 steps</h2>
+    <div class="steps">
+      <div class="step"><div><h4>Add your images</h4><p>Drag your files onto the drop zone or click to browse. Add as many as you like — there's no limit and no queue.</p></div></div>
+      <div class="step"><div><h4>Pick the output format</h4><p>Choose JPG, PNG or WebP. If you're converting an iPhone HEIC photo, it's detected automatically.</p></div></div>
+      <div class="step"><div><h4>Download</h4><p>Your converted file is ready in seconds, straight from your browser. Nothing was uploaded along the way.</p></div></div>
+    </div>
+  </section>
+
+  <section class="cmp-wrap">
+    <h2>JPG vs PNG vs WebP vs HEIC</h2>
+    <table class="cmp">
+      <thead><tr><th>Format</th><th>Compression</th><th>Transparency</th><th>Best for</th><th>Opens everywhere?</th></tr></thead>
+      <tbody>
+        <tr><td>JPG</td><td>Lossy</td><td>No</td><td>Photos, email, printing</td><td>Yes — universal</td></tr>
+        <tr><td>PNG</td><td>Lossless</td><td>Yes</td><td>Logos, icons, screenshots, text</td><td>Yes — universal</td></tr>
+        <tr><td>WebP</td><td>Lossy or lossless</td><td>Yes</td><td>Websites — ~25–35% smaller than JPG</td><td>All modern browsers</td></tr>
+        <tr><td>HEIC</td><td>Lossy (HEVC)</td><td>Yes</td><td>iPhone storage — ~50% smaller than JPG</td><td>No — limited outside Apple</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <h3>Not sure which to pick?</h3>
+      <p>Sending a photo to someone or printing it? Choose <strong>JPG</strong>. Need a transparent background for a logo? Choose <strong>PNG</strong>. Putting images on a website you control? <strong>WebP</strong> gives the same quality at a smaller size. And if you're starting from an iPhone HEIC file, converting to JPG makes it open anywhere.</p>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h3>Why iPhone photos won't open on Windows</h3>
+    <p>Since iOS 11, iPhones save photos as HEIC by default. It's a clever format — roughly half the size of a JPG at the same quality — but it's built on the HEVC video codec, which Windows, Android and most browsers don't read out of the box. That's why a photo that looks fine on your phone arrives as an unopenable file on someone else's computer. Converting HEIC to JPG solves it instantly: the photo becomes universally readable, at the small cost of a slightly larger file. You can convert as many as you need here, and because it happens on your device, your photos never leave it.</p>
+    <h3>One thing worth knowing</h3>
+    <p>Converting a JPG to PNG won't bring back detail that JPG compression already removed — once data is gone, no format can restore it. PNG simply stops any <em>further</em> loss. So if you have an original in a lossless format, convert from that whenever you can.</p>
+  </section>
+
+  <section class="related">
+    <h2>Related tools</h2>
+    <div class="rel-grid">
+      <a class="rel" href="compress-image.html"><strong>Compress image</strong><span>Make a photo smaller in file size without changing its format.</span></a>
+      <a class="rel" href="images-to-pdf.html"><strong>Images to PDF</strong><span>Turn a set of photos into one tidy PDF document.</span></a>
+    </div>
+  </section>
+
+  <section class="faq">
+    <h3>Frequently asked questions</h3>
+    <p class="lead">Free, unlimited, and your files stay on your device.</p>
+    <details open><summary>Is there a limit on how many images I can convert?</summary><p>No. Convert as many files as you want, as often as you want — no daily cap, no account, no waiting between files. That's the whole point of Fileshiftr.</p></details>
+    <details><summary>Are my images uploaded to a server?</summary><p>No. The conversion runs entirely in your own browser, on your own device. Your images are never sent anywhere — not even to us.</p></details>
+    <details><summary>Can I convert iPhone photos (HEIC)?</summary><p>Yes. Just drop your HEIC file — it's detected and converted automatically. The first time, your browser loads a small helper (~400 KB) and caches it; after that it's instant. Your files stay on your device throughout.</p></details>
+    <details><summary>What's the difference between JPG and PNG?</summary><p>JPG is built for photos: small files, but no transparency. PNG is built for graphics like logos and screenshots: it keeps crisp edges and transparent backgrounds, but files are larger. Rule of thumb: JPG for photographs, PNG for anything with text, lines, or transparency.</p></details>
+    <details><summary>Should I use WebP?</summary><p>If the image is going on a website you control, yes — WebP is typically 25–35% smaller than JPG at the same quality and is supported by every modern browser. For emailing or sharing with people, JPG is the safer universal choice.</p></details>
+    <details><summary>Will converting reduce my image quality?</summary><p>Converting between lossless formats (like PNG to WebP) keeps full quality. Converting to JPG applies compression, so you can trade a little quality for a smaller file — at 80–90% quality the difference is invisible for most photos.</p></details>
+    <details><summary>Is there really no watermark or sign-up?</summary><p>None. No watermark on your images, no account, no email, no trial that expires. It's free and stays that way.</p></details>
+    <details><summary>Does it work on my phone?</summary><p>Yes. It runs in any modern browser on iPhone, Android, tablet or computer. Because the work happens locally, you don't even need a fast connection once the page has loaded.</p></details>
+  </section>
+
+  <footer>
+    Your files stay on your own device. We never store or forward them.<br>
+    <a class="coffee" href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener">☕ Support Fileshiftr on Ko-fi</a>
+    <div style="margin-top:18px"><a href="privacy.html">Privacy</a> · <a href="about.html">About</a> · <a href="index.html">All tools</a></div>
+  </footer>
+</div>
+
+<!-- Donatie-nudge (verschijnt pas na veel gebruik; onthoudt of al getoond/afgewezen) -->
+<div class="nudge" id="nudge">
+  <button class="nudge-x" id="nudgeX" aria-label="Close">×</button>
+  <div class="head">
+    <span class="cup">☕</span>
+    <h4>You've processed <span id="nudgeCount">lots of</span> files!</h4>
+  </div>
+  <p>If this saved you time, feel free to buy me a coffee. No pressure at all.</p>
+  <div class="row">
+    <a class="btn btn-primary" href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener">Sure, happy to ☕</a>
+    <a class="btn btn-ghost" id="nudgeNo" href="convert-image.html#">No thanks</a>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   VEILIGE OPSLAG
+   localStorage werkt op je echte site (Cloudflare/Netlify) wél,
+   maar NIET in de Claude-preview. Daarom deze wrapper: valt netjes
+   terug op geheugen zodat er nooit iets crasht.
+   ================================================================ */
+const store = (() => {
+  const mem = {};
+  try {
+    const t = "__t"; localStorage.setItem(t, "1"); localStorage.removeItem(t);
+    return {
+      get: k => localStorage.getItem(k),
+      set: (k, v) => localStorage.setItem(k, v),
+    };
+  } catch (e) {
+    return { get: k => (mem[k] === undefined ? null : mem[k]), set: (k, v) => { mem[k] = String(v); } };
+  }
+})();
+
+/* ================================================================
+   FEATURE-VLAGGEN  — "gratis onbeperkt" vs "pro-gemak" netjes gescheiden.
+   Zet pro op true zodra de pro-laag live is; de gratis ervaring
+   verandert hier niet door.
+   ================================================================ */
+const FEATURES = {
+  pro: false,                 // pro-gebruiker? (later via login/aankoop bepalen)
+  donationNudgeAfter: 5,      // na hoeveel omzettingen vragen we (vrijblijvend) om koffie
+};
+
+/* ================================================================
+   HERBRUIKBARE CONVERTER-SCHIL
+   Bedient dropzone, bestandslijst, voortgang, download, teller, nudge.
+   Krijgt één config mee. Voor PDF-samenvoegen enz. lever je later
+   simpelweg een andere `convert`-functie aan — de rest blijft gelijk.
+   ================================================================ */
+function createConverter(cfg) {
+  const dz = document.getElementById("dropzone");
+  const input = document.getElementById("filein");
+  const filesEl = document.getElementById("files");
+  const actions = document.getElementById("actions");
+  const optionsEl = document.getElementById("options");
+  const convertBtn = document.getElementById("convertBtn");
+  const downloadAllBtn = document.getElementById("downloadAll");
+
+  let queue = []; // { file, row, bar, sub, dl, blob, outName }
+
+  /* ---- bestanden toevoegen ---- */
+  function addFiles(fileList) {
+    [...fileList].filter(cfg.accepts).forEach(file => {
+      const row = document.createElement("div");
+      row.className = "file";
+      row.innerHTML = `
+        <img class="thumb" alt="">
+        <div class="meta">
+          <div class="name"></div>
+          <div class="sub"></div>
+          <div class="bar"><i></i></div>
+        </div>
+        <div class="act">
+          <button class="dl" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-4-4m4 4l4-4"/><path d="M4 20h16"/></svg>
+            Download
+          </button>
+        </div>`;
+      const item = {
+        file,
+        row,
+        thumb: row.querySelector(".thumb"),
+        name: row.querySelector(".name"),
+        sub: row.querySelector(".sub"),
+        bar: row.querySelector(".bar i"),
+        dl: row.querySelector(".dl"),
+        blob: null, outName: null,
+      };
+      item.name.textContent = file.name;
+      item.sub.textContent = humanSize(file.size);
+      if (cfg.preview) cfg.preview(file, item.thumb);
+      item.dl.onclick = () => item.blob && triggerDownload(item.blob, item.outName);
+      queue.push(item);
+      filesEl.appendChild(row);
+    });
+    if (queue.length) {
+      filesEl.classList.add("show");
+      optionsEl.classList.add("show");
+      actions.classList.add("show");
+    }
+  }
+
+  /* ---- omzetten (GRATIS, onbeperkt) ---- */
+  async function convertAll() {
+    convertBtn.disabled = true;
+    convertBtn.textContent = "Processing…";
+    for (const item of queue) {
+      if (item.blob) continue; // al gedaan
+      try {
+        item.sub.className = "sub";
+        const blob = await cfg.convert(item.file, currentOptions(), p => {
+          item.bar.style.width = Math.round(p * 100) + "%";
+        }, status => {
+          item.sub.className = "sub";
+          item.sub.textContent = status;
+        });
+        item.blob = blob;
+        item.outName = cfg.outName(item.file, currentOptions());
+        item.bar.style.width = "100%";
+        item.sub.textContent = "Done · " + humanSize(blob.size);
+        item.dl.disabled = false;
+        bumpCounter();
+      } catch (err) {
+        item.bar.style.width = "0%";
+        if (err && err.notice) { item.sub.className = "sub notice"; item.sub.textContent = err.message; }
+        else { item.sub.className = "sub err"; item.sub.textContent = "Could not convert this file"; }
+      }
+    }
+    convertBtn.textContent = "Convert again";
+    convertBtn.disabled = false;
+    if (queue.some(i => i.blob)) downloadAllBtn.style.display = "inline-block";
+  }
+
+  /* ---- alles downloaden ---- */
+  downloadAllBtn.onclick = () => {
+    if (FEATURES.pro) return downloadAllAsZip();      // PRO: één .zip
+    queue.filter(i => i.blob).forEach((i, idx) =>     // GRATIS: één voor één
+      setTimeout(() => triggerDownload(i.blob, i.outName), idx * 350));
+  };
+
+  /* ---- PRO-HAAK: alles in één zip (later, met JSZip) ---- */
+  function downloadAllAsZip() {
+    // TODO pro: JSZip laden, queue-blobs bundelen, één download.
+    console.log("PRO-functie: zip-download komt hier.");
+  }
+
+  /* ---- opties uitlezen ---- */
+  function currentOptions() { return cfg.readOptions(); }
+
+  /* ---- events ---- */
+  dz.onclick = () => input.click();
+  dz.onkeydown = e => (e.key === "Enter" || e.key === " ") && input.click();
+  input.onchange = () => addFiles(input.files);
+  ["dragover", "dragenter"].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add("drag"); }));
+  ["dragleave", "drop"].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove("drag"); }));
+  dz.addEventListener("drop", e => e.dataTransfer && addFiles(e.dataTransfer.files));
+  convertBtn.onclick = convertAll;
+}
+
+/* ================================================================
+   TELLER + DONATIE-NUDGE (vrijblijvend, onthoudt of al gevraagd)
+   ================================================================ */
+function bumpCounter() {
+  let n = parseInt(store.get("conv_total") || "0", 10) + 1;
+  store.set("conv_total", n);
+  if (FEATURES.pro) return;                       // pro: geen nudges
+  if (store.get("nudge_done")) return;            // al gevraagd/afgewezen
+  if (n >= FEATURES.donationNudgeAfter) showNudge(n);
+}
+function showNudge(n) {
+  document.getElementById("nudgeCount").textContent = n;
+  document.getElementById("nudge").classList.add("show");
+}
+document.getElementById("nudgeX").onclick =
+document.getElementById("nudgeNo").onclick = e => {
+  e.preventDefault();
+  store.set("nudge_done", "1");
+  document.getElementById("nudge").classList.remove("show");
+};
+
+/* ================================================================
+   HULPJES
+   ================================================================ */
+function humanSize(b) {
+  if (b < 1024) return b + " B";
+  if (b < 1048576) return (b / 1024).toFixed(0) + " KB";
+  return (b / 1048576).toFixed(1) + " MB";
+}
+function triggerDownload(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/* ================================================================
+   HEIC-BIBLIOTHEEK: lazy laden, eenmalig gecachet in geheugen.
+   Browser-cache bewaart het na eerste download (~400 KB, jsDelivr CDN).
+   Werkt op de deployed site; in de Claude-preview valt hij terug op
+   een nette melding — dat is geen bug, alleen een preview-beperking.
+   ================================================================ */
+let _heic2anyLib = null;
+function loadHeic2Any() {
+  if (_heic2anyLib) return Promise.resolve(_heic2anyLib);
+  return new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js';
+    s.onload = () => { _heic2anyLib = window.heic2any; res(_heic2anyLib); };
+    s.onerror = () => rej(new Error('load failed'));
+    document.head.appendChild(s);
+  });
+}
+
+/* ================================================================
+   CONVERTER-SPECIFIEK: AFBEELDINGEN
+   Dit is het ENIGE deel dat per converter verandert.
+   ================================================================ */
+
+// opties-UI bedienen
+const fmtBtns = document.querySelectorAll("#format button");
+const qualityField = document.getElementById("qualityField");
+const qualityInput = document.getElementById("quality");
+const qval = document.getElementById("qval");
+let format = "jpeg";
+fmtBtns.forEach(b => b.onclick = () => {
+  fmtBtns.forEach(x => x.classList.remove("active"));
+  b.classList.add("active");
+  format = b.dataset.fmt;
+  qualityField.style.visibility = (format === "png") ? "hidden" : "visible"; // PNG kent geen kwaliteit
+});
+qualityInput.oninput = () => qval.textContent = qualityInput.value + "%";
+
+createConverter({
+  accepts: f => f.type.startsWith("image/") || /\.(jpe?g|png|webp|heic|heif|gif|bmp)$/i.test(f.name),
+  readOptions: () => ({ format, quality: qualityInput.value / 100 }),
+  outName: (file, o) => file.name.replace(/\.[^.]+$/, "") + "." + (o.format === "jpeg" ? "jpg" : o.format),
+  preview: (file, img) => {
+    if (/heic|heif/i.test(file.type) || /\.(heic|heif)$/i.test(file.name)) {
+      img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 46'%3E%3Crect width='46' height='46' rx='9' fill='%23E7F2EB'/%3E%3Ctext x='23' y='31' font-size='22' text-anchor='middle'%3E%F0%9F%93%B7%3C/text%3E%3C/svg%3E";
+      return;
+    }
+    const u = URL.createObjectURL(file); img.src = u; img.onload = () => URL.revokeObjectURL(u);
+  },
+  convert: async (file, o, onProgress, onStatus) => {
+    onProgress(0.05);
+
+    /* ---- HEIC/HEIF: via heic2any (lazy geladen) ---- */
+    if (/heic|heif/i.test(file.type) || /\.(heic|heif)$/i.test(file.name)) {
+      onStatus && onStatus('Loading library — one time only…');
+      let h2a;
+      try { h2a = await loadHeic2Any(); }
+      catch (_e) {
+        const e = new Error('Could not load library. Try on the live site.');
+        e.notice = true; throw e;
+      }
+      onStatus && onStatus('Converting…');
+      onProgress(0.3);
+      const result = await h2a({ blob: file, toType: 'image/' + o.format, quality: o.quality });
+      const blob = Array.isArray(result) ? result[0] : result;
+      onProgress(1);
+      return blob;
+    }
+
+    /* ---- Alle andere formaten: via Canvas (native) ---- */
+    let bitmap;
+    try { bitmap = await createImageBitmap(file); }
+    catch (e) { bitmap = await loadViaImage(file); }
+    onProgress(0.5);
+    // 2) tekenen op canvas
+    const canvas = document.createElement("canvas");
+    canvas.width = bitmap.width; canvas.height = bitmap.height;
+    const ctx = canvas.getContext("2d");
+    if (o.format === "jpeg") { ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, canvas.width, canvas.height); } // transparantie platslaan
+    ctx.drawImage(bitmap, 0, 0);
+    onProgress(0.8);
+    // 3) exporteren
+    const mime = "image/" + o.format;
+    const blob = await new Promise(res => canvas.toBlob(res, mime, o.quality));
+    if (!blob) throw new Error("export failed");
+    onProgress(1);
+    return blob;
+  },
+});
+
+function loadViaImage(file) {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    const u = URL.createObjectURL(file);
+    img.onload = () => { URL.revokeObjectURL(u); res(img); };
+    img.onerror = () => { URL.revokeObjectURL(u); rej(new Error("decode")); };
+    img.src = u;
+  });
+}
+</script>
+</body>
+</html>
