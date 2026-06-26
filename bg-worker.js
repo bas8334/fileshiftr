@@ -2,7 +2,8 @@
    bg-worker.js — Achtergrondverwijdering in de browser (Fileshiftr)
    ----------------------------------------------------------------------------
    Draait het AI-model in een Web Worker, zodat de UI soepel blijft.
-   Model: BiRefNet (MIT-licentie) via de onnx-community ONNX-conversie.
+   Model: BiRefNet_lite (MIT-licentie) via de onnx-community ONNX-conversie.
+          Lichter dan het volledige BiRefNet, zodat het in de browser past.
    Bibliotheek: Transformers.js v3 (vastgepind op een exacte versie).
 
    GEBRUIK:
@@ -10,10 +11,9 @@
      publieke CDN. Geen Cloudflare R2 nodig. Je foto blijft op je apparaat.
    - Fase 2 (zelf hosten): zet SELF_HOST op true en MODEL_HOST naar jouw
      R2-domein. De map-structuur op R2 moet dan exact zijn:
-       https://MODEL_HOST/onnx-community/BiRefNet-ONNX/config.json
-       https://MODEL_HOST/onnx-community/BiRefNet-ONNX/preprocessor_config.json
-       https://MODEL_HOST/onnx-community/BiRefNet-ONNX/onnx/model_fp16.onnx
-       https://MODEL_HOST/onnx-community/BiRefNet-ONNX/onnx/model.onnx
+       https://MODEL_HOST/onnx-community/BiRefNet_lite-ONNX/config.json
+       https://MODEL_HOST/onnx-community/BiRefNet_lite-ONNX/preprocessor_config.json
+       https://MODEL_HOST/onnx-community/BiRefNet_lite-ONNX/onnx/model.onnx
 
    Geen COOP/COEP-headers nodig: WASM draait single-thread en WebGPU heeft
    die headers niet nodig.
@@ -47,7 +47,7 @@ if (SELF_HOST) {
 // als je later óók de WASM-bestanden zelf wilt hosten.)
 env.backends.onnx.wasm.numThreads = 1;      // single-thread -> geen COOP/COEP nodig
 
-const MODEL_ID = "onnx-community/BiRefNet-ONNX";
+const MODEL_ID = "onnx-community/BiRefNet_lite-ONNX";   // lichter (~200 MB), draait in de browser
 
 /* WebGPU is voor dit zware model soms instabiel; we proberen het wel, maar
    vallen bij een fout automatisch terug op de betrouwbare WASM-route.
@@ -69,7 +69,9 @@ async function hasWebGPU() {
 }
 
 async function loadOn(device) {
-  const dtype = device === "webgpu" ? "fp16" : "fp32";   // alleen deze bestaan in deze repo
+  // fp32 voor beide routes: het lite-model is klein genoeg, en zo hergebruikt
+  // een WebGPU->WASM-fallback hetzelfde (al gedownloade) bestand — geen 2e download.
+  const dtype = "fp32";
   const progress_callback = (p) => self.postMessage({ type: "progress", data: p });
   model = await AutoModel.from_pretrained(MODEL_ID, { device, dtype, progress_callback });
   if (!processor) processor = await AutoProcessor.from_pretrained(MODEL_ID);
