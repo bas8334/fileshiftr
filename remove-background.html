@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ============================================================
+     SEO — elke converter krijgt zijn EIGEN pagina met eigen
+     title/description gericht op één zoekopdracht.
+     Pas deze 3 regels per converter aan; de rest van de schil blijft gelijk.
+     ============================================================ -->
+<title>Remove Image Background Free — No Upload, No Limit</title>
+<meta name="description" content="Remove the background from any photo free, right in your browser. Runs an AI model on your own device — nothing is uploaded, no account, no limit.">
+<link rel="alternate" hreflang="en" href="https://fileshiftr.com/remove-background">
+<link rel="alternate" hreflang="nl" href="https://fileshiftr.com/nl/achtergrond-verwijderen">
+<link rel="alternate" hreflang="x-default" href="https://fileshiftr.com/remove-background">
+<link rel="canonical" href="https://fileshiftr.com/remove-background">
+
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://fileshiftr.com/remove-background">
+<meta property="og:title"       content="Remove Image Background Free — No Upload, No Limit">
+<meta property="og:description" content="Remove the background from any photo free, right in your browser. Runs an AI model on your own device — nothing is uploaded, no account, no limit.">
+<meta property="og:locale"      content="en_US">
+<meta name="theme-color" content="#16794A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="https://fileshiftr.com/favicon.ico" sizes="any">
+
+<!-- Lettertypes: laden van Google Fonts, met nette fallbacks als ze geblokkeerd zijn -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#FAF6EF;
+    --surface:#FFFDF9;
+    --ink:#211C16;
+    --muted:#6B6358;
+    --line:#E8E0D3;
+    --green:#16794A;
+    --green-dark:#12603B;
+    --green-tint:#E7F2EB;
+    --amber:#C9742A;
+    --amber-tint:#FBEFE0;
+    --radius:18px;
+    --shadow:0 1px 2px rgba(33,28,22,.04), 0 8px 24px rgba(33,28,22,.06);
+    --shadow-lift:0 2px 4px rgba(33,28,22,.06), 0 16px 40px rgba(33,28,22,.10);
+    --display:"Fraunces", Georgia, "Times New Roman", serif;
+    --body:"Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--body);
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(22,121,74,.06), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(201,116,42,.05), transparent 55%),
+      var(--paper);
+    line-height:1.6;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+
+  /* ---------- Header ---------- */
+  header{padding:28px 0 8px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .logo .mark{width:34px;height:34px;flex:none;display:grid;place-items:center}
+  .wordmark{font-family:var(--body);font-weight:700;font-size:20px;letter-spacing:-.02em}
+  .w-dark{color:var(--ink)}.w-green{color:var(--green)}.w-r{color:var(--amber)}
+  .promise-pill{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:13px;font-weight:600;color:var(--green-dark);
+    background:var(--green-tint);border:1px solid #cfe6d8;
+    padding:7px 13px;border-radius:999px;
+  }
+  .promise-pill svg{width:15px;height:15px}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:34px 0 22px;text-align:center}
+  .hero h1{
+    font-family:var(--display);font-weight:600;
+    font-size:clamp(31px,6vw,46px);line-height:1.08;letter-spacing:-.02em;
+    margin-bottom:14px;
+  }
+  .hero h1 em{font-style:italic;color:var(--green)}
+  .hero p{font-size:clamp(16px,2.6vw,18px);color:var(--muted);max-width:520px;margin:0 auto}
+
+  .trust-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+  .trust{
+    display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;
+    color:var(--ink);background:var(--surface);border:1px solid var(--line);
+    padding:9px 15px;border-radius:999px;box-shadow:var(--shadow);
+  }
+  .trust svg{width:16px;height:16px;color:var(--green);flex:none}
+
+  /* ---------- Converter card ---------- */
+  .tool{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:26px;margin-top:30px;
+  }
+
+  /* Dropzone */
+  .dropzone{
+    border:2px dashed #d6ccbb;border-radius:14px;background:#fffefb;
+    padding:42px 24px;text-align:center;cursor:pointer;transition:.18s ease;
+  }
+  .dropzone:hover{border-color:var(--green);background:var(--green-tint)}
+  .dropzone.drag{border-color:var(--green);background:var(--green-tint);transform:scale(1.005)}
+  .dropzone .icon{
+    width:54px;height:54px;margin:0 auto 14px;border-radius:14px;
+    background:var(--green-tint);display:grid;place-items:center;color:var(--green);
+  }
+  .dropzone .icon svg{width:26px;height:26px}
+  .dropzone h2{font-family:var(--display);font-weight:600;font-size:20px;margin-bottom:5px}
+  .dropzone p{color:var(--muted);font-size:14.5px}
+  .dropzone .hint{font-size:12.5px;color:var(--muted);margin-top:10px;opacity:.85}
+
+  /* Options */
+  .options{display:none;margin-top:20px;padding-top:20px;border-top:1px solid var(--line);gap:18px;flex-wrap:wrap;align-items:flex-end}
+  .options.show{display:flex}
+  .field{display:flex;flex-direction:column;gap:7px}
+  .field label{font-size:13px;font-weight:600;color:var(--muted)}
+  .segmented{display:inline-flex;background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:4px;gap:3px}
+  .segmented button{
+    border:none;background:none;font-family:var(--body);font-size:14px;font-weight:600;
+    color:var(--muted);padding:8px 16px;border-radius:8px;cursor:pointer;transition:.15s;
+  }
+  .segmented button.active{background:#fff;color:var(--green-dark);box-shadow:0 1px 3px rgba(33,28,22,.1)}
+  .quality{flex:1;min-width:180px}
+  .quality .row{display:flex;justify-content:space-between;font-size:13px}
+  .quality input[type=range]{width:100%;accent-color:var(--green);margin-top:6px}
+
+  /* File list */
+  .files{display:none;flex-direction:column;gap:10px;margin-top:20px}
+  .files.show{display:flex}
+  .file{
+    display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);
+    border-radius:13px;padding:11px 13px;
+    animation:rise .35s ease both;
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .file .thumb{width:46px;height:46px;border-radius:9px;object-fit:cover;background:var(--paper);flex:none;border:1px solid var(--line)}
+  .file .meta{flex:1;min-width:0}
+  .file .name{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .file .sub{font-size:12.5px;color:var(--muted)}
+  .file .sub.err{color:#b4471f}
+  .file .sub.notice{color:var(--amber)}
+  .bar{height:5px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:6px}
+  .bar i{display:block;height:100%;width:0;background:var(--green);border-radius:99px;transition:width .2s}
+  .file .act{flex:none}
+  .dl{
+    display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    font-size:13.5px;font-weight:600;color:#fff;background:var(--green);
+    padding:8px 13px;border-radius:9px;border:none;cursor:pointer;transition:.15s;
+  }
+  .dl:hover{background:var(--green-dark)}
+  .dl[disabled]{opacity:.4;pointer-events:none}
+  .dl svg{width:15px;height:15px}
+
+  /* Action bar */
+  .actions{display:none;margin-top:20px;gap:12px;flex-wrap:wrap}
+  .actions.show{display:flex}
+  .btn{
+    font-family:var(--body);font-weight:600;font-size:15.5px;border-radius:12px;
+    padding:13px 22px;cursor:pointer;border:1px solid transparent;transition:.16s;
+  }
+  .btn-primary{background:var(--green);color:#fff;box-shadow:0 6px 16px rgba(22,121,74,.25)}
+  .btn-primary:hover{background:var(--green-dark);transform:translateY(-1px)}
+  .btn-primary:active{transform:translateY(0)}
+  .btn-primary[disabled]{opacity:.5;pointer-events:none;box-shadow:none}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{background:var(--paper)}
+  .no-limit-note{font-size:13px;color:var(--muted);align-self:center;display:inline-flex;align-items:center;gap:7px}
+  .no-limit-note svg{width:15px;height:15px;color:var(--green)}
+
+  /* ---------- Advertentieplek (contextueel, niet-trackend) ---------- */
+  /* Hier komt later EthicalAds / Carbon. Vaste, rustige plek — geen layout-verbouwing nodig. */
+  .ad-slot{
+    margin-top:30px;border:1px dashed var(--line);border-radius:14px;
+    padding:18px;text-align:center;color:var(--muted);font-size:13px;background:#fffefb;
+  }
+  .ad-slot .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.6;display:block;margin-bottom:4px}
+
+  /* ---------- FAQ (SEO + geruststelling) ---------- */
+  .faq{margin-top:46px}
+  .faq h3{font-family:var(--display);font-weight:600;font-size:24px;margin-bottom:8px;text-align:center}
+  .faq .lead{text-align:center;color:var(--muted);margin-bottom:22px}
+  details{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:0 18px;margin-bottom:10px}
+  summary{cursor:pointer;font-weight:600;padding:16px 0;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-size:20px;color:var(--green);font-weight:400}
+  details[open] summary::after{content:"–"}
+  details p{padding:0 0 16px;color:var(--muted);font-size:15px}
+
+  /* ---------- Footer ---------- */
+  footer{margin-top:50px;padding:30px 0 50px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:13.5px}
+  footer a{color:var(--green-dark);font-weight:600;text-decoration:none}
+  .coffee{
+    display:inline-flex;align-items:center;gap:8px;margin-top:14px;
+    background:var(--amber-tint);border:1px solid #ecd6b6;color:#8a4f17;
+    padding:9px 16px;border-radius:999px;font-weight:600;font-size:14px;text-decoration:none;transition:.15s;
+  }
+  .coffee:hover{background:#f7e6cd}
+
+  /* ---------- Donatie-nudge (verschijnt pas na veel gebruik) ---------- */
+  .nudge{
+    position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(120%);
+    width:calc(100% - 32px);max-width:440px;z-index:50;
+    background:var(--surface);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow-lift);padding:18px 18px 16px;transition:transform .4s cubic-bezier(.2,.8,.2,1);
+  }
+  .nudge.show{transform:translateX(-50%) translateY(0)}
+  .nudge .head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .nudge .cup{width:34px;height:34px;border-radius:10px;background:var(--amber-tint);display:grid;place-items:center;font-size:18px;flex:none}
+  .nudge h4{font-family:var(--display);font-size:17px;font-weight:600}
+  .nudge p{font-size:14px;color:var(--muted);margin-bottom:14px}
+  .nudge .row{display:flex;gap:10px}
+  .nudge .row a{flex:1;text-align:center;text-decoration:none}
+  .nudge-x{position:absolute;top:12px;right:14px;border:none;background:none;font-size:20px;color:var(--muted);cursor:pointer;line-height:1}
+
+  @media(max-width:560px){
+    .tool{padding:18px}
+    .dropzone{padding:32px 16px}
+    .actions .no-limit-note{order:-1;width:100%;justify-content:center;margin-bottom:4px}
+  }
+
+  .prose{margin-top:48px}
+  .prose h2{font-family:var(--display);font-weight:600;font-size:26px;margin:0 0 14px;letter-spacing:-.01em}
+  .prose h3{font-family:var(--display);font-weight:600;font-size:19px;margin:30px 0 8px}
+  .prose p{color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 14px;max-width:660px}
+  .prose ul{color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 14px;padding-left:22px;max-width:660px}
+  .prose li{margin-bottom:7px}
+  .prose strong{color:var(--ink)}
+  .fmt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:18px 0 8px}
+  .fmt-card{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .fmt-card h4{margin:0 0 6px;font-size:15px;font-weight:700;color:var(--ink)}
+  .fmt-card p{font-size:14px;margin:0;line-height:1.6}
+
+
+  /* rich content blocks */
+  .howto{margin-top:48px}
+  .howto h2,.usecases h2,.cmp-wrap h2,.related h2{font-family:var(--display);font-weight:600;font-size:26px;margin:0 0 18px;letter-spacing:-.01em}
+  .steps{display:grid;gap:14px;counter-reset:step}
+  .step{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .step::before{counter-increment:step;content:counter(step);flex:none;width:30px;height:30px;border-radius:50%;background:var(--green-tint);color:var(--green-dark);font-weight:700;font-size:15px;display:grid;place-items:center}
+  .step h4{margin:0 0 3px;font-size:16px;font-weight:700;color:var(--ink)}
+  .step p{margin:0;color:var(--muted);font-size:15px;line-height:1.6}
+  .cmp-wrap{margin-top:48px;overflow-x:auto}
+  table.cmp{border-collapse:collapse;width:100%;font-size:14.5px;min-width:520px}
+  table.cmp th,table.cmp td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.cmp thead th{font-weight:700;color:var(--ink);border-bottom:2px solid var(--line)}
+  table.cmp td:first-child,table.cmp th:first-child{font-weight:700;color:var(--ink)}
+  table.cmp td{color:var(--muted)}
+  table.cmp tbody tr:last-child td{border-bottom:none}
+  .usecases{margin-top:48px}
+  .uc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .uc{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .uc h4{margin:0 0 5px;font-size:15px;font-weight:700;color:var(--ink)}
+  .uc p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+  .callout{margin:30px 0 0;background:var(--green-tint);border:1px solid #cfe6d8;border-radius:13px;padding:18px 20px}
+  .callout h3{margin:0 0 6px;font-size:16px;font-weight:700;color:var(--green-dark);font-family:var(--body)}
+  .callout p{margin:0;color:#2c5340;font-size:15px;line-height:1.65}
+  .related{margin-top:48px}
+  .rel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .rel{display:block;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:15px 17px;text-decoration:none;transition:border-color .15s,transform .15s}
+  .rel:hover{border-color:var(--green);transform:translateY(-2px)}
+  .rel strong{display:block;color:var(--ink);font-size:15px;margin-bottom:3px}
+  .rel span{color:var(--muted);font-size:13px;line-height:1.5}
+
+  /* ---------- Model-laadpaneel (eerste keer) ---------- */
+  .model-status{display:none;margin-top:18px;padding:16px 18px;border:1px solid #cfe6d8;background:var(--green-tint);border-radius:13px}
+  .model-status.show{display:block}
+  .model-status .ms-head{display:flex;align-items:center;gap:10px;font-weight:600;color:var(--green-dark);font-size:14.5px}
+  .model-status .ms-head svg{width:18px;height:18px;flex:none}
+  .model-status .ms-sub{font-size:13px;color:#2c5340;margin:4px 0 0 28px}
+  .model-status .bar{height:7px;border-radius:99px;background:#cfe6d8;overflow:hidden;margin-top:12px}
+  .model-status .bar i{display:block;height:100%;width:0;background:var(--green);border-radius:99px;transition:width .25s}
+  .model-status.err{border-color:#e7c7b3;background:var(--amber-tint)}
+  .model-status.err .ms-head{color:#8a4f17}
+  .model-status.err .ms-sub{color:#8a4f17}
+  .spin{animation:spin 1s linear infinite;transform-origin:center}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* transparantie-ruit achter resultaat-thumbnails (PNG met alpha) */
+  .file .thumb.alpha{
+    background-color:#fff;
+    background-image:
+      linear-gradient(45deg,#e8e0d3 25%,transparent 25%),
+      linear-gradient(-45deg,#e8e0d3 25%,transparent 25%),
+      linear-gradient(45deg,transparent 75%,#e8e0d3 75%),
+      linear-gradient(-45deg,transparent 75%,#e8e0d3 75%);
+    background-size:12px 12px;
+    background-position:0 0,0 6px,6px -6px,-6px 0;
+  }
+  /* kleurkeuze voor achtergrond */
+  .swatches{display:inline-flex;gap:8px;align-items:center}
+  .swatch{width:30px;height:30px;border-radius:8px;border:2px solid var(--line);cursor:pointer;padding:0;transition:.15s}
+  .swatch.active{border-color:var(--green);box-shadow:0 0 0 2px var(--green-tint)}
+  .swatch.transparent{
+    background-color:#fff;
+    background-image:
+      linear-gradient(45deg,#d6ccbb 25%,transparent 25%),
+      linear-gradient(-45deg,#d6ccbb 25%,transparent 25%),
+      linear-gradient(45deg,transparent 75%,#d6ccbb 75%),
+      linear-gradient(-45deg,transparent 75%,#d6ccbb 75%);
+    background-size:10px 10px;background-position:0 0,0 5px,5px -5px,-5px 0;
+  }
+  .swatch.custom{display:grid;place-items:center;color:var(--muted);background:#fff;font-size:15px}
+  .swatch.custom input{position:absolute;width:0;height:0;opacity:0;pointer-events:none}
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "en-US",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are my photos uploaded to remove the background?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The AI model that removes the background runs entirely in your own browser, on your own device. Your photos are never sent to a server — not even to us. That's the core difference with sites like remove.bg."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does the first photo take longer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The first time you use the tool, your browser downloads the AI model once (a few hundred MB) and caches it. That download is the only wait — after it finishes, every photo is processed in a few seconds, and on your next visit the model loads from cache instantly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a limit on how many images I can process?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Remove the background from as many photos as you want, as often as you want — no daily cap, no account, no waiting between files."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What do I get back — a transparent image?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "By default you get a PNG with a transparent background (the alpha channel), ready to drop onto any design. You can also choose a solid white or custom-colour background instead before you download."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How good is the quality on hair and fine edges?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This tool uses a high-quality matting model, so it handles tricky edges like hair, fur and semi-transparent areas far better than a simple cut-out. Results depend on the photo: a clear subject against a contrasting background gives the cleanest edges."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work on my phone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, on modern phones. Because the AI runs on your device, an older or low-memory phone may be slow or run out of memory on very large photos. On a computer with a recent browser it's fastest, especially where hardware acceleration (WebGPU) is available."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it really free, with no watermark or sign-up?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. No watermark on your images, no account, no email, no trial that expires. It's free and stays that way."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Fileshiftr",
+      "item": "https://fileshiftr.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Remove background",
+      "item": "https://fileshiftr.com/remove-background"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Fileshiftr Background Remover",
+  "url": "https://fileshiftr.com/remove-background",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires JavaScript. Runs in any modern browser.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "inLanguage": "en-US"
+}
+</script>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="topbar">
+      <a href="index.html" class="logo">
+        <span class="mark"><svg width="34" height="34" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="mlg" x1="0" y1="0" x2=".4" y2="1"><stop offset="0%" stop-color="#22a36a"/><stop offset="100%" stop-color="#14623e"/></linearGradient></defs><path d="M6,1 H20 L27,8 V30 Q27,32 25,32 H6 Q4,32 4,30 V3 Q4,1 6,1 Z" fill="url(#mlg)"/><path d="M20,1 L20,8 H27" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.2"/><line x1="5" y1="14" x2="11" y2="14" stroke="rgba(255,255,255,.88)" stroke-width="2" stroke-linecap="round"/><line x1="5" y1="18" x2="9" y2="18" stroke="rgba(255,255,255,.65)" stroke-width="1.5" stroke-linecap="round"/><line x1="5" y1="22" x2="7" y2="22" stroke="rgba(255,255,255,.45)" stroke-width="1.2" stroke-linecap="round"/><path d="M13,18 H24 M20,14 L25,18 L20,22" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="wordmark"><span class="w-dark">file</span><span class="w-green">shift</span><span class="w-r">r</span></span>
+      </a>
+      <span class="promise-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Stays on your device
+      </span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Remove image backgrounds — <em>on your device</em></h1>
+    <p>Drop a photo and an AI model cuts out the background, right in your browser. As many images as you want, no account, nothing uploaded.</p>
+    <div class="trust-row">
+      <span class="trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> No limit</span>
+      <span class="trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> No account</span>
+      <span class="trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> No upload</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       HERBRUIKBARE CONVERTER-SCHIL
+       Eén <div class="tool"> met dropzone, opties, bestandslijst en acties.
+       Voor elke nieuwe converter blijft deze HTML+CSS gelijk; alleen de
+       JS-config onderaan (accept, formaten, convertFn) verandert.
+       ============================================================ -->
+  <div class="tool" id="tool">
+    <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose files">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0L8 8m4-4l4 4"/><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+      </div>
+      <h2>Drop your photos here</h2>
+      <p>or click to choose — multiple photos at once is fine</p>
+      <p class="hint">JPG · PNG · WebP — the result is a transparent PNG</p>
+      <input type="file" id="filein" accept="image/jpeg,image/png,image/webp" multiple hidden>
+    </div>
+
+    <!-- Opties (converter-specifiek): achtergrond van het resultaat -->
+    <div class="options" id="options">
+      <div class="field">
+        <label>Result background</label>
+        <div class="swatches" id="bgChoice">
+          <button class="swatch transparent active" data-bg="transparent" title="Transparent (PNG)" aria-label="Transparent"></button>
+          <button class="swatch" data-bg="#ffffff" style="background:#fff" title="White" aria-label="White"></button>
+          <button class="swatch" data-bg="#000000" style="background:#000" title="Black" aria-label="Black"></button>
+          <button class="swatch custom" data-bg="custom" title="Pick a colour" aria-label="Custom colour">+<input type="color" id="bgCustom" value="#3aa76d"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Model-laadpaneel: verschijnt alleen de eerste keer terwijl het AI-model wordt opgehaald -->
+    <div class="model-status" id="modelStatus">
+      <div class="ms-head">
+        <svg class="spin" id="msIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></svg>
+        <span id="msTitle">Loading the AI model — first time only…</span>
+      </div>
+      <div class="ms-sub" id="msSub">This one-time download happens on your device. After it finishes, every photo is processed in seconds, and next time it loads instantly from cache.</div>
+      <div class="bar"><i id="msBar"></i></div>
+    </div>
+
+    <!-- Bestandslijst -->
+    <div class="files" id="files"></div>
+
+    <!-- Actiebalk -->
+    <div class="actions" id="actions">
+      <button class="btn btn-primary" id="convertBtn">Remove background</button>
+      <!-- FREE: alles downloaden = bestanden één voor één (onbeperkt) -->
+      <button class="btn btn-ghost" id="downloadAll" style="display:none">Download all</button>
+      <!-- PRO-HAAK (later): zelfde knop, maar dan als één .zip-bestand.
+           Code-seam staat klaar in downloadAllAsZip(); zichtbaar maken zodra pro live is. -->
+      <span class="no-limit-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+        As many as you want — truly no limit
+      </span>
+    </div>
+  </div>
+
+  <!-- Advertentieplek: contextueel & niet-trackend (EthicalAds/Carbon komt hier) -->
+  <div class="ad-slot" id="adSlot">
+    <span class="lbl">Advertisement</span>
+    One quiet, non-tracking ad goes here. We never follow you around the web.
+  </div>
+
+  <!-- FAQ: long-tail SEO + stelt de niet-technische bezoeker gerust -->
+
+    <section class="prose">
+    <h2>Cut out the background without uploading your photo</h2>
+    <p>Removing a background used to mean a fiddly selection tool, or handing your photo to a website that uploads it to their servers. This does neither. An AI model runs directly inside your browser, looks at your photo, and separates the subject from everything behind it — then hands you a clean cut-out. Your image never leaves your device, so there's nothing to worry about and no one looking at your photos.</p>
+    <p>It's free with no catch: no watermark stamped across the result, no account, no daily cap. Cut out one product photo or two hundred portraits — the only wait is the one-time model download on your first visit.</p>
+  </section>
+
+  <section class="howto">
+    <h2>How to remove a background in 3 steps</h2>
+    <div class="steps">
+      <div class="step"><div><h4>Add your photo</h4><p>Drag an image onto the drop zone or click to browse. Add several at once if you like — there's no limit.</p></div></div>
+      <div class="step"><div><h4>Let the AI do the cut-out</h4><p>The first time, your browser downloads the model once (you'll see a progress bar). After that, each photo takes just a few seconds.</p></div></div>
+      <div class="step"><div><h4>Download your PNG</h4><p>Get a transparent PNG by default, or pick a solid white or custom-colour background first. Nothing was uploaded along the way.</p></div></div>
+    </div>
+  </section>
+
+  <section class="usecases">
+    <h2>What people use it for</h2>
+    <div class="uc-grid">
+      <div class="uc"><h4>Product photos</h4><p>Put items on a clean white or transparent background for a webshop, marketplace or catalogue.</p></div>
+      <div class="uc"><h4>Profile &amp; team pictures</h4><p>Cut yourself out for a consistent headshot, a CV, or a slide — without a studio backdrop.</p></div>
+      <div class="uc"><h4>Designs &amp; collages</h4><p>Drop a clean cut-out straight into a poster, presentation or thumbnail.</p></div>
+      <div class="uc"><h4>Stickers &amp; fun</h4><p>Turn a pet, a person or an object into a transparent sticker in seconds.</p></div>
+    </div>
+  </section>
+
+  <section class="cmp-wrap">
+    <h2>On your device vs. the upload sites</h2>
+    <table class="cmp">
+      <thead><tr><th></th><th>Fileshiftr</th><th>Typical upload sites</th></tr></thead>
+      <tbody>
+        <tr><td>Where it runs</td><td>In your browser, on your device</td><td>Uploaded to their servers</td></tr>
+        <tr><td>Your photo</td><td>Never leaves your device</td><td>Sent to, and stored by, a third party</td></tr>
+        <tr><td>Limit</td><td>None — process as many as you want</td><td>Often a few free, then pay or sign up</td></tr>
+        <tr><td>Watermark</td><td>Never</td><td>Sometimes on the free tier</td></tr>
+        <tr><td>Account</td><td>Not needed</td><td>Often required for full resolution</td></tr>
+        <tr><td>First photo</td><td>Slower (one-time model download)</td><td>Fast — but they hold your image</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <h3>The honest trade-off</h3>
+      <p>Because the AI runs on your own device, the <strong>first</strong> photo takes longer while the model downloads once. In return, your photo is never uploaded, there's no limit, and every photo after the first is quick. It's the same privacy a desktop app gives you — without installing anything.</p>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h3>What makes a clean cut-out</h3>
+    <p>The model is good at tricky edges — hair, fur, the gap between an arm and a body — but the photo still matters. A subject that stands out clearly from its background gives the cleanest result. Very low contrast (a grey cat on a grey couch) or busy, cluttered backgrounds are harder, just as they would be for a person with a selection tool. If an edge isn't perfect, a slightly clearer photo usually fixes it.</p>
+    <h3>Why the first run takes a moment</h3>
+    <p>To keep your photo on your device, the AI model has to run on your device too — which means your browser downloads it once (a few hundred MB) the first time you use the tool. That download is the only real wait. Your browser caches it, so the next photo, and your next visit, load it instantly. It's the price of not uploading your images anywhere, and we think it's a fair one.</p>
+  </section>
+
+  <section class="related">
+    <h2>Related tools</h2>
+    <div class="rel-grid">
+      <a class="rel" href="compress-image.html"><strong>Compress image</strong><span>Make a photo smaller in file size without changing its format.</span></a>
+      <a class="rel" href="convert-image.html"><strong>Convert image</strong><span>Switch between JPG, PNG, WebP and iPhone HEIC.</span></a>
+      <a class="rel" href="images-to-pdf.html"><strong>Images to PDF</strong><span>Turn a set of photos into one tidy PDF document.</span></a>
+    </div>
+  </section>
+
+  <section class="faq">
+    <h3>Frequently asked questions</h3>
+    <p class="lead">Free, unlimited, and your photos stay on your device.</p>
+    <details open><summary>Are my photos uploaded to remove the background?</summary><p>No. The AI model that removes the background runs entirely in your own browser, on your own device. Your photos are never sent to a server — not even to us. That's the core difference with sites like remove.bg.</p></details>
+    <details><summary>Why does the first photo take longer?</summary><p>The first time you use the tool, your browser downloads the AI model once (a few hundred MB) and caches it. That download is the only wait — after it finishes, every photo is processed in a few seconds, and on your next visit the model loads from cache instantly.</p></details>
+    <details><summary>Is there a limit on how many images I can process?</summary><p>No. Remove the background from as many photos as you want, as often as you want — no daily cap, no account, no waiting between files.</p></details>
+    <details><summary>What do I get back — a transparent image?</summary><p>By default you get a PNG with a transparent background (the alpha channel), ready to drop onto any design. You can also choose a solid white or custom-colour background instead before you download.</p></details>
+    <details><summary>How good is the quality on hair and fine edges?</summary><p>This tool uses a high-quality matting model, so it handles tricky edges like hair, fur and semi-transparent areas far better than a simple cut-out. Results depend on the photo: a clear subject against a contrasting background gives the cleanest edges.</p></details>
+    <details><summary>Does it work on my phone?</summary><p>Yes, on modern phones. Because the AI runs on your device, an older or low-memory phone may be slow or run out of memory on very large photos. On a computer with a recent browser it's fastest, especially where hardware acceleration (WebGPU) is available.</p></details>
+    <details><summary>Is it really free, with no watermark or sign-up?</summary><p>Yes. No watermark on your images, no account, no email, no trial that expires. It's free and stays that way.</p></details>
+  </section>
+
+  <footer>
+    Your files stay on your own device. We never store or forward them.<br>
+    <a class="coffee" href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener">☕ Support Fileshiftr on Ko-fi</a>
+    <div style="margin-top:18px"><a href="privacy.html">Privacy</a> · <a href="about.html">About</a> · <a href="index.html">All tools</a></div>
+  </footer>
+</div>
+
+<!-- Donatie-nudge (verschijnt pas na veel gebruik; onthoudt of al getoond/afgewezen) -->
+<div class="nudge" id="nudge">
+  <button class="nudge-x" id="nudgeX" aria-label="Close">×</button>
+  <div class="head">
+    <span class="cup">☕</span>
+    <h4>You've processed <span id="nudgeCount">lots of</span> files!</h4>
+  </div>
+  <p>If this saved you time, feel free to buy me a coffee. No pressure at all.</p>
+  <div class="row">
+    <a class="btn btn-primary" href="https://ko-fi.com/fileshiftr" target="_blank" rel="noopener">Sure, happy to ☕</a>
+    <a class="btn btn-ghost" id="nudgeNo" href="remove-background.html#">No thanks</a>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   VEILIGE OPSLAG
+   localStorage werkt op je echte site (Cloudflare/Netlify) wél,
+   maar NIET in de Claude-preview. Daarom deze wrapper: valt netjes
+   terug op geheugen zodat er nooit iets crasht.
+   ================================================================ */
+const store = (() => {
+  const mem = {};
+  try {
+    const t = "__t"; localStorage.setItem(t, "1"); localStorage.removeItem(t);
+    return {
+      get: k => localStorage.getItem(k),
+      set: (k, v) => localStorage.setItem(k, v),
+    };
+  } catch (e) {
+    return { get: k => (mem[k] === undefined ? null : mem[k]), set: (k, v) => { mem[k] = String(v); } };
+  }
+})();
+
+/* ================================================================
+   FEATURE-VLAGGEN  — "gratis onbeperkt" vs "pro-gemak" netjes gescheiden.
+   Zet pro op true zodra de pro-laag live is; de gratis ervaring
+   verandert hier niet door.
+   ================================================================ */
+const FEATURES = {
+  pro: false,                 // pro-gebruiker? (later via login/aankoop bepalen)
+  donationNudgeAfter: 5,      // na hoeveel omzettingen vragen we (vrijblijvend) om koffie
+};
+
+/* ================================================================
+   HERBRUIKBARE CONVERTER-SCHIL
+   Bedient dropzone, bestandslijst, voortgang, download, teller, nudge.
+   Krijgt één config mee. Voor PDF-samenvoegen enz. lever je later
+   simpelweg een andere `convert`-functie aan — de rest blijft gelijk.
+   ================================================================ */
+function createConverter(cfg) {
+  const dz = document.getElementById("dropzone");
+  const input = document.getElementById("filein");
+  const filesEl = document.getElementById("files");
+  const actions = document.getElementById("actions");
+  const optionsEl = document.getElementById("options");
+  const convertBtn = document.getElementById("convertBtn");
+  const downloadAllBtn = document.getElementById("downloadAll");
+
+  let queue = []; // { file, row, bar, sub, dl, blob, outName }
+
+  /* ---- bestanden toevoegen ---- */
+  function addFiles(fileList) {
+    [...fileList].filter(cfg.accepts).forEach(file => {
+      const row = document.createElement("div");
+      row.className = "file";
+      row.innerHTML = `
+        <img class="thumb" alt="">
+        <div class="meta">
+          <div class="name"></div>
+          <div class="sub"></div>
+          <div class="bar"><i></i></div>
+        </div>
+        <div class="act">
+          <button class="dl" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12m0 0l-4-4m4 4l4-4"/><path d="M4 20h16"/></svg>
+            Download
+          </button>
+        </div>`;
+      const item = {
+        file,
+        row,
+        thumb: row.querySelector(".thumb"),
+        name: row.querySelector(".name"),
+        sub: row.querySelector(".sub"),
+        bar: row.querySelector(".bar i"),
+        dl: row.querySelector(".dl"),
+        blob: null, outName: null,
+      };
+      item.name.textContent = file.name;
+      item.sub.textContent = humanSize(file.size);
+      if (cfg.preview) cfg.preview(file, item.thumb);
+      item.dl.onclick = () => item.blob && triggerDownload(item.blob, item.outName);
+      queue.push(item);
+      filesEl.appendChild(row);
+    });
+    if (queue.length) {
+      filesEl.classList.add("show");
+      optionsEl.classList.add("show");
+      actions.classList.add("show");
+    }
+  }
+
+  /* ---- omzetten (GRATIS, onbeperkt) ---- */
+  async function convertAll() {
+    convertBtn.disabled = true;
+    convertBtn.textContent = "Processing…";
+    for (const item of queue) {
+      if (item.blob) continue; // al gedaan
+      try {
+        item.sub.className = "sub";
+        const blob = await cfg.convert(item.file, currentOptions(), p => {
+          item.bar.style.width = Math.round(p * 100) + "%";
+        }, status => {
+          item.sub.className = "sub";
+          item.sub.textContent = status;
+        });
+        item.blob = blob;
+        item.outName = cfg.outName(item.file, currentOptions());
+        item.bar.style.width = "100%";
+        item.sub.textContent = "Done · " + humanSize(blob.size);
+        item.dl.disabled = false;
+        bumpCounter();
+      } catch (err) {
+        item.bar.style.width = "0%";
+        if (err && err.notice) { item.sub.className = "sub notice"; item.sub.textContent = err.message; }
+        else { item.sub.className = "sub err"; item.sub.textContent = "Could not convert this file"; }
+      }
+    }
+    convertBtn.textContent = "Convert again";
+    convertBtn.disabled = false;
+    if (queue.some(i => i.blob)) downloadAllBtn.style.display = "inline-block";
+  }
+
+  /* ---- alles downloaden ---- */
+  downloadAllBtn.onclick = () => {
+    if (FEATURES.pro) return downloadAllAsZip();      // PRO: één .zip
+    queue.filter(i => i.blob).forEach((i, idx) =>     // GRATIS: één voor één
+      setTimeout(() => triggerDownload(i.blob, i.outName), idx * 350));
+  };
+
+  /* ---- PRO-HAAK: alles in één zip (later, met JSZip) ---- */
+  function downloadAllAsZip() {
+    // TODO pro: JSZip laden, queue-blobs bundelen, één download.
+    console.log("PRO-functie: zip-download komt hier.");
+  }
+
+  /* ---- opties uitlezen ---- */
+  function currentOptions() { return cfg.readOptions(); }
+
+  /* ---- events ---- */
+  dz.onclick = () => input.click();
+  dz.onkeydown = e => (e.key === "Enter" || e.key === " ") && input.click();
+  input.onchange = () => addFiles(input.files);
+  ["dragover", "dragenter"].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add("drag"); }));
+  ["dragleave", "drop"].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove("drag"); }));
+  dz.addEventListener("drop", e => e.dataTransfer && addFiles(e.dataTransfer.files));
+  convertBtn.onclick = convertAll;
+}
+
+/* ================================================================
+   TELLER + DONATIE-NUDGE (vrijblijvend, onthoudt of al gevraagd)
+   ================================================================ */
+function bumpCounter() {
+  let n = parseInt(store.get("conv_total") || "0", 10) + 1;
+  store.set("conv_total", n);
+  if (FEATURES.pro) return;                       // pro: geen nudges
+  if (store.get("nudge_done")) return;            // al gevraagd/afgewezen
+  if (n >= FEATURES.donationNudgeAfter) showNudge(n);
+}
+function showNudge(n) {
+  document.getElementById("nudgeCount").textContent = n;
+  document.getElementById("nudge").classList.add("show");
+}
+document.getElementById("nudgeX").onclick =
+document.getElementById("nudgeNo").onclick = e => {
+  e.preventDefault();
+  store.set("nudge_done", "1");
+  document.getElementById("nudge").classList.remove("show");
+};
+
+/* ================================================================
+   HULPJES
+   ================================================================ */
+function humanSize(b) {
+  if (b < 1024) return b + " B";
+  if (b < 1048576) return (b / 1024).toFixed(0) + " KB";
+  return (b / 1048576).toFixed(1) + " MB";
+}
+function triggerDownload(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/* ================================================================
+   CONVERTER-SPECIFIEK: ACHTERGROND VERWIJDEREN (AI, in de browser)
+   Dit is het ENIGE deel dat per converter verandert.
+
+   - Het AI-model draait via Transformers.js in een Web Worker
+     (bg-worker.js, in de site-root). Daardoor blijft de UI soepel.
+   - Het model + de WASM-bestanden host JE ZELF op Cloudflare R2.
+     Stel het R2-adres in bovenaan bg-worker.js (MODEL_HOST).
+   - Eerste keer: het model wordt één keer gedownload (paneel met balk).
+     Browser cachet het; daarna laadt het direct.
+   - In de Claude-preview en zonder geconfigureerde R2-host lukt het
+     laden niet -> nette melding (net als HEIC). Geen bug, alleen
+     een omgevingsbeperking; op de live site werkt het.
+   ================================================================ */
+
+// ---- achtergrondkeuze-UI ----
+let bgColor = "transparent";                       // "transparent" of "#rrggbb"
+const bgBtns = document.querySelectorAll("#bgChoice .swatch");
+const bgCustomInput = document.getElementById("bgCustom");
+bgBtns.forEach(b => b.onclick = (e) => {
+  if (b.dataset.bg === "custom") {
+    // klik op + opent de kleurkiezer
+    if (e.target !== bgCustomInput) bgCustomInput.click();
+    return;
+  }
+  bgBtns.forEach(x => x.classList.remove("active"));
+  b.classList.add("active");
+  bgColor = b.dataset.bg;
+});
+bgCustomInput.oninput = () => {
+  bgBtns.forEach(x => x.classList.remove("active"));
+  const custom = document.querySelector('#bgChoice .swatch.custom');
+  custom.classList.add("active");
+  custom.style.background = bgCustomInput.value;
+  bgColor = bgCustomInput.value;
+};
+
+// ---- model-laadpaneel ----
+const modelStatusEl = document.getElementById("modelStatus");
+const msBar   = document.getElementById("msBar");
+const msTitle = document.getElementById("msTitle");
+const msSub   = document.getElementById("msSub");
+const msIcon  = document.getElementById("msIcon");
+function showModelPanel(){ modelStatusEl.classList.remove("err"); msIcon.classList.add("spin"); modelStatusEl.classList.add("show"); }
+function hideModelPanel(){ modelStatusEl.classList.remove("show"); }
+function modelPanelProgress(pct){
+  msBar.style.width = Math.max(0, Math.min(100, pct)) + "%";
+  msTitle.textContent = "Loading the AI model — first time only…";
+  msSub.textContent = "This one-time download happens on your device. After it finishes, every photo is processed in seconds, and next time it loads instantly from cache.";
+}
+function modelPanelError(text){
+  modelStatusEl.classList.add("show","err");
+  msIcon.classList.remove("spin");
+  msTitle.textContent = "Could not load the AI model here";
+  msSub.textContent = text;
+  msBar.style.width = "0%";
+}
+
+/* ================================================================
+   WORKER + MODEL-LADEN
+   Eén worker bedient alle bestanden. We laden lui (pas bij eerste
+   gebruik) zodat de pagina razendsnel opent.
+   ================================================================ */
+let _worker = null;
+let _modelReady = null;     // Promise die resolved zodra model klaar is
+let _pendingRun = null;     // { resolve, reject } voor de actieve run
+
+function getWorker(){
+  if (_worker) return _worker;
+  // Module-worker in de site-root; werkt voor /remove-background én /nl/...
+  _worker = new Worker("/bg-worker.js", { type: "module" });
+  _worker.onmessage = (e) => {
+    const m = e.data || {};
+    if (m.type === "progress" && m.data && m.data.status === "progress") {
+      const pct = m.data.total ? (m.data.loaded / m.data.total) * 100 : (m.data.progress || 0);
+      modelPanelProgress(pct);
+    } else if (m.type === "ready") {
+      modelPanelProgress(100);
+      setTimeout(hideModelPanel, 400);
+      if (_modelReadyResolve) _modelReadyResolve(m.device || "wasm");
+    } else if (m.type === "result") {
+      if (_pendingRun) { _pendingRun.resolve(m); _pendingRun = null; }
+    } else if (m.type === "error") {
+      if (_modelReadyReject && !_modelReadyDone) { _modelReadyDone = true; _modelReadyReject(new Error(m.message || "model error")); }
+      if (_pendingRun) { _pendingRun.reject(new Error(m.message || "run error")); _pendingRun = null; }
+    }
+  };
+  _worker.onerror = (err) => {
+    if (_modelReadyReject && !_modelReadyDone) { _modelReadyDone = true; _modelReadyReject(new Error("worker failed")); }
+    if (_pendingRun) { _pendingRun.reject(new Error("worker failed")); _pendingRun = null; }
+  };
+  return _worker;
+}
+
+let _modelReadyResolve = null, _modelReadyReject = null, _modelReadyDone = false;
+function ensureModel(){
+  if (_modelReady) return _modelReady;
+  showModelPanel(); modelPanelProgress(0);
+  _modelReady = new Promise((resolve, reject) => {
+    _modelReadyResolve = resolve; _modelReadyReject = reject; _modelReadyDone = false;
+    getWorker().postMessage({ type: "load" });
+  });
+  // bij fout: reset zodat een latere poging opnieuw kan proberen
+  _modelReady.catch(() => { _modelReady = null; });
+  return _modelReady;
+}
+
+// stuur één afbeelding naar de worker, krijg een mask-masker terug
+function runModel(objectUrl){
+  return new Promise((resolve, reject) => {
+    _pendingRun = { resolve, reject };
+    getWorker().postMessage({ type: "run", url: objectUrl });
+  });
+}
+
+/* ================================================================
+   COMPOSITING: mask -> downloadbare PNG (transparant of met kleur)
+   ================================================================ */
+function compositeToBlob(imgEl, mask, mW, mH, color){
+  const w = imgEl.naturalWidth, h = imgEl.naturalHeight;
+
+  // 1) mask op modelresolutie -> opschalen naar fotoformaat (vloeiend)
+  const mc = document.createElement("canvas"); mc.width = mW; mc.height = mH;
+  const mctx = mc.getContext("2d");
+  const mImg = mctx.createImageData(mW, mH);
+  for (let i = 0; i < mW * mH; i++){
+    const v = mask[i];
+    mImg.data[i*4] = v; mImg.data[i*4+1] = v; mImg.data[i*4+2] = v; mImg.data[i*4+3] = 255;
+  }
+  mctx.putImageData(mImg, 0, 0);
+
+  const maskFull = document.createElement("canvas"); maskFull.width = w; maskFull.height = h;
+  const mfctx = maskFull.getContext("2d");
+  mfctx.imageSmoothingEnabled = true;
+  mfctx.drawImage(mc, 0, 0, w, h);
+  const maskData = mfctx.getImageData(0, 0, w, h).data;
+
+  // 2) originele foto tekenen en alpha uit mask zetten = transparante cut-out
+  const out = document.createElement("canvas"); out.width = w; out.height = h;
+  const octx = out.getContext("2d");
+  octx.drawImage(imgEl, 0, 0, w, h);
+  const px = octx.getImageData(0, 0, w, h);
+  for (let i = 0; i < w * h; i++){ px.data[i*4+3] = maskData[i*4]; }   // alpha = mask-helderheid
+  octx.putImageData(px, 0, 0);
+
+  // 3) optioneel: effen achtergrondkleur eronder
+  if (color && color !== "transparent"){
+    const bg = document.createElement("canvas"); bg.width = w; bg.height = h;
+    const bctx = bg.getContext("2d");
+    bctx.fillStyle = color; bctx.fillRect(0, 0, w, h);
+    bctx.drawImage(out, 0, 0);
+    return new Promise(res => bg.toBlob(res, "image/png"));
+  }
+  return new Promise(res => out.toBlob(res, "image/png"));
+}
+
+/* ================================================================
+   CONFIG VOOR DE SCHIL
+   ================================================================ */
+createConverter({
+  accepts: f => f.type.startsWith("image/") || /\.(jpe?g|png|webp)$/i.test(f.name),
+  readOptions: () => ({ bg: bgColor }),
+  outName: (file) => file.name.replace(/\.[^.]+$/, "") + "-no-bg.png",
+  preview: (file, img) => {
+    const u = URL.createObjectURL(file); img.src = u; img.onload = () => URL.revokeObjectURL(u);
+  },
+  convert: async (file, o, onProgress, onStatus) => {
+    onProgress(0.05);
+
+    // 1) model klaarzetten (eerste keer downloadt het; daarna direct)
+    onStatus && onStatus("Preparing AI model…");
+    try {
+      await ensureModel();
+    } catch (_e) {
+      modelPanelError("It works on the live fileshiftr.com site once the model is configured. (In this preview, loading the model from the network is blocked.)");
+      const e = new Error("AI model unavailable here — try on the live site.");
+      e.notice = true; throw e;
+    }
+    onProgress(0.35);
+
+    // 2) foto naar de worker, mask terug
+    onStatus && onStatus("Removing background…");
+    const url = URL.createObjectURL(file);
+    const imgEl = await loadViaImage(file);            // origineel op volle resolutie
+    let res;
+    try {
+      res = await runModel(url);
+    } catch (_e) {
+      URL.revokeObjectURL(url);
+      const e = new Error("Could not process this photo. Try a smaller image or the live site.");
+      e.notice = true; throw e;
+    }
+    URL.revokeObjectURL(url);
+    onProgress(0.8);
+
+    // 3) compositing -> transparante (of gekleurde) PNG
+    onStatus && onStatus("Finishing…");
+    const blob = await compositeToBlob(imgEl, res.mask, res.width, res.height, o.bg);
+    if (!blob) throw new Error("export failed");
+    onProgress(1);
+    return blob;
+  },
+});
+
+function loadViaImage(file) {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    const u = URL.createObjectURL(file);
+    img.onload = () => { URL.revokeObjectURL(u); res(img); };
+    img.onerror = () => { URL.revokeObjectURL(u); rej(new Error("decode")); };
+    img.src = u;
+  });
+}
+</script>
+</body>
+</html>
