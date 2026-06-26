@@ -49,35 +49,31 @@ env.backends.onnx.wasm.numThreads = 1;      // single-thread -> geen COOP/COEP n
 
 const MODEL_ID = "onnx-community/BiRefNet-ONNX";
 
+/* WebGPU is voor dit zware model soms instabiel; we proberen het wel, maar
+   vallen bij een fout automatisch terug op de betrouwbare WASM-route.
+   Wil je WebGPU helemaal overslaan? Zet TRY_WEBGPU op false. */
+const TRY_WEBGPU = true;
+
 let model = null;
 let processor = null;
+let currentDevice = null;
 
-/* WebGPU detecteren; anders WASM */
-async function pickDevice() {
+async function hasWebGPU() {
   try {
     if (self.navigator && self.navigator.gpu) {
       const adapter = await self.navigator.gpu.requestAdapter();
-      if (adapter) return "webgpu";
+      if (adapter) return true;
     }
-  } catch (_e) { /* val terug op wasm */ }
-  return "wasm";
+  } catch (_e) { /* nee */ }
+  return false;
 }
 
-async function loadModel() {
-  let device = await pickDevice();
-  let dtype  = device === "webgpu" ? "fp16" : "fp32";   // alleen deze bestaan in deze repo
-
+async function loadOn(device) {
+  const dtype = device === "webgpu" ? "fp16" : "fp32";   // alleen deze bestaan in deze repo
   const progress_callback = (p) => self.postMessage({ type: "progress", data: p });
-
-  try {
-    model = await AutoModel.from_pretrained(MODEL_ID, { device, dtype, progress_callback });
-  } catch (err) {
-    // WebGPU-initialisatie mislukt -> terugvallen op WASM (fp32)
-    device = "wasm"; dtype = "fp32";
-    model = await AutoModel.from_pretrained(MODEL_ID, { device, dtype, progress_callback });
-  }
-  processor = await AutoProcessor.from_pretrained(MODEL_ID);
-  return device;
+  model = await AutoModel.from_pretrained(MODEL_ID, { device, dtype, progress_callback });
+  if (!processor) processor = await AutoProcessor.from_pretrained(MODEL_ID);
+  currentDevice = device;
 }
 
 /* Het modeloutput-tensor robuust ophalen (sleutelnaam kan verschillen) */
@@ -88,13 +84,41 @@ function pickOutput(out) {
   return vals.length ? vals[0] : null;
 }
 
+/* Eén inferentie -> 1-kanaals masker (Uint8) op modelresolutie */
+async function infer(image) {
+  const { pixel_values } = await processor(image);
+  const out = await model({ input_image: pixel_values });
+  const tensor = pickOutput(out);
+  if (!tensor) throw new Error("no model output");
+
+  const maskImg = await RawImage.fromTensor(
+    tensor[0].sigmoid().mul(255).to("uint8")
+  );
+  const w = maskImg.width, h = maskImg.height;
+  const ch = maskImg.data.length / (w * h);     // verwacht 1
+  let mask;
+  if (ch > 1) {
+    mask = new Uint8Array(w * h);
+    for (let i = 0; i < w * h; i++) mask[i] = maskImg.data[i * ch];
+  } else {
+    mask = new Uint8Array(maskImg.data);         // kopie t.b.v. transfer
+  }
+  return { mask, width: w, height: h };
+}
+
 self.onmessage = async (e) => {
   const msg = e.data || {};
 
   if (msg.type === "load") {
     try {
-      const device = await loadModel();
-      self.postMessage({ type: "ready", device });
+      const device = (TRY_WEBGPU && await hasWebGPU()) ? "webgpu" : "wasm";
+      try {
+        await loadOn(device);
+      } catch (err) {
+        if (device === "webgpu") { await loadOn("wasm"); }   // laden mislukt -> wasm
+        else throw err;
+      }
+      self.postMessage({ type: "ready", device: currentDevice });
     } catch (err) {
       self.postMessage({ type: "error", message: (err && err.message) || "model load failed" });
     }
@@ -105,32 +129,28 @@ self.onmessage = async (e) => {
     try {
       if (!model || !processor) throw new Error("model not loaded");
 
-      const image = await RawImage.fromURL(msg.url);
-      const { pixel_values } = await processor(image);
-      const out = await model({ input_image: pixel_values });
+      // foto komt binnen als databuffer (betrouwbaarder dan een blob-URL in een worker)
+      const blob = new Blob([msg.buf], { type: msg.mime || "image/png" });
+      const image = await RawImage.fromBlob(blob);
 
-      const tensor = pickOutput(out);
-      if (!tensor) throw new Error("no model output");
-
-      // logits -> 0..255 alpha-masker, op model-resolutie
-      const maskImg = await RawImage.fromTensor(
-        tensor[0].sigmoid().mul(255).to("uint8")
-      );
-
-      // forceer 1 kanaal (veiligheidsnet) en stuur als transferable Uint8
-      const w = maskImg.width, h = maskImg.height;
-      const ch = maskImg.data.length / (w * h);     // verwacht 1
-      let mask = maskImg.data;
-      if (ch > 1) {
-        const single = new Uint8Array(w * h);
-        for (let i = 0; i < w * h; i++) single[i] = maskImg.data[i * ch];
-        mask = single;
-      } else {
-        mask = new Uint8Array(maskImg.data);         // kopie t.b.v. transfer
+      let res;
+      try {
+        res = await infer(image);
+      } catch (err) {
+        // WebGPU faalt soms bij de inferentie van dit model -> terugvallen op WASM
+        if (currentDevice === "webgpu") {
+          self.postMessage({ type: "status", message: "Switching to compatibility mode…" });
+          await loadOn("wasm");
+          self.postMessage({ type: "ready", device: "wasm" });
+          res = await infer(image);
+        } else {
+          throw err;
+        }
       }
+
       self.postMessage(
-        { type: "result", mask, width: w, height: h },
-        [mask.buffer]
+        { type: "result", mask: res.mask, width: res.width, height: res.height },
+        [res.mask.buffer]
       );
     } catch (err) {
       self.postMessage({ type: "error", message: (err && err.message) || "run failed" });

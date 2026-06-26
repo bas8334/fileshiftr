@@ -859,6 +859,12 @@ function getWorker(){
     if (m.type === "progress" && m.data && m.data.status === "progress") {
       const pct = m.data.total ? (m.data.loaded / m.data.total) * 100 : (m.data.progress || 0);
       modelPanelProgress(pct);
+    } else if (m.type === "status") {
+      // bv. "Switching to compatibility mode…" tijdens WebGPU->WASM fallback
+      showModelPanel();
+      msTitle.textContent = m.message || "Working…";
+      msSub.textContent = "One moment — preparing the compatible engine.";
+      msBar.style.width = "0%";
     } else if (m.type === "ready") {
       modelPanelProgress(100);
       setTimeout(hideModelPanel, 400);
@@ -890,11 +896,15 @@ function ensureModel(){
   return _modelReady;
 }
 
-// stuur één afbeelding naar de worker, krijg een mask-masker terug
-function runModel(objectUrl){
+// stuur één afbeelding (als databuffer) naar de worker, krijg een masker terug
+async function runModel(file){
+  const buf = await file.arrayBuffer();
   return new Promise((resolve, reject) => {
     _pendingRun = { resolve, reject };
-    getWorker().postMessage({ type: "run", url: objectUrl });
+    getWorker().postMessage(
+      { type: "run", buf, mime: file.type || "image/png" },
+      [buf]            // transferable: snel, geen kopie
+    );
   });
 }
 
@@ -965,17 +975,15 @@ createConverter({
 
     // 2) foto naar de worker, mask terug
     onStatus && onStatus("Removing background…");
-    const url = URL.createObjectURL(file);
     const imgEl = await loadViaImage(file);            // origineel op volle resolutie
     let res;
     try {
-      res = await runModel(url);
+      res = await runModel(file);
     } catch (_e) {
-      URL.revokeObjectURL(url);
-      const e = new Error("Could not process this photo. Try a smaller image or the live site.");
+      // toon de ECHTE fout, zodat we precies weten wat er misging
+      const e = new Error("Could not process this photo: " + ((_e && _e.message) || "unknown error"));
       e.notice = true; throw e;
     }
-    URL.revokeObjectURL(url);
     onProgress(0.8);
 
     // 3) compositing -> transparante (of gekleurde) PNG
