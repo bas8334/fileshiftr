@@ -86,26 +86,54 @@ function pickOutput(out) {
   return vals.length ? vals[0] : null;
 }
 
-/* Eén inferentie -> 1-kanaals masker (Uint8) op modelresolutie */
-async function infer(image) {
-  const { pixel_values } = await processor(image);
-  const out = await model({ input_image: pixel_values });
-  const tensor = pickOutput(out);
-  if (!tensor) throw new Error("no model output");
-
-  const maskImg = await RawImage.fromTensor(
-    tensor[0].sigmoid().mul(255).to("uint8")
-  );
-  const w = maskImg.width, h = maskImg.height;
-  const ch = maskImg.data.length / (w * h);     // verwacht 1
-  let mask;
-  if (ch > 1) {
-    mask = new Uint8Array(w * h);
-    for (let i = 0; i < w * h; i++) mask[i] = maskImg.data[i * ch];
-  } else {
-    mask = new Uint8Array(maskImg.data);         // kopie t.b.v. transfer
+/* Maak van wat dan ook (Error, string, getal, abort) een leesbare tekst */
+function describe(err) {
+  if (err === null || err === undefined) return "no error object";
+  if (typeof err === "string") return err;
+  if (typeof err === "number") return "abort code " + err;
+  const parts = [];
+  if (err.name) parts.push(err.name);
+  if (err.message) parts.push(err.message);
+  if (parts.length === 0) {
+    try { parts.push(JSON.stringify(err)); } catch (_e) { parts.push(String(err)); }
   }
-  return { mask, width: w, height: h };
+  return parts.join(": ");
+}
+
+/* Eén inferentie -> 1-kanaals masker (Uint8) op modelresolutie.
+   Houdt bij in welke STAP het misgaat, zodat fouten herkenbaar zijn. */
+async function infer(image) {
+  let stage = "start";
+  try {
+    stage = "processor";
+    const inputs = await processor(image);
+    const pixel_values = inputs.pixel_values;
+
+    stage = "model";
+    const out = await model({ input_image: pixel_values });
+
+    stage = "output";
+    const tensor = pickOutput(out);
+    if (!tensor) throw new Error("model gaf geen output-tensor (sleutels: " + Object.keys(out || {}).join(",") + ")");
+
+    stage = "mask";
+    const maskImg = await RawImage.fromTensor(
+      tensor[0].sigmoid().mul(255).to("uint8")
+    );
+    const w = maskImg.width, h = maskImg.height;
+    const ch = maskImg.data.length / (w * h);
+    let mask;
+    if (ch > 1) {
+      mask = new Uint8Array(w * h);
+      for (let i = 0; i < w * h; i++) mask[i] = maskImg.data[i * ch];
+    } else {
+      mask = new Uint8Array(maskImg.data);
+    }
+    return { mask, width: w, height: h };
+  } catch (err) {
+    try { console.error("bg-worker infer error @" + stage, err); } catch (_e) {}
+    throw new Error("@" + stage + ": " + describe(err));
+  }
 }
 
 self.onmessage = async (e) => {
@@ -122,7 +150,8 @@ self.onmessage = async (e) => {
       }
       self.postMessage({ type: "ready", device: currentDevice });
     } catch (err) {
-      self.postMessage({ type: "error", message: (err && err.message) || "model load failed" });
+      try { console.error("bg-worker load error", err); } catch (_e) {}
+      self.postMessage({ type: "error", message: "load: " + describe(err) });
     }
     return;
   }
@@ -131,22 +160,32 @@ self.onmessage = async (e) => {
     try {
       if (!model || !processor) throw new Error("model not loaded");
 
-      // foto komt binnen als databuffer (betrouwbaarder dan een blob-URL in een worker)
-      const blob = new Blob([msg.buf], { type: msg.mime || "image/png" });
-      const image = await RawImage.fromBlob(blob);
+      // 1) foto decoderen (komt binnen als databuffer)
+      let image;
+      try {
+        const blob = new Blob([msg.buf], { type: msg.mime || "image/png" });
+        image = await RawImage.fromBlob(blob);
+      } catch (errDec) {
+        try { console.error("bg-worker decode error", errDec); } catch (_e) {}
+        throw new Error("@decode: " + describe(errDec));
+      }
 
+      // 2) inferentie, met WebGPU->WASM fallback
       let res;
       try {
         res = await infer(image);
-      } catch (err) {
-        // WebGPU faalt soms bij de inferentie van dit model -> terugvallen op WASM
+      } catch (errGpu) {
         if (currentDevice === "webgpu") {
           self.postMessage({ type: "status", message: "Switching to compatibility mode…" });
-          await loadOn("wasm");
-          self.postMessage({ type: "ready", device: "wasm" });
-          res = await infer(image);
+          try {
+            await loadOn("wasm");
+            self.postMessage({ type: "ready", device: "wasm" });
+            res = await infer(image);
+          } catch (errWasm) {
+            throw new Error("webgpu " + describe(errGpu) + "  ||  wasm " + describe(errWasm));
+          }
         } else {
-          throw err;
+          throw errGpu;
         }
       }
 
@@ -155,7 +194,8 @@ self.onmessage = async (e) => {
         [res.mask.buffer]
       );
     } catch (err) {
-      self.postMessage({ type: "error", message: (err && err.message) || "run failed" });
+      try { console.error("bg-worker run error", err); } catch (_e) {}
+      self.postMessage({ type: "error", message: "[" + (currentDevice || "?") + "] " + describe(err) });
     }
     return;
   }
