@@ -49,10 +49,11 @@ env.backends.onnx.wasm.numThreads = 1;      // single-thread -> geen COOP/COEP n
 
 const MODEL_ID = "onnx-community/BiRefNet_lite-ONNX";   // lichter (~200 MB), draait in de browser
 
-/* WebGPU is voor dit zware model soms instabiel; we proberen het wel, maar
-   vallen bij een fout automatisch terug op de betrouwbare WASM-route.
-   Wil je WebGPU helemaal overslaan? Zet TRY_WEBGPU op false. */
-const TRY_WEBGPU = true;
+/* WebGPU heeft een bekende bug in onnxruntime-web met de Slice-operatie van
+   BiRefNet ("Invalid ComputePipeline computeSliceOffsets"), dus we draaien op
+   WASM — de configuratie die de modelmakers zelf als werkend documenteren.
+   Werkt WASM goed en wil je later experimenteren met WebGPU? Zet dit op true. */
+const TRY_WEBGPU = false;
 
 let model = null;
 let processor = null;

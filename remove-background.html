@@ -853,7 +853,9 @@ let _pendingRun = null;     // { resolve, reject } voor de actieve run
 function getWorker(){
   if (_worker) return _worker;
   // Module-worker in de site-root; werkt voor /remove-background én /nl/...
-  _worker = new Worker("/bg-worker.js", { type: "module" });
+  // ?v=… is een cache-buster: HOOG DIT OP telkens als je bg-worker.js wijzigt,
+  // anders blijft de browser de oude worker uit cache draaien.
+  _worker = new Worker("/bg-worker.js?v=6", { type: "module" });
   _worker.onmessage = (e) => {
     const m = e.data || {};
     if (m.type === "progress" && m.data && m.data.status === "progress") {
