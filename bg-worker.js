@@ -2,8 +2,8 @@
    bg-worker.js — Achtergrondverwijdering in de browser (Fileshiftr)
    ----------------------------------------------------------------------------
    Draait het AI-model in een Web Worker, zodat de UI soepel blijft.
-   Model: BiRefNet_lite (MIT-licentie) via de onnx-community ONNX-conversie.
-          Lichter dan het volledige BiRefNet, zodat het in de browser past.
+   Model: MODNet (Apache-2.0) via de Xenova ONNX-conversie. Getraind op
+          portretten/mensen; draait stabiel in de browser (WebGPU + WASM).
    Bibliotheek: Transformers.js v3 (vastgepind op een exacte versie).
 
    GEBRUIK:
@@ -11,9 +11,9 @@
      publieke CDN. Geen Cloudflare R2 nodig. Je foto blijft op je apparaat.
    - Fase 2 (zelf hosten): zet SELF_HOST op true en MODEL_HOST naar jouw
      R2-domein. De map-structuur op R2 moet dan exact zijn:
-       https://MODEL_HOST/onnx-community/BiRefNet_lite-ONNX/config.json
-       https://MODEL_HOST/onnx-community/BiRefNet_lite-ONNX/preprocessor_config.json
-       https://MODEL_HOST/onnx-community/BiRefNet_lite-ONNX/onnx/model.onnx
+       https://MODEL_HOST/Xenova/modnet/config.json
+       https://MODEL_HOST/Xenova/modnet/preprocessor_config.json
+       https://MODEL_HOST/Xenova/modnet/onnx/model.onnx
 
    Geen COOP/COEP-headers nodig: WASM draait single-thread en WebGPU heeft
    die headers niet nodig.
@@ -47,13 +47,11 @@ if (SELF_HOST) {
 // als je later óók de WASM-bestanden zelf wilt hosten.)
 env.backends.onnx.wasm.numThreads = 1;      // single-thread -> geen COOP/COEP nodig
 
-const MODEL_ID = "onnx-community/BiRefNet_lite-ONNX";   // lichter (~200 MB), draait in de browser
+const MODEL_ID = "Xenova/modnet";   // portret-matting, Apache-2.0, draait stabiel in de browser
 
-/* WebGPU heeft een bekende bug in onnxruntime-web met de Slice-operatie van
-   BiRefNet ("Invalid ComputePipeline computeSliceOffsets"), dus we draaien op
-   WASM — de configuratie die de modelmakers zelf als werkend documenteren.
-   Werkt WASM goed en wil je later experimenteren met WebGPU? Zet dit op true. */
-const TRY_WEBGPU = false;
+/* MODNet draait wél stabiel op WebGPU (geen Slice-bug zoals BiRefNet), dus
+   we proberen WebGPU en vallen bij een probleem terug op WASM. */
+const TRY_WEBGPU = true;
 
 let model = null;
 let processor = null;
@@ -81,7 +79,8 @@ async function loadOn(device) {
 
 /* Het modeloutput-tensor robuust ophalen (sleutelnaam kan verschillen) */
 function pickOutput(out) {
-  if (out && out.output_image) return out.output_image;
+  if (out && out.output) return out.output;              // MODNet
+  if (out && out.output_image) return out.output_image;  // BiRefNet e.a.
   if (out && out.logits) return out.logits;
   const vals = Object.values(out || {});
   return vals.length ? vals[0] : null;
@@ -111,15 +110,16 @@ async function infer(image) {
     const pixel_values = inputs.pixel_values;
 
     stage = "model";
-    const out = await model({ input_image: pixel_values });
+    const out = await model({ input: pixel_values });   // MODNet-invoer heet 'input'
 
     stage = "output";
     const tensor = pickOutput(out);
     if (!tensor) throw new Error("model gaf geen output-tensor (sleutels: " + Object.keys(out || {}).join(",") + ")");
 
     stage = "mask";
+    // MODNet levert de alpha-matte al in 0..1 -> gewoon *255 (geen sigmoid)
     const maskImg = await RawImage.fromTensor(
-      tensor[0].sigmoid().mul(255).to("uint8")
+      tensor[0].mul(255).to("uint8")
     );
     const w = maskImg.width, h = maskImg.height;
     const ch = maskImg.data.length / (w * h);
